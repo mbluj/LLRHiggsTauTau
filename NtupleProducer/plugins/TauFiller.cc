@@ -340,7 +340,7 @@ TauFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         //dz  = l.secondaryVertex().get()->z()-vertex->z();      
       //}
     }
-   
+
     //--- Embed user variables
     l.addUserInt("isTESShifted",isTESShifted);
     l.addUserFloat("HPSDiscriminator",tauid); 
