@@ -136,7 +136,7 @@ void SVfitInterface::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   iEvent.getByToken(theMETTag, METHandle);    
   // initialize MET once if not using PairMET
-  if (!_usePairMET)
+  if (!_usePairMET && pairNumber)
   {   
      metNumber = METHandle->size();
      if (metNumber != 1)     

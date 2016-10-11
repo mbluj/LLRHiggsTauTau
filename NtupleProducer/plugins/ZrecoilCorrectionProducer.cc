@@ -150,10 +150,11 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
     }
     if ( isW ) ++nJets; // CV: add jet that fakes the hadronic tau candidate
 
-    const pat::MET& theUncorrMEt = uncorrMEt->at(iPair);
+    const pat::MET& theUncorrMEt = uncorrMEt->size()>1? uncorrMEt->at(iPair):uncorrMEt->at(0);
   
     float corrMEtPx, corrMEtPy;
-    recoilCorrector_->CorrectByMeanResolution(
+    //recoilCorrector_->CorrectByMeanResolution(
+    recoilCorrector_->Correct( //Quantile correction works better for MVA MET
       theUncorrMEt.px(),
       theUncorrMEt.py(),
       genBosonP4.px(),

@@ -580,7 +580,6 @@ process.barellCand = cms.EDProducer("CandViewShallowCloneCombiner",
 ## ----------------------------------------------------------------------
 ## MVA MET
 ## ----------------------------------------------------------------------
-
 process.METSequence = cms.Sequence()
 if USEPAIRMET:
     print "Using pair MET (MVA MET)"
@@ -648,32 +647,32 @@ process.METSequence += cms.Sequence(process.METSignificance)
 
 # corrMVAPairMET = []
 if IsMC and APPLYMETCORR:
-    if USEPAIRMET:
         process.selJetsForZrecoilCorrection = cms.EDFilter("PATJetSelector",
             src = cms.InputTag("jets"),                                      
             cut = cms.string("pt > 30. & abs(eta) < 4.7"), 
             filter = cms.bool(False)
         )
-        process.corrMVAMET = cms.EDProducer("ZrecoilCorrectionProducer",                                                   
+        process.corrMET = cms.EDProducer("ZrecoilCorrectionProducer",                                                   
             srcPairs = cms.InputTag("barellCand"),
-            srcMEt = cms.InputTag("MVAMET", "MVAMET"),
+            srcMEt = cms.InputTag(PFMetName),
             srcGenParticles = cms.InputTag("prunedGenParticles"),
             srcJets = cms.InputTag("selJetsForZrecoilCorrection"),
-            correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_MG_2016BCD.root")
+            correction = cms.string("HTT-utilities/RecoilCorrections/data/PFMET_MG_2016BCD.root")
         )
+
+        if USEPAIRMET:
+            process.corrMET.srcMEt = cms.InputTag("MVAMET", "MVAMET")
+            process.corrMET.correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_MG_2016BCD.root")
+        
         process.METSequence += process.selJetsForZrecoilCorrection        
-        process.METSequence += process.corrMVAMET
-
-    else:
-        raise ValueError("Z-recoil corrections for PFMET not implemented yet !!")
-
+        process.METSequence += process.corrMET
 
 srcMETTag = None
 if USEPAIRMET:
-  srcMETTag = cms.InputTag("corrMVAMET") if (IsMC and APPLYMETCORR) else cms.InputTag("MVAMET", "MVAMET")
+  srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag("MVAMET", "MVAMET")
 else:
-  srcMETTag = cms.InputTag(PFMetName)
-
+  srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag(PFMetName)
+  
 ## ----------------------------------------------------------------------
 ## SV fit
 ## ----------------------------------------------------------------------

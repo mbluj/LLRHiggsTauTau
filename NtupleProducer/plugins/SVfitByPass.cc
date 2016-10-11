@@ -98,13 +98,15 @@ void SVfitBypass::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   float significance = -999.;
   Handle<View<pat::MET> > METHandle;
   
-  if (!_usePairMET)
+  if (!_usePairMET && elNumber)
   {
     // iEvent.getByToken(vtheMETTag.at(0), METHandle);
     iEvent.getByToken(theMETTag, METHandle);
+
     const pat::MET& patMET = (*METHandle)[0];
     METx = patMET.px();
     METy = patMET.py();
+
     Handle<double> significanceHandle;
     Handle<math::Error<2>::type> covHandle;
     iEvent.getByToken (theSigTag, significanceHandle);
