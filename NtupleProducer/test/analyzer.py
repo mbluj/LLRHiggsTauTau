@@ -37,7 +37,6 @@ print "HLTProcessName: ",HLTProcessName
 
 #relaxed sets for testing purposes
 TAUDISCRIMINATOR="byIsolationMVA3oldDMwoLTraw"
-#PVERTEXCUT="!isFake && ndof > 4 && abs(z) <= 24 && position.Rho <= 2" #cut on good primary vertexes
 PVERTEXCUT=""#No vertex selection in baseline selection HiggsToTauTauWorking2016#Vertices
 MUCUT="isLooseMuon && pt>5"
 ELECUT="pt>7"#"gsfTrack.hitPattern().numberOfHits(HitPattern::MISSING_INNER_HITS)<=1 && pt>10"
