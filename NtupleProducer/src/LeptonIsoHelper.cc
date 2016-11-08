@@ -397,7 +397,7 @@ float LeptonIsoHelper::jetPtRel(const reco::Candidate& cand, const pat::Jet& jet
   float PtRel = 0;
 
   if(jet.numberOfDaughters()>1){
-    
+
     pat::Jet myCorJet;    
     myCorJet.setP4(jet.correctedJet("L1FastJet","none",JECname).p4());
     

@@ -51,7 +51,7 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 if IsMC:
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 else :
-    process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v3'
 print process.GlobalTag.globaltag
 
 nanosec="25"
@@ -634,12 +634,16 @@ else:
     print "Using event pfMET (same MET for all pairs)"
 
 ##Rerun PF MET to get the covariance matrix
-from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-runMetCorAndUncFromMiniAOD(process, not IsMC)
 ## always compute met significance
 process.load("RecoMET.METProducers.METSignificance_cfi")
 process.load("RecoMET.METProducers.METSignificanceParams_cfi")
+
+from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+runMetCorAndUncFromMiniAOD(process,  isData = not IsMC)
+
 process.METSequence += cms.Sequence(process.METSignificance)
+
+
 
 ## ----------------------------------------------------------------------
 ## Z-recoil correction
@@ -657,12 +661,12 @@ if IsMC and APPLYMETCORR:
             srcMEt = cms.InputTag(PFMetName),
             srcGenParticles = cms.InputTag("prunedGenParticles"),
             srcJets = cms.InputTag("selJetsForZrecoilCorrection"),
-            correction = cms.string("HTT-utilities/RecoilCorrections/data/PFMET_MG_2016BCD.root")
+            correction = cms.string("HTT-utilities/RecoilCorrections/data/TypeIPFMET_2016BCD.root")
         )
 
         if USEPAIRMET:
             process.corrMET.srcMEt = cms.InputTag("MVAMET", "MVAMET")
-            process.corrMET.correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_MG_2016BCD.root")
+            process.corrMET.correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_2016BCD.root")
         
         process.METSequence += process.selJetsForZrecoilCorrection        
         process.METSequence += process.corrMET
@@ -711,7 +715,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       rhoMiniRelIsoCollection = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                       PFCandCollection = cms.InputTag("packedPFCandidates"),
                       jetCollection = cms.InputTag("jets"),
-                      JECset = cms.untracked.string("patJetCorrFactors"),
+                      JECset = cms.untracked.string(""), #use default
                       ak8jetCollection = cms.InputTag("slimmedJetsAK8"),
                       lepCollection = cms.InputTag("softLeptons"),
                       lheCollection = cms.InputTag("LHEEventProduct"),
