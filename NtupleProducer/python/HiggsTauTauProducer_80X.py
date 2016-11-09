@@ -685,11 +685,12 @@ else:
 ## ----------------------------------------------------------------------
 ## SV fit
 ## ----------------------------------------------------------------------
+USEPAIRMET = APPLYMETCORR or USEMVAMET
 process.SVllCand = cms.EDProducer("SVfitInterface",
                                   srcPairs   = cms.InputTag("barellCand"),
                                   srcSig     = cms.InputTag("METSignificance", "METSignificance"),
                                   srcCov     = cms.InputTag("METSignificance", "METCovariance"),
-                                  usePairMET = cms.bool(APPLYMETCORR),
+                                  usePairMET = cms.bool(USEPAIRMET),
                                   srcMET     = srcMETTag,
                                   computeForUpDownTES = cms.bool(COMPUTEUPDOWNSVFIT if IsMC else False)
 )
@@ -699,7 +700,7 @@ process.SVllCand = cms.EDProducer("SVfitInterface",
 ## ----------------------------------------------------------------------
 process.SVbypass = cms.EDProducer ("SVfitBypass",
                                     srcPairs   = cms.InputTag("barellCand"),
-                                    usePairMET = cms.bool(APPLYMETCORR),
+                                    usePairMET = cms.bool(USEPAIRMET),
                                     srcMET     = srcMETTag,
                                     srcSig     = cms.InputTag("METSignificance", "METSignificance"),
                                     srcCov     = cms.InputTag("METSignificance", "METCovariance")
