@@ -581,7 +581,7 @@ process.barellCand = cms.EDProducer("CandViewShallowCloneCombiner",
 ## MVA MET
 ## ----------------------------------------------------------------------
 process.METSequence = cms.Sequence()
-if USEPAIRMET:
+if USEMVAMET:
     print "Using pair MET (MVA MET)"
     from RecoMET.METPUSubtraction.MVAMETConfiguration_cff import runMVAMET
     runMVAMET(process, jetCollectionPF = "patJetsReapplyJEC")
@@ -656,23 +656,28 @@ if IsMC and APPLYMETCORR:
             cut = cms.string("pt > 30. & abs(eta) < 4.7"), 
             filter = cms.bool(False)
         )
+        from PhysicsTools.SelectorUtils.pfJetIDSelector_cfi import pfJetIDSelector
+        process.loosePFJetID = cms.EDFilter("PFJetIDSelectionFunctorFilter",
+                                            filterParams = pfJetIDSelector.clone(),
+                                            src = cms.InputTag("selJetsForZrecoilCorrection")
+        )
         process.corrMET = cms.EDProducer("ZrecoilCorrectionProducer",                                                   
             srcPairs = cms.InputTag("barellCand"),
             srcMEt = cms.InputTag(PFMetName),
             srcGenParticles = cms.InputTag("prunedGenParticles"),
-            srcJets = cms.InputTag("selJetsForZrecoilCorrection"),
+            srcJets = cms.InputTag("loosePFJetID"),
             correction = cms.string("HTT-utilities/RecoilCorrections/data/TypeIPFMET_2016BCD.root")
         )
 
-        if USEPAIRMET:
+        if USEMVAMET:
             process.corrMET.srcMEt = cms.InputTag("MVAMET", "MVAMET")
             process.corrMET.correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_2016BCD.root")
         
-        process.METSequence += process.selJetsForZrecoilCorrection        
+        process.METSequence += process.selJetsForZrecoilCorrection+process.loosePFJetID        
         process.METSequence += process.corrMET
 
 srcMETTag = None
-if USEPAIRMET:
+if USEMVAMET:
   srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag("MVAMET", "MVAMET")
 else:
   srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag(PFMetName)
@@ -684,7 +689,7 @@ process.SVllCand = cms.EDProducer("SVfitInterface",
                                   srcPairs   = cms.InputTag("barellCand"),
                                   srcSig     = cms.InputTag("METSignificance", "METSignificance"),
                                   srcCov     = cms.InputTag("METSignificance", "METCovariance"),
-                                  usePairMET = cms.bool(USEPAIRMET),
+                                  usePairMET = cms.bool(APPLYMETCORR),
                                   srcMET     = srcMETTag,
                                   computeForUpDownTES = cms.bool(COMPUTEUPDOWNSVFIT if IsMC else False)
 )
@@ -694,7 +699,7 @@ process.SVllCand = cms.EDProducer("SVfitInterface",
 ## ----------------------------------------------------------------------
 process.SVbypass = cms.EDProducer ("SVfitBypass",
                                     srcPairs   = cms.InputTag("barellCand"),
-                                    usePairMET = cms.bool(USEPAIRMET),
+                                    usePairMET = cms.bool(APPLYMETCORR),
                                     srcMET     = srcMETTag,
                                     srcSig     = cms.InputTag("METSignificance", "METSignificance"),
                                     srcCov     = cms.InputTag("METSignificance", "METCovariance")

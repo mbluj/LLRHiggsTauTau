@@ -21,6 +21,7 @@
 #include <DataFormats/Candidate/interface/Candidate.h>
 #include <DataFormats/PatCandidates/interface/CompositeCandidate.h>
 #include <DataFormats/PatCandidates/interface/MET.h>
+#include "DataFormats/PatCandidates/interface/Jet.h"
 #include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
 #include "DataFormats/Math/interface/deltaR.h"
 #include <TLorentzVector.h>
@@ -145,16 +146,15 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
       bool isLepton1 = ( deltaR(*jet, *l1) < 0.5 ? true : false );
       bool isLepton2 = ( deltaR(*jet, *l2) < 0.5 ? true : false );
 
-      if ( !isLepton1 ) ++nJets;
-      if ( !isLepton2 ) ++nJets;
+      if (!isLepton1 && !isLepton2) ++nJets;
     }
     if ( isW ) ++nJets; // CV: add jet that fakes the hadronic tau candidate
 
     const pat::MET& theUncorrMEt = uncorrMEt->size()>1? uncorrMEt->at(iPair):uncorrMEt->at(0);
   
     float corrMEtPx, corrMEtPy;
-    //recoilCorrector_->CorrectByMeanResolution(
-    recoilCorrector_->Correct( //Quantile correction works better for MVA MET
+    recoilCorrector_->CorrectByMeanResolution(
+    //recoilCorrector_->Correct( //Quantile correction works better for MVA MET
       theUncorrMEt.px(),
       theUncorrMEt.py(),
       genBosonP4.px(),

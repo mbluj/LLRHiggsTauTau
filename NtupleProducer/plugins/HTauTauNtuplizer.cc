@@ -1826,30 +1826,7 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     _jets_nHEF   .push_back(NHF);
     _jets_chMult .push_back(chargedMult);  
 
-    int jetid=0; 
-    //PHYS14
-    /*
-    if((NHF<0.99 && NEMF<0.99 && NumConst>1 && MUF<0.8) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || absjeta>2.4)){
-      jetid++;
-      if( (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || absjeta>2.4)  ) jetid++;
-    }
-    */
-    //Spring15
-	  /*
-    if(absjeta<=3.0){
-      if((NHF<0.99 && NEMF<0.99 && NumConst>1) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || absjeta>2.4) ){
-        jetid++;
-        if( (NHF<0.90 && NEMF<0.90 && NumConst>1) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || absjeta>2.4) ) {
-          jetid++;
-          if( (NHF<0.90 && NEMF<0.90 && NumConst>1 && MUF<0.8) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.90) || absjeta>2.4)) jetid++;
-        }
-      }
-    }else{
-      if(NEMF<0.90 && NumNeutralParticles>10 ){
-        jetid++;
-        jetid++; //TIGHT and LOOSE are the same in this eta region
-      }
-    }    */
+    int jetid=0;    
     //October 2016
     if(absjeta<=2.7){
       if((NHF<0.99 && NEMF<0.99 && NumConst>1) && ((absjeta<=2.4 && CHF>0 && CHM>0 && CEMF<0.99) || absjeta>2.4) ){
