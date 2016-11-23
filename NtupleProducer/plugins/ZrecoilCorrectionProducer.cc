@@ -146,6 +146,8 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
       bool isLepton1 = ( deltaR(*jet, *l1) < 0.5 ? true : false );
       bool isLepton2 = ( deltaR(*jet, *l2) < 0.5 ? true : false );
 
+      //std::cout<<"jet pt: "<<jet->p4().pt()<<std::endl;
+
       if (!isLepton1 && !isLepton2) ++nJets;
     }
     if ( isW ) ++nJets; // CV: add jet that fakes the hadronic tau candidate
@@ -173,6 +175,14 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
     corrMEt.addUserFloat("uncorrPx", theUncorrMEt.px());
     corrMEt.addUserFloat("uncorrPy", theUncorrMEt.py());
     result->push_back(corrMEt);
+    /*
+    std::cout<<" ptL1: "<<l1->p4().pt()
+	     <<" ptL1: "<<l2->p4().pt()      
+	     <<" nJets: "<<nJets
+             <<" MET: "<< sqrt(corrMEtPx*corrMEtPx + corrMEtPy*corrMEtPy)
+	     <<" phi: "<<corrMEt.phi()
+	     <<std::endl;
+    */
   }
 
   evt.put(result);

@@ -641,9 +641,8 @@ process.load("RecoMET.METProducers.METSignificanceParams_cfi")
 from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
 runMetCorAndUncFromMiniAOD(process,  isData = not IsMC)
 
+process.METSequence += process.fullPatMetSequence
 process.METSequence += cms.Sequence(process.METSignificance)
-
-
 
 ## ----------------------------------------------------------------------
 ## Z-recoil correction
