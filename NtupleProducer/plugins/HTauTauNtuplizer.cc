@@ -2400,7 +2400,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
         for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
 
-          int triggerbit = myTriggerHelper->FindTriggerNumber(pathNamesAll[h],true);
+          int triggerbit = myTriggerHelper->FindTriggerNumber(pathNamesAll[h],true);	  
           if (triggerbit < 0) continue ; // not a path I want to save
           bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
           bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
@@ -2482,13 +2482,13 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
           else istrgMatched = false;
           // FIXME: should I check type? --> no, multiple filters should be enough
           if(istrgMatched) trgMatched |= (long(1) <<triggerbit);
-
           // cout << "istrgMatched ? " << istrgMatched << endl;
 
         } // loop on triggerbit from 0 to GetNTriggers()
 
       } // if dR < 0.25
     } // loop on all trigger candidates
+
     _daughters_isGoodTriggerType.push_back(triggertypeIsGood);
     _daughters_FilterFired.push_back(filterFired);
     _daughters_L3FilterFired.push_back(LFtriggerbit);

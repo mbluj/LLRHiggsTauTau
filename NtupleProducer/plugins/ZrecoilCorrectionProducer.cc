@@ -100,7 +100,7 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
     bool isElectron = (absPdgId == 11);
     bool isMuon = (absPdgId == 13);
     bool isNeutrino = (absPdgId == 12 || absPdgId == 14 || absPdgId == 16);
-    bool isDirectHardProcessTauDecayProduct = genParticle->isDirectHardProcessTauDecayProductFinalState();
+    bool isDirectHardProcessTauDecayProduct = genParticle->statusFlags().isDirectHardProcessTauDecayProduct();
     if ( (fromHardProcessFinalState && (isMuon || isElectron || isNeutrino)) || isDirectHardProcessTauDecayProduct){
       genBosonP4 += genParticle->p4();
     }
@@ -175,14 +175,15 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
     corrMEt.addUserFloat("uncorrPx", theUncorrMEt.px());
     corrMEt.addUserFloat("uncorrPy", theUncorrMEt.py());
     result->push_back(corrMEt);
-    /*
-    std::cout<<"genBosonP4.M(): "<<genBosonP4.mass()
-	     <<" genBosonP4.Perp(): "<<genBosonP4.pt()
-	     <<"genBosonVisP4.M(): "<<genBosonVisP4.mass()
-	     <<" genBosonVisP4.Perp(): "<<genBosonVisP4.pt()
-	     <<std::endl;
-    
-    
+    /*    
+    std::cout<<" theUncorrMEt.px(): "<<theUncorrMEt.px()<<std::endl
+	     <<" theUncorrMEt.py(): "<<theUncorrMEt.py()<<std::endl
+	     <<" genBosonP4.px(): "<<genBosonP4.px()<<std::endl
+	     <<" genBosonP4.py(): "<<genBosonP4.py()<<std::endl
+	     <<" genBosonVisP4.px(): "<<genBosonVisP4.px()<<std::endl
+	     <<" genBosonVisP4.py(): "<<genBosonVisP4.py()<<std::endl
+	     <<" nJets: "<<nJets<<std::endl
+	     <<std::endl;    
     std::cout<<" ptL1: "<<l1->p4().pt()
 	     <<" ptL1: "<<l2->p4().pt()      
 	     <<" nJets: "<<nJets

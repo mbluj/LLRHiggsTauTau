@@ -41,7 +41,7 @@ HLTLIST = cms.VPSet(
         leg1 = cms.int32(13),
         leg2 = cms.int32(999)
         ),
-    cms.PSet (
+   cms.PSet (
         HLT = cms.string("HLT_IsoTkMu22_eta2p1_v"),
         path1 = cms.vstring ("hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"),
         path2 = cms.vstring (""),
@@ -172,6 +172,34 @@ HLTLIST = cms.VPSet(
         leg2 = cms.int32(15)
         ), ### ok
 ### === tauh tauh triggers
+    cms.PSet (
+        HLT = cms.string("HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v"),
+        path1 = cms.vstring ("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"),
+        path2 = cms.vstring ("hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
+    cms.PSet (
+        HLT = cms.string("HLT_DoubleMediumCombinedIsoPFTau40_Trk1_eta2p1_Reg_v"),
+        path1 = cms.vstring ("hltDoublePFTau40TrackPt1MediumCombinedIsolationDz02Reg"),
+        path2 = cms.vstring ("hltDoublePFTau40TrackPt1MediumCombinedIsolationDz02Reg"),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
+    cms.PSet (
+        HLT = cms.string("HLT_DoubleTightCombinedIsoPFTau35_Trk1_eta2p1_Reg_v"),
+        path1 = cms.vstring ("hltDoublePFTau35TrackPt1TightCombinedIsolationDz02Reg"),
+        path2 = cms.vstring ("hltDoublePFTau35TrackPt1TightCombinedIsolationDz02Reg"),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
+    cms.PSet (
+        HLT = cms.string("HLT_DoubleTightCombinedIsoPFTau40_Trk1_eta2p1_Reg_v"),
+        path1 = cms.vstring ("hltDoublePFTau40TrackPt1TightCombinedIsolationDz02Re"),
+        path2 = cms.vstring ("hltDoublePFTau40TrackPt1TightCombinedIsolationDz02Re"),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
     cms.PSet (
         HLT = cms.string("HLT_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v"),
         path1 = cms.vstring ("hltDoublePFTau32TrackPt1MediumIsolationDz02Reg"),

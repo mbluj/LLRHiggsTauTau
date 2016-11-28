@@ -283,8 +283,6 @@ reco::GenParticle genhelper::GetTauHadNeutrals (const reco::Candidate* part)
         if (dauId != 12 && dauId != 14 && dauId != 16 && Dau->charge()==0) p4Had += Dau->p4();
     }
 
-    std::cout<<"GetTauHadNeutrals: "<<p4Had<<std::endl;
-    
     int sign = part->pdgId() / abs(part->pdgId());
     reco::GenParticle TauH = reco::GenParticle (part->charge(), p4Had, part->vertex(), sign*77715, part->status(), true);
     return TauH;
