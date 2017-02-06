@@ -2400,11 +2400,10 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
         for (unsigned h = 0, n = pathNamesAll.size(); h < n; ++h) {
 
-          int triggerbit = myTriggerHelper->FindTriggerNumber(pathNamesAll[h],true);	  
+          int triggerbit = myTriggerHelper->FindTriggerNumber(pathNamesAll[h],true);
           if (triggerbit < 0) continue ; // not a path I want to save
           bool isLF   = obj.hasPathName( pathNamesAll[h], true, false ); 
           bool isL3   = obj.hasPathName( pathNamesAll[h], false, true );
-
           triggerMapper trgmap = myTriggerHelper->GetTriggerMap(pathNamesAll[h]);
           bool isfilterGood = true;
           int IDsearch = 0;

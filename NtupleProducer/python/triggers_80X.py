@@ -12,56 +12,22 @@ TRIGGERLIST=[]
 # channel: kemu=0, ketau=1,kmutau=2,ktautau=3
 HLTLIST = cms.VPSet(
 
-### === Single muon triggers
-    cms.PSet (
-        HLT = cms.string("HLT_IsoMu20_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sMu18L1f0L2f10QL3f20QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoTkMu20_v"),
-        path1 = cms.vstring ("hltL3fL1sMu18L1f0Tkf20QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoMu22_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoTkMu22_v"),
-        path1 = cms.vstring ("hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
-   cms.PSet (
-        HLT = cms.string("HLT_IsoTkMu22_eta2p1_v"),
-        path1 = cms.vstring ("hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-    ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoMu22_eta2p1_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
+### === Single muon triggers       
     cms.PSet (
         HLT = cms.string("HLT_IsoMu24_v"),
         path1 = cms.vstring ("hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"),
         path2 = cms.vstring (""),
         leg1 = cms.int32(13),
         leg2 = cms.int32(999)
-        ), ### ok
+        ),
+     cms.PSet (
+        HLT = cms.string("HLT_IsoTkMu24_v"),
+        path1 = cms.vstring ("hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(13),
+        leg2 = cms.int32(999)
+        ), 
+    ### ok
 ### === Single electron triggers
     cms.PSet (
         HLT = cms.string("HLT_Ele25_WPTight_Gsf_v"),
