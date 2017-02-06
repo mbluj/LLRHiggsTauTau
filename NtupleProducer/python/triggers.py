@@ -28,26 +28,19 @@ HLTLIST = cms.VPSet(
         leg2 = cms.int32(999)
         ),
     cms.PSet (
-        HLT = cms.string("HLT_IsoMu17_eta2p1_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sSingleMu16erL1f0L2f10QL3f17QL3trkIsoFiltered0p09"),
+        HLT = cms.string("HLT_IsoMu24_v"),
+        path1 = cms.vstring ("hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"),
         path2 = cms.vstring (""),
         leg1 = cms.int32(13),
         leg2 = cms.int32(999)
         ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoMu18_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"),
+     cms.PSet (
+        HLT = cms.string("HLT_IsoTkMu24_v"),
+        path1 = cms.vstring ("hltL3fL1sMu22L1f0Tkf24QL3trkIsoFiltered0p09"),
         path2 = cms.vstring (""),
         leg1 = cms.int32(13),
         leg2 = cms.int32(999)
-        ),
-    cms.PSet (
-        HLT = cms.string("HLT_IsoMu22_v"),
-        path1 = cms.vstring ("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"),
-        path2 = cms.vstring (""),
-        leg1 = cms.int32(13),
-        leg2 = cms.int32(999)
-        ),
+        ),   
 ### === Single electron triggers
     cms.PSet (
         HLT = cms.string("HLT_Ele32_eta2p1_WP75_Gsf_v"),
