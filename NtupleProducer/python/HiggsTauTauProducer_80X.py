@@ -665,7 +665,7 @@ if IsMC and APPLYMETCORR:
             srcMEt = cms.InputTag(PFMetName),
             srcGenParticles = cms.InputTag("prunedGenParticles"),
             srcJets = cms.InputTag("loosePFJetID"),
-            correction = cms.string("HTT-utilities/RecoilCorrections/data/TypeIPFMET_2016BCD.root")
+            correction = cms.string("HTT-utilities/RecoilCorrections/data/TypeI-PFMet_Run2016BtoH.root")
         )
 
         if USEMVAMET:
