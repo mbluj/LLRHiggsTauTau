@@ -201,11 +201,16 @@ MuFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       l.globalTrack()->normalizedChi2() < 3 && 
       l.combinedQuality().chi2LocalPosition < 12 && 
       l.combinedQuality().trkKink < 20; 
-    bool isMedium = muon::isLooseMuon(l) && 
+    bool isMediumTuned = muon::isLooseMuon(l) && 
       l.innerTrack()->validFraction() > 0.49 && 
+      muon::segmentCompatibility(l) > (goodGlob ? 0.303 : 0.451);
+
+    bool isMediumDefault = muon::isLooseMuon(l) && 
+      l.innerTrack()->validFraction() > 0.80 && 
       muon::segmentCompatibility(l) > (goodGlob ? 0.303 : 0.451); 
     
-    if(isMedium) idbit |= 1 << 6;
+    if(isMediumTuned) idbit |= 1 << 6;
+    if(isMediumDefault) idbit |= 1 << 7;
 
     l.addUserInt("muonID",idbit);
     //--- isPFMuon flag - in old samples, l.isPFMuon() is not functional, so this has to be filled
