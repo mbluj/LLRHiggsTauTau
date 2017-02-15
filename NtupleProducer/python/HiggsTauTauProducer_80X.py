@@ -49,9 +49,9 @@ from Configuration.AlCa.autoCond import autoCond
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")    
 #process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 if IsMC:
-    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v7'
+    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 else :
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'    
+    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'    
 print process.GlobalTag.globaltag
 
 nanosec="25"
