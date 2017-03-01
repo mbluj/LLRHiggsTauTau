@@ -1468,7 +1468,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
   _metfilterbit = myTriggerHelper->FindMETBit(event, metFilterBits_);
   Long64_t tbit = _triggerbit;
   for(int itr=0;itr<myTriggerHelper->GetNTriggers();itr++) {
-    if(myTriggerHelper->IsTriggerFired(tbit,itr)) hCounter->Fill(itr+3);
+    if(myTriggerHelper->IsTriggerFired(tbit,itr)) hCounter->Fill(itr+3);    
   }
 
   //Get candidate collection
@@ -2453,10 +2453,12 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
           int legPosition = trgmap.GetLegFromID(IDsearch);
 
           // debug
-          // cout << "***** searching trigger : " << myTriggerHelper -> printTriggerName(triggerbit) << " " << trgmap.GetHLTPath() << endl;
-          // cout << "all this object labels: ID " << IDsearch << " --> leg position : " << legPosition << endl;
-          // cout << "Nfilters . 1 : " << trgmap.GetNfiltersleg1() << " || 2 : " << trgmap.GetNfiltersleg2() << endl;
-          // for (uint ll = 0; ll < vLabels.size(); ++ll) cout << "   -- " << vLabels.at(ll) << endl; 
+	  /*
+          cout << "***** searching trigger : " << myTriggerHelper -> printTriggerName(triggerbit) << " " << trgmap.GetHLTPath() << endl;
+          cout << "all this object labels: ID " << IDsearch << " --> leg position : " << legPosition << endl;
+          cout << "Nfilters . leg1 : " << trgmap.GetNfiltersleg1() << " || leg2 : " << trgmap.GetNfiltersleg2() << endl;
+          for (uint ll = 0; ll < vLabels.size(); ++ll) cout << "   -- " << vLabels.at(ll) << endl;
+	  */
 
           if (legPosition == 1)
           {
@@ -2481,7 +2483,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
           else istrgMatched = false;
           // FIXME: should I check type? --> no, multiple filters should be enough
           if(istrgMatched) trgMatched |= (long(1) <<triggerbit);
-          // cout << "istrgMatched ? " << istrgMatched << endl;
+          //cout << "istrgMatched ? " << istrgMatched << endl;
 
         } // loop on triggerbit from 0 to GetNTriggers()
 
