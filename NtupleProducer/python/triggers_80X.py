@@ -12,7 +12,35 @@ TRIGGERLIST=[]
 # channel: kemu=0, ketau=1,kmutau=2,ktautau=3
 HLTLIST = cms.VPSet(
 
-### === Single muon triggers       
+### === Single muon triggers
+    cms.PSet (
+        HLT = cms.string("HLT_IsoMu22_v"),
+        path1 = cms.vstring ("hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(13),
+        leg2 = cms.int32(999)
+        ),
+    cms.PSet (
+        HLT = cms.string("HLT_IsoTkMu22_v"),
+        path1 = cms.vstring ("hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(13),
+        leg2 = cms.int32(999)
+        ),
+    cms.PSet (
+        HLT = cms.string("HLT_IsoTkMu22_eta2p1_v"),
+        path1 = cms.vstring ("hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(13),
+        leg2 = cms.int32(999)
+    ),
+    cms.PSet (
+        HLT = cms.string("HLT_IsoMu22_eta2p1_v"),
+        path1 = cms.vstring ("hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(13),
+        leg2 = cms.int32(999)
+        ),   
     cms.PSet (
         HLT = cms.string("HLT_IsoMu24_v"),
         path1 = cms.vstring ("hltL3crIsoL1sMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p09"),
@@ -49,7 +77,23 @@ cms.PSet (
         path2 = cms.vstring ("hltOverlapFilterSingleIsoMu21LooseIsoPFTau20"),
         leg1 = cms.int32(13),
         leg2 = cms.int32(15)
-        ),    
+        ),
+
+
+cms.PSet (
+        HLT = cms.string("HLT_VLooseIsoPFTau120_Trk50_eta2p1_v"),
+        path1 = cms.vstring ("hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
+  cms.PSet (
+        HLT = cms.string("HLT_VLooseIsoPFTau140_Trk50_eta2p1_v"),
+        path1 = cms.vstring ("hltPFTau140TrackPt50LooseAbsOrRelVLooseIso"),
+        path2 = cms.vstring (""),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),  
 ### === tauh tauh triggers
     cms.PSet (
         HLT = cms.string("HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v"),
