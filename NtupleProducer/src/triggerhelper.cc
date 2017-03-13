@@ -6,6 +6,7 @@
  *  $Revision: 1.3 $
  *  \author G. Ortona - LLR
  */
+
  
 #include <DataFormats/Common/interface/TriggerResults.h>
 #include <FWCore/Common/interface/TriggerNames.h>
@@ -28,10 +29,10 @@ triggerhelper::triggerhelper(vector<string> HLTPaths) //: nTriggers(HLTPaths.siz
   string tmpMETfilters[nMETs]={
     "Flag_HBHENoiseFilter",
     "Flag_HBHENoiseIsoFilter",
-    "Flag_CSCTightHalo2015Filter",
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
-    "Flag_eeBadScFilter"
+    "Flag_eeBadScFilter",
+    "Flag_globalTightHalo2016Filter"    
   };
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
 
@@ -44,15 +45,15 @@ triggerhelper::triggerhelper(TH1F* hCounter){
     TString binlabel = hCounter->GetXaxis()->GetBinLabel(itr);
     if(binlabel.BeginsWith("HLT"))triggerlist.push_back(hCounter->GetXaxis()->GetBinLabel(itr));
   }
-
-  string tmpMETfilters[nMETs]={
+string tmpMETfilters[nMETs]={
     "Flag_HBHENoiseFilter",
     "Flag_HBHENoiseIsoFilter",
-    "Flag_CSCTightHalo2015Filter",
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
-    "Flag_eeBadScFilter"
+    "Flag_eeBadScFilter",
+    "Flag_globalTightHalo2016Filter"    
   };
+ 
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
 
 
@@ -60,14 +61,15 @@ triggerhelper::triggerhelper(TH1F* hCounter){
 
 triggerhelper::triggerhelper()//:nTriggers(0)
 {
-  string tmpMETfilters[nMETs]={
+string tmpMETfilters[nMETs]={
     "Flag_HBHENoiseFilter",
     "Flag_HBHENoiseIsoFilter",
-    "Flag_CSCTightHalo2015Filter",
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
-    "Flag_eeBadScFilter"
+    "Flag_eeBadScFilter",
+    "Flag_globalTightHalo2016Filter"    
   };
+   
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
 
 }
@@ -150,10 +152,10 @@ int triggerhelper::FindMETBit(const edm::Event& event, edm::EDGetTokenT<edm::Tri
   //event.getByToken(metFilterBitsToken_, metFilterBits);
   const edm::TriggerNames &metNames = event.triggerNames(*metFilterBits);
   for(int im=0;im<nMETs;im++){
-    // cout << "DEB looking for " << metlist[im] << endl;
+    //cout << "DEB looking for " << metlist[im] << endl;
     bool foundFilter = false;
     for(unsigned int i = 0; i < metFilterBits->size(); ++i){      
-      // cout << " --> and testing " << metNames.triggerName(i) << endl;
+      //cout << " --> and testing " << metNames.triggerName(i) << endl;
       if(metlist[im].compare(metNames.triggerName(i))==0){
         foundFilter = true;
         if ( metFilterBits->accept(i) ) bit |= 1 <<im;

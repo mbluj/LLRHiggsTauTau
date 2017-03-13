@@ -61,6 +61,16 @@ METfiltersProcess = "PAT" if IsMC else "RECO" # NB! this is not guaranteed to be
 # NB: for MET filters, use PAT or RECO depending if the miniAOD was generated simultaneously with RECO or in a separated step
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD2016#ETmiss_filters
 
+#MET filters to be run on fly.
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+
 ### ----------------------------------------------------------------------
 ### Standard stuff
 ### ----------------------------------------------------------------------
@@ -631,6 +641,8 @@ process.Candidates = cms.Sequence(
     #process.printTree         + # just for debug, print MC particles
     process.nEventsTotal      +
     process.nEventsPassTrigger+
+    process.BadPFMuonFilter +
+    process.BadChargedCandidateFilter + 
     process.muons             +
     process.electrons         + process.cleanSoftElectrons +
     process.taus              + 
