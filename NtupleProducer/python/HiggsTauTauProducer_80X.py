@@ -65,11 +65,12 @@ METfiltersProcess = "PAT" if IsMC else "RECO" # NB! this is not guaranteed to be
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
 process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.BadPFMuonFilter.taggingMode = cms.bool(True)
 
 process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
 process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-
+process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
 
 ### ----------------------------------------------------------------------
 ### Standard stuff
@@ -607,7 +608,9 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       srcPFMETSignificance = cms.InputTag("METSignificance", "METSignificance"),
                       l1extraIsoTau = cms.InputTag("l1extraParticles", "IsoTau"),
                       HT = cms.InputTag("externalLHEProducer"),
-                      beamSpot = cms.InputTag("offlineBeamSpot")               
+                      beamSpot = cms.InputTag("offlineBeamSpot"),
+                      BadChargedCandidateFilter = cms.InputTag("BadChargedCandidateFilter"),
+                      BadPFMuonFilter = cms.InputTag("BadPFMuonFilter")
                       )
 if USE_NOHFMET:
     process.HTauTauTree.metCollection = cms.InputTag("slimmedMETsNoHF")

@@ -222,7 +222,9 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   edm::EDGetTokenT<edm::MergeableCounter> thePassTag;
   edm::EDGetTokenT<LHEEventProduct> theLHEPTag;
   edm::EDGetTokenT<reco::BeamSpot> beamSpotTag;
-
+  edm::EDGetTokenT<bool> badChCandFilterTag;
+  edm::EDGetTokenT<bool> badPFMuonFilterTag;
+  
   //flags
   //static const int nOutVars =14;
   bool applyTrigger;    // Only events passing trigger
@@ -633,8 +635,9 @@ HTauTauNtuplizer::HTauTauNtuplizer(const edm::ParameterSet& pset) : reweight(),
   theTotTag            (consumes<edm::MergeableCounter, edm::InLumi>     (pset.getParameter<edm::InputTag>("totCollection"))),
   thePassTag           (consumes<edm::MergeableCounter, edm::InLumi>     (pset.getParameter<edm::InputTag>("passCollection"))),
   theLHEPTag           (consumes<LHEEventProduct>                        (pset.getParameter<edm::InputTag>("lhepCollection"))),
-  beamSpotTag          (consumes<reco::BeamSpot>                         (pset.getParameter<edm::InputTag>("beamSpot")))
-
+  beamSpotTag          (consumes<reco::BeamSpot>                         (pset.getParameter<edm::InputTag>("beamSpot"))),
+  badChCandFilterTag   (consumes<bool>                                   (pset.getParameter<edm::InputTag>("BadChargedCandidateFilter"))),
+  badPFMuonFilterTag   (consumes<bool>                                   (pset.getParameter<edm::InputTag>("BadPFMuonFilter")))								 
  {
   theFileName = pset.getUntrackedParameter<string>("fileName");
   theFSR = pset.getParameter<bool>("applyFSR");
@@ -1466,6 +1469,18 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
   
   _triggerbit = myTriggerHelper->FindTriggerBit(event,foundPaths,indexOfPath,triggerBits);
   _metfilterbit = myTriggerHelper->FindMETBit(event, metFilterBits_);
+
+  edm::Handle<bool> ifilterbadChCand;
+  event.getByToken(badChCandFilterTag, ifilterbadChCand);
+  bool  filterbadChCandidate = *ifilterbadChCand;
+  
+  edm::Handle<bool> ifilterbadPFMuon;
+  event.getByToken(badPFMuonFilterTag, ifilterbadPFMuon);
+  bool filterbadPFMuon = *ifilterbadPFMuon;
+
+  if(filterbadChCandidate) _metfilterbit |= 1 <<6;
+  if(filterbadPFMuon) _metfilterbit |= 1 <<7;
+    
   Long64_t tbit = _triggerbit;
   for(int itr=0;itr<myTriggerHelper->GetNTriggers();itr++) {
     if(myTriggerHelper->IsTriggerFired(tbit,itr)) hCounter->Fill(itr+3);    

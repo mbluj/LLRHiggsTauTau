@@ -32,7 +32,7 @@ triggerhelper::triggerhelper(vector<string> HLTPaths) //: nTriggers(HLTPaths.siz
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
     "Flag_eeBadScFilter",
-    "Flag_globalTightHalo2016Filter"    
+    "Flag_globalTightHalo2016Filter"
   };
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
 
@@ -51,11 +51,10 @@ string tmpMETfilters[nMETs]={
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
     "Flag_eeBadScFilter",
-    "Flag_globalTightHalo2016Filter"    
+    "Flag_globalTightHalo2016Filter"
   };
  
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
-
 
 }
 
@@ -67,7 +66,7 @@ string tmpMETfilters[nMETs]={
     "Flag_EcalDeadCellTriggerPrimitiveFilter",
     "Flag_goodVertices",
     "Flag_eeBadScFilter",
-    "Flag_globalTightHalo2016Filter"    
+    "Flag_globalTightHalo2016Filter"
   };
    
   for(int i=0;i<nMETs;i++)metlist[i]=tmpMETfilters[i];
