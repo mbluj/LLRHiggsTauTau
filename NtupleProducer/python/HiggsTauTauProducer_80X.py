@@ -13,7 +13,7 @@ except NameError:
     IsMC=True
 try: doCPVariables
 except NameError:
-    doCPVariables=True       
+    doCPVariables=True
 try: LEPTON_SETUP
 except NameError:
     LEPTON_SETUP=2012
@@ -46,12 +46,12 @@ except NameError:
 ### Set the GT
 ### ----------------------------------------------------------------------
 from Configuration.AlCa.autoCond import autoCond
-process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")    
+process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 if IsMC:
     process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 else :
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'    
+    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
 print process.GlobalTag.globaltag
 
 nanosec="25"
@@ -87,13 +87,13 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 ### ----------------------------------------------------------------------
-### Counters 
+### Counters
 ### ----------------------------------------------------------------------
 process.nEventsTotal = cms.EDProducer("EventCountProducer")       # don't change producer name
 process.nEventsPassTrigger = cms.EDProducer("EventCountProducer") # these names are then "hard-coded" inside the ntuplizer plugin
 
 ### ----------------------------------------------------------------------
-### Trigger bit Requests - filter 
+### Trigger bit Requests - filter
 ### ----------------------------------------------------------------------
 import HLTrigger.HLTfilters.hltHighLevel_cfi as hlt
 
@@ -101,7 +101,7 @@ process.hltFilter = hlt.hltHighLevel.clone(
     TriggerResultsTag = cms.InputTag("TriggerResults","",HLTProcessName),
     HLTPaths = TRIGGERLIST,
     andOr = cms.bool(True), # how to deal with multiple triggers: True (OR) accept if ANY is true, False (AND) accept if ALL are true
-    throw = cms.bool(False) #if True: throws exception if a trigger path is invalid  
+    throw = cms.bool(False) #if True: throws exception if a trigger path is invalid
 )
 
 #MC stuff
@@ -156,7 +156,7 @@ process.bareSoftMuons = cms.EDFilter("PATMuonRefSelector",
 
 # # MC matching. As the genParticles are no more available in cmg, we re-match with prunedGenParticles.
 # process.muonMatch = cms.EDProducer("MCMatcher", # cut on deltaR, deltaPt/Pt; pick best by deltaR
-#                                    src     = cms.InputTag("softMuons"), # RECO objects to match  
+#                                    src     = cms.InputTag("softMuons"), # RECO objects to match
 #                                    matched = cms.InputTag("prunedGenParticles"),   # mc-truth particle collection
 #                                    mcPdgId     = cms.vint32(13), # one or more PDG ID (13 = muon); absolute values (see below)
 #                                    checkCharge = cms.bool(True), # True = require RECO and MC objects to have the same charge
@@ -172,7 +172,7 @@ process.softMuons = cms.EDProducer("MuFiller",
     genCollection = cms.InputTag("prunedGenParticles"),
     rhoCollection = cms.InputTag("fixedGridRhoFastjetAll",""),
     vtxCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
-    sampleType = cms.int32(LEPTON_SETUP),                     
+    sampleType = cms.int32(LEPTON_SETUP),
     setup = cms.int32(LEPTON_SETUP), # define the set of effective areas, rho corrections, etc.
 #    cut = cms.string("userFloat('SIP')<100"),
 #    cut = cms.string("userFloat('dxy')<0.5 && userFloat('dz')<1."),
@@ -184,7 +184,7 @@ process.softMuons = cms.EDProducer("MuFiller",
 )
 
 process.muons =  cms.Sequence(process.cleanedMu + process.bareSoftMuons+ process.softMuons)
-    
+
 
 ###
 ### Electrons
@@ -244,20 +244,20 @@ process.egmGsfElectronIDSequence = cms.Sequence(process.egmGsfElectronIDs)
 my_id_modules =[
 'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
-'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff'] 
+'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff']
 #Add them to the VID producer
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
-    
+
 process.softElectrons = cms.EDProducer("EleFiller",
    src    = cms.InputTag("slimmedElectrons"),
    rhoCollection = cms.InputTag("fixedGridRhoFastjetAll",""),
    vtxCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
    genCollection = cms.InputTag("prunedGenParticles"),
-   sampleType = cms.int32(LEPTON_SETUP),          
+   sampleType = cms.int32(LEPTON_SETUP),
    setup = cms.int32(LEPTON_SETUP), # define the set of effective areas, rho corrections, etc.
 
-   #CUT BASED ELE ID  
+   #CUT BASED ELE ID
    electronVetoIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-"+nanosec+"ns-V1-standalone-veto"),
    electronTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-"+nanosec+"ns-V1-standalone-tight"),
    electronMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-"+nanosec+"ns-V1-standalone-medium"),
@@ -306,7 +306,7 @@ process.cleanSoftElectrons = cms.EDProducer("PATElectronCleaner",
            src       = cms.InputTag("softMuons"), # Start from loose lepton def
            algorithm = cms.string("byDeltaR"),
            preselection        = cms.string("(isGlobalMuon || userFloat('isPFMuon'))"), #
-           deltaR              = cms.double(0.05),  
+           deltaR              = cms.double(0.05),
            checkRecoComponents = cms.bool(False), # don't check if they share some AOD object ref
            pairCut             = cms.string(""),
            requireNoOverlaps   = cms.bool(True), # overlaps don't cause the electron to be discared
@@ -334,7 +334,7 @@ process.cleanTaus = cms.EDProducer("PATTauCleaner",
             ' tauID("againstMuonTight") > 0.5 &'
             ' tauID("againstElectronMedium") > 0.5'
         ),
-    
+
    # overlap checking configurables
    checkOverlaps = cms.PSet(
       muons = cms.PSet(
@@ -383,7 +383,7 @@ process.taus=cms.Sequence(process.bareTaus + process.softTaus)
 ### ----------------------------------------------------------------------
 process.genInfo = cms.EDProducer("GenFiller",
          src = cms.InputTag("prunedGenParticles"),
- )                
+ )
 if IsMC : process.geninfo = cms.Sequence(process.genInfo)
 else : process.geninfo = cms.Sequence()
 
@@ -402,7 +402,7 @@ process.appendPhotons = cms.EDProducer("LeptonPhotonMatcher",
 process.fsrSequence = cms.Sequence(process.fsrPhotonSequence + process.appendPhotons)
 muString = "appendPhotons:muons"
 eleString = "appendPhotons:electrons"
-if not APPLYFSR : 
+if not APPLYFSR :
     process.fsrSequence = cms.Sequence()
     muString = "softMuons"
     eleString = "softElectrons"
@@ -495,7 +495,7 @@ if USEMVAMET:
         process.MVAMETInputs += getattr(process, "corr"+met)
         process.MVAMETInputs += getattr(process, met+"T1")
         process.MVAMETInputs += getattr(process, "pat"+met)
-        process.MVAMETInputs += getattr(process, "pat"+met+"T1")        
+        process.MVAMETInputs += getattr(process, "pat"+met+"T1")
 
     process.METSequence += cms.Sequence(process.MVAMETInputs + process.MVAMET)
 
@@ -520,8 +520,8 @@ process.METSequence += cms.Sequence(process.METSignificance)
 # corrMVAPairMET = []
 if IsMC and APPLYMETCORR:
         process.selJetsForZrecoilCorrection = cms.EDFilter("PATJetSelector",
-            src = cms.InputTag("jets"),                                      
-            cut = cms.string("pt > 30. & abs(eta) < 4.7"), 
+            src = cms.InputTag("jets"),
+            cut = cms.string("pt > 30. & abs(eta) < 4.7"),
             filter = cms.bool(False)
         )
         from PhysicsTools.SelectorUtils.pfJetIDSelector_cfi import pfJetIDSelector
@@ -529,7 +529,7 @@ if IsMC and APPLYMETCORR:
                                             filterParams = pfJetIDSelector.clone(),
                                             src = cms.InputTag("selJetsForZrecoilCorrection")
         )
-        process.corrMET = cms.EDProducer("ZrecoilCorrectionProducer",                                                   
+        process.corrMET = cms.EDProducer("ZrecoilCorrectionProducer",
             srcPairs = cms.InputTag("barellCand"),
             srcMEt = cms.InputTag(PFMetName),
             srcGenParticles = cms.InputTag("prunedGenParticles"),
@@ -540,8 +540,8 @@ if IsMC and APPLYMETCORR:
         if USEMVAMET:
             process.corrMET.srcMEt = cms.InputTag("MVAMET", "MVAMET")
             process.corrMET.correction = cms.string("HTT-utilities/RecoilCorrections/data/MvaMET_2016BCD.root")
-        
-        process.METSequence += process.selJetsForZrecoilCorrection+process.loosePFJetID        
+
+        process.METSequence += process.selJetsForZrecoilCorrection+process.loosePFJetID
         process.METSequence += process.corrMET
 
 srcMETTag = None
@@ -549,7 +549,7 @@ if USEMVAMET:
   srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag("MVAMET", "MVAMET")
 else:
   srcMETTag = cms.InputTag("corrMET") if (IsMC and APPLYMETCORR) else cms.InputTag(PFMetName)
-  
+
 ## ----------------------------------------------------------------------
 ## SV fit
 ## ----------------------------------------------------------------------
@@ -582,7 +582,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       fileName = cms.untracked.string ("CosaACaso"),
                       applyFSR = cms.bool(APPLYFSR),
                       IsMC = cms.bool(IsMC),
-                      doCPVariables = cms.bool(doCPVariables),               
+                      doCPVariables = cms.bool(doCPVariables),
                       vtxCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
                       puCollection = cms.InputTag("slimmedAddPileupInfo"),
                       rhoCollection = cms.InputTag("fixedGridRhoFastjetAll"),
@@ -599,7 +599,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       totCollection = cms.InputTag("nEventsTotal"),
                       passCollection = cms.InputTag("nEventsPassTrigger"),
                       lhepCollection = cms.InputTag("externalLHEProducer"),
-                      triggerResultsLabel = cms.InputTag("TriggerResults", "", HLTProcessName), #Different names for MiniAODv2 at https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD.                      
+                      triggerResultsLabel = cms.InputTag("TriggerResults", "", HLTProcessName), #Different names for MiniAODv2 at https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD.
                       triggerSet = cms.InputTag("selectedPatTrigger"),
                       triggerList = HLTLIST,
                       metFilters = cms.InputTag ("TriggerResults","",METfiltersProcess),
@@ -614,7 +614,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       )
 if USE_NOHFMET:
     process.HTauTauTree.metCollection = cms.InputTag("slimmedMETsNoHF")
-else: 
+else:
     process.HTauTauTree.metCollection = cms.InputTag("slimmedMETs")
 
 if SVFITBYPASS:
@@ -645,17 +645,18 @@ process.Candidates = cms.Sequence(
     process.nEventsTotal      +
     process.nEventsPassTrigger+
     process.BadPFMuonFilter +
-    process.BadChargedCandidateFilter + 
+    process.BadChargedCandidateFilter +
     process.muons             +
     process.electrons         + process.cleanSoftElectrons +
-    process.taus              + 
+    process.taus              +
     process.fsrSequence       +
     process.softLeptons       + process.barellCand +
-    process.pileupJetIdUpdated + process.patJetCorrFactorsReapplyJEC + process.patJetsReapplyJEC + process.jets +
+    process.pileupJetIdUpdated +
+    process.patJetCorrFactorsReapplyJEC + process.patJetsReapplyJEC +
+    process.jets +
     process.METSequence       +
     process.geninfo           +
-    process.SVFit             
+    process.SVFit
     )
 # always run ntuplizer
 process.trees = cms.EndPath(process.HTauTauTree)
-
