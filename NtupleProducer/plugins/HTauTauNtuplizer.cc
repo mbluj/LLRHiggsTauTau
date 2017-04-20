@@ -162,7 +162,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   int GetMatchedGen (const reco::Candidate* genL, const edm::Event& event); // return the index of the associated gen particle in the filtered gen collection, in not existing return -1
   //int CreateFlagsWord (const pat::GenericParticle* part); // build int with each bit containing some boolean flags
   static bool CompareLegs(const reco::Candidate *, const reco::Candidate *);
-  float ComputeMT (math::XYZTLorentzVector visP4, float METx, float METy);
+  double ComputeMT (math::XYZTLorentzVector visP4, double METx, double METy);
   static bool ComparePairsbyPt(pat::CompositeCandidate i, pat::CompositeCandidate j);
   static bool ComparePairsbyIso(pat::CompositeCandidate i, pat::CompositeCandidate j);
 
@@ -242,91 +242,91 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   Int_t _lumi;
   Long64_t _triggerbit;
   Int_t _metfilterbit;
-  Float_t _met;
-  Float_t _metphi;
-  Float_t _PUPPImet;
-  Float_t _PUPPImetphi;
-  Float_t _PFMETCov00;
-  Float_t _PFMETCov01;
-  Float_t _PFMETCov10;
-  Float_t _PFMETCov11;
-  Float_t _PFMETsignif;
-  Float_t _MC_weight;
-  Float_t _aMCatNLOweight;
+  Double_t _met;
+  Double_t _metphi;
+  Double_t _PUPPImet;
+  Double_t _PUPPImetphi;
+  Double_t _PFMETCov00;
+  Double_t _PFMETCov01;
+  Double_t _PFMETCov10;
+  Double_t _PFMETCov11;
+  Double_t _PFMETsignif;
+  Double_t _MC_weight;
+  Double_t _aMCatNLOweight;
   Int_t _npv;
-  Float_t _lheHt;
+  Double_t _lheHt;
   Int_t   _lheNOutPartons;
   Int_t   _lheNOutB;
-  Float_t _npu;
+  Double_t _npu;
   Int_t   _PUNumInteractions;
-  Float_t _PUReweight;
-  Float_t _rho;
+  Double_t _PUReweight;
+  Double_t _rho;
   Int_t _nup;
-  Float_t _MC_weight_scale_muF0p5;
-  Float_t _MC_weight_scale_muF2;
-  Float_t _MC_weight_scale_muR0p5;
-  Float_t _MC_weight_scale_muR2;
-  Float_t _pv_x=0, _pv_y=0, _pv_z=0;
-  Float_t _pvGen_x=0, _pvGen_y=0, _pvGen_z=0;
-  Float_t _pvRefit_x=0, _pvRefit_y=0, _pvRefit_z=0;
+  Double_t _MC_weight_scale_muF0p5;
+  Double_t _MC_weight_scale_muF2;
+  Double_t _MC_weight_scale_muR0p5;
+  Double_t _MC_weight_scale_muR2;
+  Double_t _pv_x=0, _pv_y=0, _pv_z=0;
+  Double_t _pvGen_x=0, _pvGen_y=0, _pvGen_z=0;
+  Double_t _pvRefit_x=0, _pvRefit_y=0, _pvRefit_z=0;
   bool _isRefitPV=false;
   
   // pairs
   //std::vector<TLorentzVector> _mothers;
-  std::vector<Float_t> _mothers_px;
-  std::vector<Float_t> _mothers_py;
-  std::vector<Float_t> _mothers_pz;
-  std::vector<Float_t> _mothers_e;
+  std::vector<Double_t> _mothers_px;
+  std::vector<Double_t> _mothers_py;
+  std::vector<Double_t> _mothers_pz;
+  std::vector<Double_t> _mothers_e;
   
   // reco leptons
   //std::vector<TLorentzVector> _daughters;
   std::vector<string> _trigger_name;
   std::vector<Int_t> _trigger_accept;
-  std::vector<Float_t> _daughters_px;
-  std::vector<Float_t> _daughters_py;
-  std::vector<Float_t> _daughters_pz;
-  std::vector<Float_t> _daughters_e;
+  std::vector<Double_t> _daughters_px;
+  std::vector<Double_t> _daughters_py;
+  std::vector<Double_t> _daughters_pz;
+  std::vector<Double_t> _daughters_e;
   
-  std::vector<Float_t> _daughters_charged_px;
-  std::vector<Float_t> _daughters_charged_py;
-  std::vector<Float_t> _daughters_charged_pz;
-  std::vector<Float_t> _daughters_charged_e;
+  std::vector<Double_t> _daughters_charged_px;
+  std::vector<Double_t> _daughters_charged_py;
+  std::vector<Double_t> _daughters_charged_pz;
+  std::vector<Double_t> _daughters_charged_e;
 
-  std::vector<Float_t> _daughters_neutral_px;
-  std::vector<Float_t> _daughters_neutral_py;
-  std::vector<Float_t> _daughters_neutral_pz;
-  std::vector<Float_t> _daughters_neutral_e;
+  std::vector<Double_t> _daughters_neutral_px;
+  std::vector<Double_t> _daughters_neutral_py;
+  std::vector<Double_t> _daughters_neutral_pz;
+  std::vector<Double_t> _daughters_neutral_e;
 
   std::vector<Int_t> _daughters_TauUpExists;
-  std::vector<Float_t> _daughters_px_TauUp;
-  std::vector<Float_t> _daughters_py_TauUp;
-  std::vector<Float_t> _daughters_pz_TauUp;
-  std::vector<Float_t> _daughters_e_TauUp;
+  std::vector<Double_t> _daughters_px_TauUp;
+  std::vector<Double_t> _daughters_py_TauUp;
+  std::vector<Double_t> _daughters_pz_TauUp;
+  std::vector<Double_t> _daughters_e_TauUp;
   std::vector<Int_t> _daughters_TauDownExists;
-  std::vector<Float_t> _daughters_px_TauDown;
-  std::vector<Float_t> _daughters_py_TauDown;
-  std::vector<Float_t> _daughters_pz_TauDown;
-  std::vector<Float_t> _daughters_e_TauDown;
+  std::vector<Double_t> _daughters_px_TauDown;
+  std::vector<Double_t> _daughters_py_TauDown;
+  std::vector<Double_t> _daughters_pz_TauDown;
+  std::vector<Double_t> _daughters_e_TauDown;
   std::vector<Int_t> _daughters_genindex;
   std::vector<Int_t> _daughters_charge;
 
   std::vector<const reco::Candidate*> _softLeptons;
   
   //std::vector<TLorentzVector> _bquarks;
-  //std::vector<Float_t> _bquarks_px;
-  //std::vector<Float_t> _bquarks_py;
-  //std::vector<Float_t> _bquarks_pz;
-  //std::vector<Float_t> _bquarks_e;
+  //std::vector<Double_t> _bquarks_px;
+  //std::vector<Double_t> _bquarks_py;
+  //std::vector<Double_t> _bquarks_pz;
+  //std::vector<Double_t> _bquarks_e;
   //std::vector<Int_t> _bquarks_pdg;
   
-  std::vector<Float_t> _genpart_px;
-  std::vector<Float_t> _genpart_py;
-  std::vector<Float_t> _genpart_pz;
-  std::vector<Float_t> _genpart_e;
+  std::vector<Double_t> _genpart_px;
+  std::vector<Double_t> _genpart_py;
+  std::vector<Double_t> _genpart_pz;
+  std::vector<Double_t> _genpart_e;
 
-  std::vector<Float_t> _genpart_pca_x;
-  std::vector<Float_t> _genpart_pca_y;
-  std::vector<Float_t> _genpart_pca_z;
+  std::vector<Double_t> _genpart_pca_x;
+  std::vector<Double_t> _genpart_pca_y;
+  std::vector<Double_t> _genpart_pca_z;
   
   std::vector<Int_t> _genpart_pdg;
   std::vector<Int_t> _genpart_status;
@@ -347,10 +347,10 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Int_t> _genpart_flags; // vector of bit flags bout gen info
   
   // gen jets
-  std::vector<Float_t> _genjet_px;
-  std::vector<Float_t> _genjet_py;
-  std::vector<Float_t> _genjet_pz;
-  std::vector<Float_t> _genjet_e;
+  std::vector<Double_t> _genjet_px;
+  std::vector<Double_t> _genjet_py;
+  std::vector<Double_t> _genjet_pz;
+  std::vector<Double_t> _genjet_e;
   std::vector<Int_t> _genjet_partonFlavour; // from matched pat::Jet
   std::vector<Int_t> _genjet_hadronFlavour; // (eh yes, because it is not accessible easily from gen jets)
 
@@ -359,81 +359,81 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   //Mothers output variables
   std::vector<Int_t> _indexDau1;
   std::vector<Int_t> _indexDau2;
-  std::vector<Float_t> _daughters_HLTpt;
+  std::vector<Double_t> _daughters_HLTpt;
   std::vector<Bool_t>  _daughters_isL1IsoTau28Matched;
   //std::vector<Int_t> _genDaughters;
   std::vector<Bool_t> _isOSCand;
-  std::vector<Float_t> _SVmass;
-  std::vector<Float_t> _SVmassTauUp;
-  std::vector<Float_t> _SVmassTauDown;
+  std::vector<Double_t> _SVmass;
+  std::vector<Double_t> _SVmassTauUp;
+  std::vector<Double_t> _SVmassTauDown;
 
-  std::vector<Float_t> _SVmassTransverse;
-  std::vector<Float_t> _SVmassTransverseTauUp;
-  std::vector<Float_t> _SVmassTransverseTauDown;
+  std::vector<Double_t> _SVmassTransverse;
+  std::vector<Double_t> _SVmassTransverseTauUp;
+  std::vector<Double_t> _SVmassTransverseTauDown;
 
-  std::vector<Float_t> _SVpt;
-  std::vector<Float_t> _SVptTauUp;
-  std::vector<Float_t> _SVptTauDown;
+  std::vector<Double_t> _SVpt;
+  std::vector<Double_t> _SVptTauUp;
+  std::vector<Double_t> _SVptTauDown;
 
-  std::vector<Float_t> _SVptUnc;
-  std::vector<Float_t> _SVptUncTauUp;
-  std::vector<Float_t> _SVptUncTauDown;
+  std::vector<Double_t> _SVptUnc;
+  std::vector<Double_t> _SVptUncTauUp;
+  std::vector<Double_t> _SVptUncTauDown;
 
-  std::vector<Float_t> _SVeta;
-  std::vector<Float_t> _SVetaTauUp;
-  std::vector<Float_t> _SVetaTauDown;
+  std::vector<Double_t> _SVeta;
+  std::vector<Double_t> _SVetaTauUp;
+  std::vector<Double_t> _SVetaTauDown;
 
-  std::vector<Float_t> _SVetaUnc;
-  std::vector<Float_t> _SVetaUncTauUp;
-  std::vector<Float_t> _SVetaUncTauDown;
+  std::vector<Double_t> _SVetaUnc;
+  std::vector<Double_t> _SVetaUncTauUp;
+  std::vector<Double_t> _SVetaUncTauDown;
 
-  std::vector<Float_t> _SVphi;
-  std::vector<Float_t> _SVphiTauUp;
-  std::vector<Float_t> _SVphiTauDown;
+  std::vector<Double_t> _SVphi;
+  std::vector<Double_t> _SVphiTauUp;
+  std::vector<Double_t> _SVphiTauDown;
 
-  std::vector<Float_t> _SVphiUnc;
-  std::vector<Float_t> _SVphiUncTauUp;
-  std::vector<Float_t> _SVphiUncTauDown;
+  std::vector<Double_t> _SVphiUnc;
+  std::vector<Double_t> _SVphiUncTauUp;
+  std::vector<Double_t> _SVphiUncTauDown;
 
-  std::vector<Float_t> _SVMetRho;
-  std::vector<Float_t> _SVMetRhoTauUp;
-  std::vector<Float_t> _SVMetRhoTauDown;
+  std::vector<Double_t> _SVMetRho;
+  std::vector<Double_t> _SVMetRhoTauUp;
+  std::vector<Double_t> _SVMetRhoTauDown;
 
-  std::vector<Float_t> _SVMetPhi;
-  std::vector<Float_t> _SVMetPhiTauUp;
-  std::vector<Float_t> _SVMetPhiTauDown;
+  std::vector<Double_t> _SVMetPhi;
+  std::vector<Double_t> _SVMetPhiTauUp;
+  std::vector<Double_t> _SVMetPhiTauDown;
 
-  std::vector<Float_t> _metx;
-  std::vector<Float_t> _mety;
-  std::vector<Float_t> _uncorrmetx;
-  std::vector<Float_t> _uncorrmety;
-  std::vector<Float_t> _metCov00;
-  std::vector<Float_t> _metCov01;
-  std::vector<Float_t> _metCov10;
-  std::vector<Float_t> _metCov11;
-  std::vector<Float_t> _metSignif;
-  std::vector<Float_t> _mTDau1;
-  std::vector<Float_t> _mTDau2;
-  //std::vector<Float_t> _bmotmass;
+  std::vector<Double_t> _metx;
+  std::vector<Double_t> _mety;
+  std::vector<Double_t> _uncorrmetx;
+  std::vector<Double_t> _uncorrmety;
+  std::vector<Double_t> _metCov00;
+  std::vector<Double_t> _metCov01;
+  std::vector<Double_t> _metCov10;
+  std::vector<Double_t> _metCov11;
+  std::vector<Double_t> _metSignif;
+  std::vector<Double_t> _mTDau1;
+  std::vector<Double_t> _mTDau2;
+  //std::vector<Double_t> _bmotmass;
    
   //Leptons variables
   std::vector<Int_t> _pdgdau;
   std::vector<Int_t> _particleType;//0=muon, 1=e, 2=tau
-  std::vector<Float_t> _combreliso;
-  std::vector<Float_t> _combreliso03;
-  std::vector<Float_t> _discriminator;//BDT for ele, discriminator for tau, 
+  std::vector<Double_t> _combreliso;
+  std::vector<Double_t> _combreliso03;
+  std::vector<Double_t> _discriminator;//BDT for ele, discriminator for tau, 
   std::vector<Int_t> _daughters_muonID; //bitwise (bit 0 loose, 1 soft , 2 medium, 3 tight, 4 highPT 5 tight_noVtx)
   std::vector<Int_t> _daughters_typeOfMuon; //bitwise, 0=PF, 1=Global, 2=Tracker
-  std::vector<Float_t> _dxy;
-  std::vector<Float_t> _dz;
-  std::vector<Float_t> _dxy_innerTrack;
-  std::vector<Float_t> _dz_innerTrack;
-  std::vector<Float_t> _daughters_rel_error_trackpt;
-  std::vector<Float_t> _SIP;
+  std::vector<Double_t> _dxy;
+  std::vector<Double_t> _dz;
+  std::vector<Double_t> _dxy_innerTrack;
+  std::vector<Double_t> _dz_innerTrack;
+  std::vector<Double_t> _daughters_rel_error_trackpt;
+  std::vector<Double_t> _SIP;
   std::vector<bool> _daughters_iseleBDT; //isBDT for ele
   std::vector<bool> _daughters_iseleWP80; //isBDT for ele
   std::vector<bool> _daughters_iseleWP90; //isBDT for ele
-  std::vector<Float_t> _daughters_eleMVAnt; //isBDT for ele
+  std::vector<Double_t> _daughters_eleMVAnt; //isBDT for ele
   std::vector<bool> _daughters_passConversionVeto; //isBDT for ele
   std::vector<int>  _daughters_eleMissingHits;
   std::vector<bool>  _daughters_iseleChargeConsistent;
@@ -473,35 +473,35 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
    "byTightIsolationMVArun2v1DBdR03oldDMwLT",
    "byVTightIsolationMVArun2v1DBdR03oldDMwLT"
   };
-  std::vector<Float_t> _daughters_IetaIeta;
-  std::vector<Float_t> _daughters_hOverE;
-  std::vector<Float_t> _daughters_deltaEtaSuperClusterTrackAtVtx;
-  std::vector<Float_t> _daughters_deltaPhiSuperClusterTrackAtVtx;
-  std::vector<Float_t> _daughters_IoEmIoP;
-  std::vector<Float_t> _daughters_IoEmIoP_ttH;
-  std::vector<Float_t> _daughters_SCeta;
-  std::vector<Float_t> _daughters_depositR03_tracker;
-  std::vector<Float_t> _daughters_depositR03_ecal;
-  std::vector<Float_t> _daughters_depositR03_hcal;
+  std::vector<Double_t> _daughters_IetaIeta;
+  std::vector<Double_t> _daughters_hOverE;
+  std::vector<Double_t> _daughters_deltaEtaSuperClusterTrackAtVtx;
+  std::vector<Double_t> _daughters_deltaPhiSuperClusterTrackAtVtx;
+  std::vector<Double_t> _daughters_IoEmIoP;
+  std::vector<Double_t> _daughters_IoEmIoP_ttH;
+  std::vector<Double_t> _daughters_SCeta;
+  std::vector<Double_t> _daughters_depositR03_tracker;
+  std::vector<Double_t> _daughters_depositR03_ecal;
+  std::vector<Double_t> _daughters_depositR03_hcal;
   std::vector<Int_t> _daughters_decayModeFindingOldDMs;
 
-  std::vector<Float_t> _daughters_againstElectronMVA5category;
-  std::vector<Float_t> _daughters_againstElectronMVA5raw;
-  std::vector<Float_t> _daughters_byPileupWeightedIsolationRaw3Hits;
-  std::vector<Float_t> _daughters_footprintCorrection;
-  std::vector<Float_t> _daughters_neutralIsoPtSumWeight;
-  std::vector<Float_t> _daughters_photonPtSumOutsideSignalCone;
+  std::vector<Double_t> _daughters_againstElectronMVA5category;
+  std::vector<Double_t> _daughters_againstElectronMVA5raw;
+  std::vector<Double_t> _daughters_byPileupWeightedIsolationRaw3Hits;
+  std::vector<Double_t> _daughters_footprintCorrection;
+  std::vector<Double_t> _daughters_neutralIsoPtSumWeight;
+  std::vector<Double_t> _daughters_photonPtSumOutsideSignalCone;
 
   std::vector<Int_t> _daughters_decayModeFindingNewDMs;
-  std::vector<Float_t> _daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;
-  std::vector<Float_t> _daughters_byIsolationMVA3oldDMwoLTraw;
-  std::vector<Float_t> _daughters_byIsolationMVA3oldDMwLTraw;
-  std::vector<Float_t> _daughters_byIsolationMVA3newDMwoLTraw;
-  std::vector<Float_t> _daughters_byIsolationMVA3newDMwLTraw;
-  std::vector<Float_t> _daughters_byIsolationMVArun2v1DBoldDMwLTraw;
-  std::vector<Float_t> _daughters_chargedIsoPtSum;
-  std::vector<Float_t> _daughters_neutralIsoPtSum;
-  std::vector<Float_t> _daughters_puCorrPtSum;
+  std::vector<Double_t> _daughters_byCombinedIsolationDeltaBetaCorrRaw3Hits;
+  std::vector<Double_t> _daughters_byIsolationMVA3oldDMwoLTraw;
+  std::vector<Double_t> _daughters_byIsolationMVA3oldDMwLTraw;
+  std::vector<Double_t> _daughters_byIsolationMVA3newDMwoLTraw;
+  std::vector<Double_t> _daughters_byIsolationMVA3newDMwLTraw;
+  std::vector<Double_t> _daughters_byIsolationMVArun2v1DBoldDMwLTraw;
+  std::vector<Double_t> _daughters_chargedIsoPtSum;
+  std::vector<Double_t> _daughters_neutralIsoPtSum;
+  std::vector<Double_t> _daughters_puCorrPtSum;
   std::vector<Int_t> _daughters_numChargedParticlesSignalCone;
   std::vector<Int_t> _daughters_numNeutralHadronsSignalCone;
   std::vector<Int_t> _daughters_numPhotonsSignalCone;
@@ -510,8 +510,8 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Int_t> _daughters_numNeutralHadronsIsoCone;
   std::vector<Int_t> _daughters_numPhotonsIsoCone;
   std::vector<Int_t> _daughters_numParticlesIsoCone;
-  std::vector<Float_t> _daughters_leadChargedParticlePt;
-  std::vector<Float_t> _daughters_trackRefPt;
+  std::vector<Double_t> _daughters_leadChargedParticlePt;
+  std::vector<Double_t> _daughters_trackRefPt;
   std::vector<Int_t> _daughters_LFtrigger;
   std::vector<Int_t> _daughters_L3trigger;
   std::vector<Long64_t> _daughters_trgMatched;
@@ -521,90 +521,90 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Long64_t> _daughters_L3FilterFiredLast;
 
   std::vector<Int_t> _daughters_jetNDauChargedMVASel;
-  std::vector<Float_t> _daughters_miniRelIsoCharged;
-  std::vector<Float_t> _daughters_miniRelIsoNeutral;
-  std::vector<Float_t> _daughters_jetPtRel;
-  std::vector<Float_t> _daughters_jetPtRatio;
-  std::vector<Float_t> _daughters_jetBTagCSV;
-  std::vector<Float_t> _daughters_lepMVA_mvaId;
+  std::vector<Double_t> _daughters_miniRelIsoCharged;
+  std::vector<Double_t> _daughters_miniRelIsoNeutral;
+  std::vector<Double_t> _daughters_jetPtRel;
+  std::vector<Double_t> _daughters_jetPtRatio;
+  std::vector<Double_t> _daughters_jetBTagCSV;
+  std::vector<Double_t> _daughters_lepMVA_mvaId;
 
-  std::vector<Float_t> _daughters_pca_x;
-  std::vector<Float_t> _daughters_pca_y;
-  std::vector<Float_t> _daughters_pca_z;
+  std::vector<Double_t> _daughters_pca_x;
+  std::vector<Double_t> _daughters_pca_y;
+  std::vector<Double_t> _daughters_pca_z;
 
-  std::vector<Float_t> _daughters_pcaRefitPV_x;
-  std::vector<Float_t> _daughters_pcaRefitPV_y;
-  std::vector<Float_t> _daughters_pcaRefitPV_z;
+  std::vector<Double_t> _daughters_pcaRefitPV_x;
+  std::vector<Double_t> _daughters_pcaRefitPV_y;
+  std::vector<Double_t> _daughters_pcaRefitPV_z;
 
-  std::vector<Float_t> _daughters_pcaGenPV_x;
-  std::vector<Float_t> _daughters_pcaGenPV_y;
-  std::vector<Float_t> _daughters_pcaGenPV_z;
+  std::vector<Double_t> _daughters_pcaGenPV_x;
+  std::vector<Double_t> _daughters_pcaGenPV_y;
+  std::vector<Double_t> _daughters_pcaGenPV_z;
 
 
   //Jets variables
   Int_t _numberOfJets;
   //std::vector<TLorentzVector> _jets;
-  std::vector<Float_t> _jets_px;
-  std::vector<Float_t> _jets_py;
-  std::vector<Float_t> _jets_pz;
-  std::vector<Float_t> _jets_e;
-  std::vector<Float_t> _jets_rawPt;
-  std::vector<Float_t> _jets_area;
-  std::vector<Float_t> _jets_mT;
-  std::vector<Float_t> _jets_PUJetID;
-  std::vector<Float_t> _jets_PUJetIDupdated;
-  std::vector<Float_t> _jets_vtxPt;
-  std::vector<Float_t> _jets_vtxMass;
-  std::vector<Float_t> _jets_vtx3dL;
-  std::vector<Float_t> _jets_vtxNtrk;
-  std::vector<Float_t> _jets_vtx3deL;
-  std::vector<Float_t> _jets_leadTrackPt;
-  std::vector<Float_t> _jets_leptonPtRel; 
-  std::vector<Float_t> _jets_leptonPt;    
-  std::vector<Float_t> _jets_leptonDeltaR;
-  std::vector<Float_t> _jets_chEmEF;
-  std::vector<Float_t> _jets_chHEF;
-  std::vector<Float_t> _jets_nEmEF;
-  std::vector<Float_t> _jets_nHEF;
+  std::vector<Double_t> _jets_px;
+  std::vector<Double_t> _jets_py;
+  std::vector<Double_t> _jets_pz;
+  std::vector<Double_t> _jets_e;
+  std::vector<Double_t> _jets_rawPt;
+  std::vector<Double_t> _jets_area;
+  std::vector<Double_t> _jets_mT;
+  std::vector<Double_t> _jets_PUJetID;
+  std::vector<Double_t> _jets_PUJetIDupdated;
+  std::vector<Double_t> _jets_vtxPt;
+  std::vector<Double_t> _jets_vtxMass;
+  std::vector<Double_t> _jets_vtx3dL;
+  std::vector<Double_t> _jets_vtxNtrk;
+  std::vector<Double_t> _jets_vtx3deL;
+  std::vector<Double_t> _jets_leadTrackPt;
+  std::vector<Double_t> _jets_leptonPtRel; 
+  std::vector<Double_t> _jets_leptonPt;    
+  std::vector<Double_t> _jets_leptonDeltaR;
+  std::vector<Double_t> _jets_chEmEF;
+  std::vector<Double_t> _jets_chHEF;
+  std::vector<Double_t> _jets_nEmEF;
+  std::vector<Double_t> _jets_nHEF;
   std::vector<Int_t> _jets_chMult;
-  std::vector<Float_t> _jets_jecUnc;
+  std::vector<Double_t> _jets_jecUnc;
 
-  std::vector<Float_t> _ak8jets_px;
-  std::vector<Float_t> _ak8jets_py;
-  std::vector<Float_t> _ak8jets_pz;
-  std::vector<Float_t> _ak8jets_e;
-  std::vector<Float_t> _ak8jets_SoftDropMass;
-  std::vector<Float_t> _ak8jets_PrunedMass;
-  std::vector<Float_t> _ak8jets_TrimmedMass;
-  std::vector<Float_t> _ak8jets_FilteredMass;
-  std::vector<Float_t> _ak8jets_tau1; // subjettiness
-  std::vector<Float_t> _ak8jets_tau2; // subjettiness
-  std::vector<Float_t> _ak8jets_tau3; // subjettiness
-  std::vector<Float_t> _ak8jets_CSV; // CSV score
+  std::vector<Double_t> _ak8jets_px;
+  std::vector<Double_t> _ak8jets_py;
+  std::vector<Double_t> _ak8jets_pz;
+  std::vector<Double_t> _ak8jets_e;
+  std::vector<Double_t> _ak8jets_SoftDropMass;
+  std::vector<Double_t> _ak8jets_PrunedMass;
+  std::vector<Double_t> _ak8jets_TrimmedMass;
+  std::vector<Double_t> _ak8jets_FilteredMass;
+  std::vector<Double_t> _ak8jets_tau1; // subjettiness
+  std::vector<Double_t> _ak8jets_tau2; // subjettiness
+  std::vector<Double_t> _ak8jets_tau3; // subjettiness
+  std::vector<Double_t> _ak8jets_CSV; // CSV score
   std::vector<Int_t>   _ak8jets_nsubjets;
 
   // subjets of ak8 -- store ALL subjets, and link them with an idx to the ak8 jet vectors
-  std::vector<Float_t> _subjets_px;
-  std::vector<Float_t> _subjets_py;
-  std::vector<Float_t> _subjets_pz;
-  std::vector<Float_t> _subjets_e;
-  std::vector<Float_t> _subjets_CSV;
+  std::vector<Double_t> _subjets_px;
+  std::vector<Double_t> _subjets_py;
+  std::vector<Double_t> _subjets_pz;
+  std::vector<Double_t> _subjets_e;
+  std::vector<Double_t> _subjets_CSV;
   std::vector<Int_t>   _subjets_ak8MotherIdx;
 
   std::vector<Int_t> _jets_Flavour; // parton flavour
   std::vector<Int_t> _jets_HadronFlavour; // hadron flavour
   std::vector<Int_t> _jets_genjetIndex; // index of matched gen jet in genjet vector
-  std::vector<Float_t> _bdiscr;
-  std::vector<Float_t> _bdiscr2;
-  std::vector<Float_t> _bdiscr3;
+  std::vector<Double_t> _bdiscr;
+  std::vector<Double_t> _bdiscr2;
+  std::vector<Double_t> _bdiscr3;
   std::vector<Int_t> _jetID; //1=loose, 2=tight, 3=tightlepveto
-  std::vector<Float_t> _jetrawf;
+  std::vector<Double_t> _jetrawf;
 
   //genH
-  //std::vector<Float_t> _genH_px;
-  //std::vector<Float_t> _genH_py;
-  //std::vector<Float_t> _genH_pz;
-  //std::vector<Float_t> _genH_e;
+  //std::vector<Double_t> _genH_px;
+  //std::vector<Double_t> _genH_py;
+  //std::vector<Double_t> _genH_pz;
+  //std::vector<Double_t> _genH_e;
 };
 
 const int HTauTauNtuplizer::ntauIds; // definition of static member
@@ -1410,7 +1410,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
       if(PVI->getBunchCrossing() == 0) { 
         _PUNumInteractions  = PVI->getPU_NumInteractions();
-        float nTrueInt = PVI->getTrueNumInteractions();
+        double nTrueInt = PVI->getTrueNumInteractions();
         _npu = nTrueInt;        
         _PUReweight = reweight.weight(2012,2012,nTrueInt);
         break;
@@ -1613,10 +1613,10 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     const pat::CompositeCandidate& cand = candVector.at(iPair);
     math::XYZTLorentzVector candp4 = cand.p4();
 
-    float thisMETpx = cand.userFloat("MEt_px");
-    float thisMETpy = cand.userFloat("MEt_py");
-    float thisMETpx_uncorr = ( cand.hasUserFloat("uncorrMEt_px") ) ? cand.userFloat("uncorrMEt_px") : -999.;
-    float thisMETpy_uncorr = ( cand.hasUserFloat("uncorrMEt_py") ) ? cand.userFloat("uncorrMEt_py") : -999.;
+    double thisMETpx = cand.userFloat("MEt_px");
+    double thisMETpy = cand.userFloat("MEt_py");
+    double thisMETpx_uncorr = ( cand.hasUserFloat("uncorrMEt_px") ) ? cand.userFloat("uncorrMEt_px") : -999.;
+    double thisMETpy_uncorr = ( cand.hasUserFloat("uncorrMEt_py") ) ? cand.userFloat("uncorrMEt_py") : -999.;
     
     bool hasUp   = cand.hasUserFloat ("SVfitMassTauUp");
     bool hasDown = cand.hasUserFloat ("SVfitMassTauDown");
@@ -1676,11 +1676,11 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
       //printf("%p %p %p\n",motherPoint[iMot],cand.daughter(0),cand.daughter(1));
     //}
     int index1=-1,index2=-1;
-    float mT1 = -1., mT2 = -1.;
+    double mT1 = -1., mT2 = -1.;
     for(int iCand=0;iCand<2;iCand++){
         //int index=-1;
         const reco::Candidate *daughter = cand.daughter(iCand);
-        float mT = ComputeMT ( daughter->p4(), thisMETpx, thisMETpy);
+        double mT = ComputeMT ( daughter->p4(), thisMETpx, thisMETpy);
         if(iCand==0)
         {
             index1=FindCandIndex(cand,iCand);
@@ -1707,7 +1707,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
                 }
             }
     
-            //cand.addUserFloat("dauWithFSR",lepWithFsr); // Index of the cand daughter with associated FSR photon
+            //cand.addUserDouble("dauWithFSR",lepWithFsr); // Index of the cand daughter with associated FSR photon
     
             if (fsr!=0) {
               // Add daughter and set p4.
@@ -1720,7 +1720,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
               /*
               // Recompute iso for leptons with FSR    
               const Candidate* d = cand.daughter(iCand);
-              float fsrCorr = 0; // The correction to PFPhotonIso
+              double fsrCorr = 0; // The correction to PFPhotonIso
               if (!fsr->isFromMuon()) { // Type 1 photons should be subtracted from muon iso cones
                 double dR = ROOT::Math::VectorUtil::DeltaR(fsr->momentum(),d->momentum());
                 if (dR<0.4 && ((d->isMuon() && dR > 0.01) ||
@@ -1729,14 +1729,14 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
                 }
               }
 
-              float rho = ((d->isMuon())?rhoForMu:rhoForEle);
-              float combRelIsoPFCorr =  LeptonIsoHelper::combRelIsoPF(sampleType, setup, rho, d, fsrCorr);
+              double rho = ((d->isMuon())?rhoForMu:rhoForEle);
+              double combRelIsoPFCorr =  LeptonIsoHelper::combRelIsoPF(sampleType, setup, rho, d, fsrCorr);
       
               string base;
               stringstream str;
               str << "d" << iCand << ".";
               str >> base;      
-              cand.addUserFloat(base+"combRelIsoPFFSRCorr",combRelIsoPFCorr);
+              cand.addUserDouble(base+"combRelIsoPFFSRCorr",combRelIsoPFCorr);
               */
             }
 
@@ -1768,26 +1768,26 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
 
 //    if(cand.charge()!=cand.daughter(0)->charge()+cand.daughter(1)->charge())cout<<"charge DIVERSA!!!!!!!!! "<<cand.charge()<<" "<<cand.daughter(0)->charge()<<" "<<cand.daughter(1)->charge()<<endl;
 //    else cout<<"charge uguale "<<endl;
-    _mothers_px.push_back( (float) candp4.X());
-    _mothers_py.push_back( (float) candp4.Y());
-    _mothers_pz.push_back( (float) candp4.Z());
-    _mothers_e.push_back( (float) candp4.T());
+    _mothers_px.push_back( (double) candp4.X());
+    _mothers_py.push_back( (double) candp4.Y());
+    _mothers_pz.push_back( (double) candp4.Z());
+    _mothers_e.push_back( (double) candp4.T());
     
-    /*   float fillArray[nOutVars]={
-    (float)event.id().run(),
-    (float)event.id().event(),
-    (float)cand.p4().mass(),
-      (float)cand.p4().pt(),
-      (float)cand.p4().eta(),
-      (float)cand.p4().phi(),
-      (float)cand.daughter(0)->mass(),
-      (float)cand.daughter(0)->pt(),
-      (float)cand.daughter(0)->eta(),
-      (float)cand.daughter(0)->phi(),
-      (float)cand.daughter(1)->mass(),
-      (float)cand.daughter(1)->pt(),
-      (float)cand.daughter(1)->eta(),
-      (float)cand.daughter(1)->phi()
+    /*   double fillArray[nOutVars]={
+    (double)event.id().run(),
+    (double)event.id().event(),
+    (double)cand.p4().mass(),
+      (double)cand.p4().pt(),
+      (double)cand.p4().eta(),
+      (double)cand.p4().phi(),
+      (double)cand.daughter(0)->mass(),
+      (double)cand.daughter(0)->pt(),
+      (double)cand.daughter(0)->eta(),
+      (double)cand.daughter(0)->phi(),
+      (double)cand.daughter(1)->mass(),
+      (double)cand.daughter(1)->pt(),
+      (double)cand.daughter(1)->eta(),
+      (double)cand.daughter(1)->phi()
     };
     myTree->Fill(fillArray);*/
     //iMot++;
@@ -1799,20 +1799,20 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
 //Fill jets quantities
 int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event& event, JetCorrectionUncertainty* jecUnc){
   int nJets=0;
-  vector <pair<float, int>> softLeptInJet; // pt, idx 
+  vector <pair<double, int>> softLeptInJet; // pt, idx 
   for(edm::View<pat::Jet>::const_iterator ijet = jets->begin(); ijet!=jets->end();++ijet){
     nJets++;
-    _jets_px.push_back( (float) ijet->px());
-    _jets_py.push_back( (float) ijet->py());
-    _jets_pz.push_back( (float) ijet->pz());
-    _jets_e.push_back( (float) ijet->energy());    
-    _jets_mT.push_back( (float) ijet->mt());
+    _jets_px.push_back( (double) ijet->px());
+    _jets_py.push_back( (double) ijet->py());
+    _jets_pz.push_back( (double) ijet->pz());
+    _jets_e.push_back( (double) ijet->energy());    
+    _jets_mT.push_back( (double) ijet->mt());
     _jets_Flavour.push_back(ijet->partonFlavour());
     _jets_HadronFlavour.push_back(ijet->hadronFlavour());
     _jets_PUJetID.push_back(ijet->userFloat("pileupJetId:fullDiscriminant"));
     _jets_PUJetIDupdated.push_back(ijet->hasUserFloat("pileupJetIdUpdated:fullDiscriminant") ? ijet->userFloat("pileupJetIdUpdated:fullDiscriminant") : -999);
-    float vtxPx = ijet->userFloat ("vtxPx");
-    float vtxPy = ijet->userFloat ("vtxPy");
+    double vtxPx = ijet->userFloat ("vtxPx");
+    double vtxPy = ijet->userFloat ("vtxPy");
     _jets_vtxPt.  push_back(TMath::Sqrt(vtxPx*vtxPx + vtxPy*vtxPy));
     _jets_vtxMass.push_back(ijet->userFloat("vtxMass"));
     _jets_vtx3dL. push_back(ijet->userFloat("vtx3DVal"));
@@ -1824,16 +1824,16 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     _bdiscr3.push_back(ijet->bDiscriminator("pfCombinedMVAV2BJetTags"));
 
     //PF jet ID
-    float NHF = ijet->neutralHadronEnergyFraction();
-    float NEMF = ijet->neutralEmEnergyFraction();
-    float CHF = ijet->chargedHadronEnergyFraction();
-    float MUF = ijet->muonEnergyFraction();
-    float CEMF = ijet->chargedEmEnergyFraction();
+    double NHF = ijet->neutralHadronEnergyFraction();
+    double NEMF = ijet->neutralEmEnergyFraction();
+    double CHF = ijet->chargedHadronEnergyFraction();
+    double MUF = ijet->muonEnergyFraction();
+    double CEMF = ijet->chargedEmEnergyFraction();
     int NumNeutralParticles =ijet->neutralMultiplicity();
     int chargedMult = ijet->chargedMultiplicity();
     int NumConst = ijet->chargedMultiplicity()+NumNeutralParticles;
-    float CHM = ijet->chargedMultiplicity();
-    float absjeta = fabs(ijet->eta());
+    double CHM = ijet->chargedMultiplicity();
+    double absjeta = fabs(ijet->eta());
 
     _jets_chEmEF .push_back(CEMF);  
     _jets_chHEF  .push_back(CHF); 
@@ -1865,9 +1865,9 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     }
     }
     _jetID.push_back(jetid);
-    float jecFactor = ijet->jecFactor("Uncorrected") ;
-    float jetRawPt = jecFactor * ijet->pt();
-    //float jetRawPt2 = ijet->pt() / jecFactor; // this is wrong
+    double jecFactor = ijet->jecFactor("Uncorrected") ;
+    double jetRawPt = jecFactor * ijet->pt();
+    //double jetRawPt2 = ijet->pt() / jecFactor; // this is wrong
     _jets_rawPt.push_back ( jetRawPt );
     _jets_area.push_back (ijet->jetArea());
     _jetrawf.push_back(jecFactor);
@@ -1881,7 +1881,7 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     // TLorentzVector vDau (0,0,0,0); 
     // TLorentzVector vSum (0,0,0,0); 
 
-    float leadTrackPt = 0.;
+    double leadTrackPt = 0.;
     softLeptInJet.clear();
     for (int iDau = 0; iDau < nDau; ++iDau)
     {
@@ -1895,7 +1895,7 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
 
       if (dau->charge() != 0 ) // tracks -> charged
       {
-        float ptBuf = dau->pt();
+        double ptBuf = dau->pt();
         if (ptBuf > leadTrackPt) leadTrackPt = ptBuf;
       }
       // vDau.SetPxPyPzE (dau->px(), dau->py(), dau->pz(), dau->energy());
@@ -1906,9 +1906,9 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     //cout << " ## LEAD TRACK PT = " << leadTrackPt << endl;
     //cout << " ## jet eta: " << ijet->eta() << endl;
     _jets_leadTrackPt.push_back(leadTrackPt);
-    float leptonPtRel = -1.;
-    float leptonPt = -1.;
-    float leptonDeltaR = -1.;
+    double leptonPtRel = -1.;
+    double leptonPt = -1.;
+    double leptonDeltaR = -1.;
     int softLeptIdx = -1;
     if (softLeptInJet.size() > 0)
     {
@@ -1970,10 +1970,10 @@ void HTauTauNtuplizer::FillFatJet(const edm::View<pat::Jet>* fatjets, const edm:
 {
     for(edm::View<pat::Jet>::const_iterator ijet = fatjets->begin(); ijet!=fatjets->end();++ijet)
     {
-      _ak8jets_px.push_back( (float) ijet->px());
-      _ak8jets_py.push_back( (float) ijet->py());
-      _ak8jets_pz.push_back( (float) ijet->pz());
-      _ak8jets_e.push_back( (float) ijet->energy());    
+      _ak8jets_px.push_back( (double) ijet->px());
+      _ak8jets_py.push_back( (double) ijet->py());
+      _ak8jets_pz.push_back( (double) ijet->pz());
+      _ak8jets_e.push_back( (double) ijet->energy());    
       _ak8jets_SoftDropMass.push_back (ijet->hasUserFloat("ak8PFJetsCHSSoftDropMass") ? ijet->userFloat("ak8PFJetsCHSSoftDropMass") : -999 );
       _ak8jets_PrunedMass.push_back   (ijet->hasUserFloat("ak8PFJetsCHSPrunedMass")   ? ijet->userFloat("ak8PFJetsCHSPrunedMass")   : -999 );
       _ak8jets_TrimmedMass.push_back  (ijet->hasUserFloat("ak8PFJetsCHSTrimmedMass")  ? ijet->userFloat("ak8PFJetsCHSTrimmedMass")  : -999 );
@@ -2031,7 +2031,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
   edm::Handle<double> rhoHandle_miniRelIso;
   event.getByToken(theRhoMiniRelIsoTag, rhoHandle_miniRelIso);
-  float rho_miniRelIso = *rhoHandle_miniRelIso;
+  double rho_miniRelIso = *rhoHandle_miniRelIso;
 
   for(edm::View<reco::Candidate>::const_iterator daui = daus->begin(); daui!=daus->end();++daui){
 
@@ -2043,11 +2043,11 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     TLorentzVector pfourTauUp;
     TLorentzVector pfourTauDown;
 
-    bool existUp   = userdatahelpers::hasUserInt(cand,"TauUpExists"); // simply to check if the userfloat exists, i.e. if it is a tau
-    bool existDown = userdatahelpers::hasUserInt(cand,"TauDownExists"); // simply to check if the userfloat exists, i.e. if it is a tau
+    bool existUp   = userdatahelpers::hasUserInt(cand,"TauUpExists"); // simply to check if the userdouble exists, i.e. if it is a tau
+    bool existDown = userdatahelpers::hasUserInt(cand,"TauDownExists"); // simply to check if the userdouble exists, i.e. if it is a tau
 
-    int hasUp   = ( existUp   ? userdatahelpers::getUserInt(cand,"TauUpExists")   : false) ;   // actual check of the value of the userfloat
-    int hasDown = ( existDown ? userdatahelpers::getUserInt(cand,"TauDownExists") : false) ; // actual check of the value of the userfloat
+    int hasUp   = ( existUp   ? userdatahelpers::getUserInt(cand,"TauUpExists")   : false) ;   // actual check of the value of the userdouble
+    int hasDown = ( existDown ? userdatahelpers::getUserInt(cand,"TauDownExists") : false) ; // actual check of the value of the userdouble
    
     
     if(hasUp)
@@ -2087,22 +2087,22 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
       }
     } 
     
-    _daughters_px.push_back( (float)pfour.X());
-    _daughters_py.push_back( (float)pfour.Y());
-    _daughters_pz.push_back( (float)pfour.Z());
-    _daughters_e.push_back(  (float)pfour.T());
+    _daughters_px.push_back( (double)pfour.X());
+    _daughters_py.push_back( (double)pfour.Y());
+    _daughters_pz.push_back( (double)pfour.Z());
+    _daughters_e.push_back(  (double)pfour.T());
 
     _daughters_TauUpExists.push_back( (existUp ? hasUp : 0) );
-    _daughters_px_TauUp.push_back((float)pfourTauUp.Px());
-    _daughters_py_TauUp.push_back((float)pfourTauUp.Py());
-    _daughters_pz_TauUp.push_back((float)pfourTauUp.Pz());
-    _daughters_e_TauUp.push_back((float)pfourTauUp.E());
+    _daughters_px_TauUp.push_back((double)pfourTauUp.Px());
+    _daughters_py_TauUp.push_back((double)pfourTauUp.Py());
+    _daughters_pz_TauUp.push_back((double)pfourTauUp.Pz());
+    _daughters_e_TauUp.push_back((double)pfourTauUp.E());
 
     _daughters_TauDownExists.push_back( (existDown ? hasDown : 0) );
-    _daughters_px_TauDown.push_back((float)pfourTauDown.Px());
-    _daughters_py_TauDown.push_back((float)pfourTauDown.Py());
-    _daughters_pz_TauDown.push_back((float)pfourTauDown.Pz());
-    _daughters_e_TauDown.push_back((float)pfourTauDown.E());
+    _daughters_px_TauDown.push_back((double)pfourTauDown.Px());
+    _daughters_py_TauDown.push_back((double)pfourTauDown.Py());
+    _daughters_pz_TauDown.push_back((double)pfourTauDown.Pz());
+    _daughters_e_TauDown.push_back((double)pfourTauDown.E());
 
     // gen info
     
@@ -2134,12 +2134,12 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     
 
     //Find closest jet for lepton MVA
-    float dRmin_cand_jet = 0.4;
+    double dRmin_cand_jet = 0.4;
     pat::Jet closest_jet;
 
     for(edm::View<pat::Jet>::const_iterator jeti = jets->begin(); jeti!=jets->end();++jeti){
 
-      float dR_cand_jet = deltaR(*cand,*jeti);
+      double dR_cand_jet = deltaR(*cand,*jeti);
       if(dR_cand_jet<dRmin_cand_jet){
 	closest_jet = (*jeti);
 	dRmin_cand_jet = dR_cand_jet;
@@ -2149,26 +2149,26 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
 
     // variables
-    float discr=-1.;
+    double discr=-1.;
     int muIDflag = 0;
     bool isgood = false;
     bool isele80=false;
     bool isele90=false;
-    float elemva=-2;
+    double elemva=-2;
     bool isconversionveto=false;
     int elemissinghits = 999;
     bool iselechargeconsistent=false;
 
     int decay=-1;
-    float ieta=-1,hOverE=-1,etasuperatvtx=-1,phisuperatvtx=-1,IoEmIoP=-999.,IoEmIoP_ttH=-999.,depositTracker=-1,depositEcal=-1,depositHcal=-1,SCeta=-999.;
+    double ieta=-1,hOverE=-1,etasuperatvtx=-1,phisuperatvtx=-1,IoEmIoP=-999.,IoEmIoP_ttH=-999.,depositTracker=-1,depositEcal=-1,depositHcal=-1,SCeta=-999.;
     int decayModeFindingOldDMs=-1, decayModeFindingNewDMs=-1; // tau 13 TeV ID
-    float byCombinedIsolationDeltaBetaCorrRaw3Hits=-1., chargedIsoPtSum=-1., neutralIsoPtSum=-1., puCorrPtSum=-1.; // tau 13 TeV RAW iso info
+    double byCombinedIsolationDeltaBetaCorrRaw3Hits=-1., chargedIsoPtSum=-1., neutralIsoPtSum=-1., puCorrPtSum=-1.; // tau 13 TeV RAW iso info
     int numChargedParticlesSignalCone=-1, numNeutralHadronsSignalCone=-1, numPhotonsSignalCone=-1, numParticlesSignalCone=-1, numChargedParticlesIsoCone=-1, numNeutralHadronsIsoCone=-1, numPhotonsIsoCone=-1, numParticlesIsoCone=-1;
-    float leadChargedParticlePt=-1., trackRefPt=-1.;
+    double leadChargedParticlePt=-1., trackRefPt=-1.;
     int typeOfMuon=0;
-    float byIsolationMVA3oldDMwoLTraw=-1, byIsolationMVA3oldDMwLTraw=-1,  byIsolationMVA3newDMwoLTraw=-1,byIsolationMVA3newDMwLTraw=-1, byIsolationMVArun2v1DBoldDMwLTraw=-1;
+    double byIsolationMVA3oldDMwoLTraw=-1, byIsolationMVA3oldDMwLTraw=-1,  byIsolationMVA3newDMwoLTraw=-1,byIsolationMVA3newDMwLTraw=-1, byIsolationMVArun2v1DBoldDMwLTraw=-1;
     Long64_t tauIDflag = 0;
-    float   
+    double   
     againstElectronMVA5category,
     againstElectronMVA5raw,
     byPileupWeightedIsolationRaw3Hits,
@@ -2176,11 +2176,11 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     neutralIsoPtSumWeight,
     photonPtSumOutsideSignalCone;
 
-    float dxy_innerTrack = -1., dz_innerTrack = -1., sip = -1., error_trackpt=-1.;
+    double dxy_innerTrack = -1., dz_innerTrack = -1., sip = -1., error_trackpt=-1.;
     int jetNDauChargedMVASel = -1;
-    float miniRelIsoCharged = -1., miniRelIsoNeutral = -1.;
-    float jetPtRel = -1., jetPtRatio = -1., jetBTagCSV=-1.;
-    float lepMVA_mvaId = -1.;
+    double miniRelIsoCharged = -1., miniRelIsoNeutral = -1.;
+    double jetPtRel = -1., jetPtRatio = -1., jetBTagCSV=-1.;
+    double lepMVA_mvaId = -1.;
 
     //
     GlobalPoint aPVPoint(_pv_x, _pv_y, _pv_z);
@@ -2194,7 +2194,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
     if(type==ParticleType::MUON){	
       muIDflag=userdatahelpers::getUserInt(cand,"muonID");
-      discr = (float) muIDflag; // not really needed, will use the muonID branch in ntuples...
+      discr = (double) muIDflag; // not really needed, will use the muonID branch in ntuples...
       if(userdatahelpers::getUserFloat(cand,"isPFMuon"))typeOfMuon |= 1 << 0;
       if(userdatahelpers::getUserFloat(cand,"isGlobalMuon"))typeOfMuon |= 1 << 1;
       if(userdatahelpers::getUserFloat(cand,"isTrackerMuon"))typeOfMuon |= 1 << 2;
@@ -2208,7 +2208,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
       sip = userdatahelpers::getUserFloat(cand,"SIP");
 
       jetNDauChargedMVASel= LeptonIsoHelper::jetNDauChargedMVASel(cand, closest_jet);
-      std::pair<float,float> miniRelIso = LeptonIsoHelper::miniRelIso_ChargedNeutral(cand, pfCands_charged, pfCands_neutral, rho_miniRelIso);
+      std::pair<double,double> miniRelIso = LeptonIsoHelper::miniRelIso_ChargedNeutral(cand, pfCands_charged, pfCands_neutral, rho_miniRelIso);
       miniRelIsoCharged = miniRelIso.first;
       miniRelIsoNeutral = miniRelIso.second;
 
@@ -2240,7 +2240,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
       sip = userdatahelpers::getUserFloat(cand,"SIP");
       jetNDauChargedMVASel= LeptonIsoHelper::jetNDauChargedMVASel(cand, closest_jet);
-      std::pair<float,float> miniRelIso = LeptonIsoHelper::miniRelIso_ChargedNeutral(cand, pfCands_charged, pfCands_neutral, rho_miniRelIso);
+      std::pair<double,double> miniRelIso = LeptonIsoHelper::miniRelIso_ChargedNeutral(cand, pfCands_charged, pfCands_neutral, rho_miniRelIso);
       miniRelIsoCharged = miniRelIso.first;
       miniRelIsoNeutral = miniRelIso.second;
       
@@ -2396,7 +2396,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     Long64_t LFtriggerbit=0,L3triggerbit=0,filterFired=0;
     Long64_t trgMatched = 0;
     Long64_t triggertypeIsGood = 0;
-    float hltpt=0;
+    double hltpt=0;
     for (pat::TriggerObjectStandAlone obj : *triggerObjects) { 
       //check if the trigger object matches cand
       bool triggerType=false;
@@ -2540,10 +2540,10 @@ void HTauTauNtuplizer::FillbQuarks(const edm::Event& event){
   const edm::View<pat::GenericParticle>* bs = candHandle.product();
   for(edm::View<pat::GenericParticle>::const_iterator ib = bs->begin(); ib!=bs->end();++ib){
     const pat::GenericParticle* cand = &(*ib);
-    _bquarks_px.push_back( (float) cand->px());
-    _bquarks_py.push_back( (float) cand->py());
-    _bquarks_pz.push_back( (float) cand->px());
-    _bquarks_e.push_back( (float) cand->energy());
+    _bquarks_px.push_back( (double) cand->px());
+    _bquarks_py.push_back( (double) cand->py());
+    _bquarks_pz.push_back( (double) cand->px());
+    _bquarks_e.push_back( (double) cand->energy());
     _bquarks_pdg.push_back( (int) cand->pdgId());
     _bmotmass.push_back(userdatahelpers::getUserFloat(cand,"motHmass"));
   }
@@ -2728,13 +2728,13 @@ int HTauTauNtuplizer::GetMatchedGen (const reco::Candidate* genL, const edm::Eve
             if (status == genP.status())
             {
                 
-                float px = userdatahelpers::getUserFloat(genL,"genPx");
-                float py = userdatahelpers::getUserFloat(genL,"genPy");
-                float pz = userdatahelpers::getUserFloat(genL,"genPz");
-                float e = userdatahelpers::getUserFloat(genL,"genE");            
+                double px = userdatahelpers::getUserFloat(genL,"genPx");
+                double py = userdatahelpers::getUserFloat(genL,"genPy");
+                double pz = userdatahelpers::getUserFloat(genL,"genPz");
+                double e = userdatahelpers::getUserFloat(genL,"genE");            
                 //cout << "     ==> I'm in with " << fixed<< px << " " << fixed<<py << " " << fixed<<pz << " " << fixed<<e << "  ||| " << fixed<<genP.px() << " " << fixed<<genP.py() << " " << fixed<<genP.pz() << " " << fixed<<genP.energy() << endl;
-                // cast to float helps in the EPSIL comparison, but for safety EPSIL = 1.e-5 is used (seems reasonably small for the value range we use in 0.001 -- 1000) with "meaningful" values O(10) or larger
-                if ( fabs((float)genP.px() - px) < EPSIL && fabs((float)genP.py() - py) < EPSIL && fabs((float)genP.pz() - pz) < EPSIL && fabs((float)genP.energy() - e) < EPSIL )
+                // cast to double helps in the EPSIL comparison, but for safety EPSIL = 1.e-5 is used (seems reasonably small for the value range we use in 0.001 -- 1000) with "meaningful" values O(10) or larger
+                if ( fabs((double)genP.px() - px) < EPSIL && fabs((double)genP.py() - py) < EPSIL && fabs((double)genP.pz() - pz) < EPSIL && fabs((double)genP.energy() - e) < EPSIL )
                 {
                     index = iGen;
                     break; // found, no other comparisons needed
@@ -2860,7 +2860,7 @@ bool HTauTauNtuplizer::ComparePairsbyIso(pat::CompositeCandidate i, pat::Composi
   //else if ( i.charge()==0 && j.charge()!=0) return true;
 
   //Second criteria: ISO
-  float isoi=999,isoj=999;
+  double isoi=999,isoj=999;
   int cand1j=-1,cand1i=-1;
 
   if(CompareLegs(i.daughter(0),i.daughter(1)))cand1i=0;
@@ -2953,15 +2953,15 @@ bool HTauTauNtuplizer::ComparePairsbyPt(pat::CompositeCandidate i, pat::Composit
 }
 
 
-float HTauTauNtuplizer::ComputeMT (math::XYZTLorentzVector visP4, float METx, float METy)
+double HTauTauNtuplizer::ComputeMT (math::XYZTLorentzVector visP4, double METx, double METy)
 {
-    float MET = TMath::Sqrt (METx*METx + METy*METy);
+    double MET = TMath::Sqrt (METx*METx + METy*METy);
     math::XYZTLorentzVector METP4 (METx, METy, 0, MET);
     
-    float scalSum = MET + visP4.pt();
+    double scalSum = MET + visP4.pt();
     math::XYZTLorentzVector vecSum (visP4);
     vecSum += METP4;
-    float vecSumPt = vecSum.pt();
+    double vecSumPt = vecSum.pt();
     
     return TMath::Sqrt (scalSum*scalSum - vecSumPt*vecSumPt);
 }
