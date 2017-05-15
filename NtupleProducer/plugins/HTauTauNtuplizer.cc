@@ -1037,24 +1037,26 @@ void HTauTauNtuplizer::beginJob(){
   hTauIDs = fs->make<TH1F>("TauIDs","TauIDs",ntauIds,0,ntauIds);
 
   //Branches
-  myTree->Branch("EventNumber",&_indexevents,"EventNumber/l");
-  myTree->Branch("RunNumber",&_runNumber,"RunNumber/I");
-  myTree->Branch("lumi",&_lumi,"lumi/I");
-  myTree->Branch("triggerbit",&_triggerbit,"triggerbit/L");
-  myTree->Branch("metfilterbit",&_metfilterbit,"metfilterbit/I");
-  myTree->Branch("met",&_met,"met/F");
-  myTree->Branch("metphi",&_metphi,"metphi/F");  
-  myTree->Branch("PUPPImet",&_PUPPImet,"PUPPImet/F");
-  myTree->Branch("PUPPImetphi",&_PUPPImetphi,"PUPPImetphi/F");  
-  myTree->Branch("PFMETCov00",&_PFMETCov00,"PFMETCov00/F");
-  myTree->Branch("PFMETCov01",&_PFMETCov01,"PFMETCov01/F");
-  myTree->Branch("PFMETCov10",&_PFMETCov10,"PFMETCov10/F");
-  myTree->Branch("PFMETCov11",&_PFMETCov11,"PFMETCov11/F");
-  myTree->Branch("PFMETsignif", &_PFMETsignif, "PFMETsignif/F");
-  myTree->Branch("npv",&_npv,"npv/I");  
-  myTree->Branch("npu",&_npu,"npu/F"); 
-  myTree->Branch("PUReweight",&_PUReweight,"PUReweight/F"); 
-  myTree->Branch("rho",&_rho,"rho/F");  
+  myTree->Branch("EventNumber",&_indexevents);
+  myTree->Branch("RunNumber",&_runNumber);
+  myTree->Branch("lumi",&_lumi);
+  myTree->Branch("triggerbit",&_triggerbit);
+  myTree->Branch("metfilterbit",&_metfilterbit);
+  myTree->Branch("met",&_met);
+  myTree->Branch("metphi",&_metphi);  
+  myTree->Branch("PUPPImet",&_PUPPImet);
+  myTree->Branch("PUPPImetphi",&_PUPPImetphi);  
+  myTree->Branch("PFMETCov00",&_PFMETCov00);
+  myTree->Branch("PFMETCov01",&_PFMETCov01);
+  myTree->Branch("PFMETCov10",&_PFMETCov10);
+  myTree->Branch("PFMETCov11",&_PFMETCov11);
+  myTree->Branch("PFMETsignif", &_PFMETsignif);
+
+  myTree->Branch("npv",&_npv);  
+  myTree->Branch("npu",&_npu);
+  
+  myTree->Branch("PUReweight",&_PUReweight); 
+  myTree->Branch("rho",&_rho);  
   
   myTree->Branch("mothers_px",&_mothers_px);
   myTree->Branch("mothers_py",&_mothers_py);
@@ -1107,7 +1109,7 @@ void HTauTauNtuplizer::beginJob(){
     //myTree->Branch("genH_py",&_genH_py);
     //myTree->Branch("genH_pz",&_genH_pz);
     //myTree->Branch("genH_e",&_genH_e);
-    myTree->Branch("PUNumInteractions",&_PUNumInteractions,"PUNumInteractions/I");  
+    myTree->Branch("PUNumInteractions",&_PUNumInteractions);  
     myTree->Branch("daughters_genindex",&_daughters_genindex);
     myTree->Branch("MC_weight",&_MC_weight);
     myTree->Branch("MC_weight_scale_muF0p5",&_MC_weight_scale_muF0p5);
@@ -1115,8 +1117,8 @@ void HTauTauNtuplizer::beginJob(){
     myTree->Branch("MC_weight_scale_muR0p5",&_MC_weight_scale_muR0p5);
     myTree->Branch("MC_weight_scale_muR2",&_MC_weight_scale_muR2);
     myTree->Branch("lheHt",&_lheHt);  
-    myTree->Branch("lheNOutPartons", &_lheNOutPartons, "lheNOutPartons/I");
-    myTree->Branch("lheNOutB", &_lheNOutB, "lheNOutB/I");
+    myTree->Branch("lheNOutPartons", &_lheNOutPartons);
+    myTree->Branch("lheNOutB", &_lheNOutB);
     myTree->Branch("aMCatNLOweight",&_aMCatNLOweight);    
     myTree->Branch("genpart_px", &_genpart_px);
     myTree->Branch("genpart_py", &_genpart_py);
@@ -1151,7 +1153,7 @@ void HTauTauNtuplizer::beginJob(){
     myTree->Branch("genjet_partonFlavour" , &_genjet_partonFlavour);
     myTree->Branch("genjet_hadronFlavour" , &_genjet_hadronFlavour);
 
-    myTree->Branch("NUP", &_nup,"NUP/I");
+    myTree->Branch("NUP", &_nup);
   }
   //myTree->Branch("daughters2",&_daughter2);
   myTree->Branch("SVfitMass",&_SVmass);
@@ -1299,7 +1301,7 @@ void HTauTauNtuplizer::beginJob(){
     myTree->Branch("daughters_pcaGenPV_z",&_daughters_pcaGenPV_z);
   }
 
-  myTree->Branch("JetsNumber",&_numberOfJets,"JetsNumber/I");
+  myTree->Branch("JetsNumber",&_numberOfJets);
   myTree->Branch("jets_px",&_jets_px);
   myTree->Branch("jets_py",&_jets_py);
   myTree->Branch("jets_pz",&_jets_pz);
@@ -1410,7 +1412,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
       if(PVI->getBunchCrossing() == 0) { 
         _PUNumInteractions  = PVI->getPU_NumInteractions();
-        double nTrueInt = PVI->getTrueNumInteractions();
+        Double_t nTrueInt = PVI->getTrueNumInteractions();
         _npu = nTrueInt;        
         _PUReweight = reweight.weight(2012,2012,nTrueInt);
         break;
