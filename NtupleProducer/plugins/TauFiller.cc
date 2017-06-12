@@ -183,7 +183,7 @@ TauFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   iEvent.getByToken(theVtxTag, vertexs);
 
   // Output collection
-  auto_ptr<pat::TauCollection> result( new pat::TauCollection() );
+  std::unique_ptr<pat::TauCollection> result = std::make_unique<pat::TauCollection>();
 
   for (unsigned int itau = 0; itau < tauHandle->size(); ++itau){
     //---Clone the pat::Tau
@@ -457,7 +457,7 @@ TauFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     
     result->push_back(l);
   }
-  iEvent.put(result);
+  iEvent.put( std::move(result) );
 }
 
 

@@ -71,7 +71,7 @@ void PairUnpacker::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByLabel(_InputPairsTag, pairHandle);
    
    // output collection
-   auto_ptr<reco::CandidateCollection> result( new reco::CandidateCollection );
+   std::unique_ptr<reco::CandidateCollection> result = std::make_unique<reco::CandidateCollection>();
 
    // if pairIndex exceeds Pair collection size, do not do anything
    if (_pairIndex < pairHandle->size() )
@@ -88,7 +88,7 @@ void PairUnpacker::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    }
    //else cout << "Unpacked nothing, returning" << endl;
 
-   iEvent.put(result);   
+   iEvent.put( std::move(result) );   
 }
 
 
