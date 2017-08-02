@@ -189,15 +189,16 @@ int LeptonIsoHelper::jetNDauChargedMVASel(const reco::Candidate* cand, pat::Jet 
     float dR = deltaR(jet,dau_jet);
     
     bool isgoodtrk = false;
-    const reco::Track trk = dau_jet.pseudoTrack();
+    const reco::Track *trk = dau_jet.bestTrack();
     const math::XYZPoint vtx_position = cand->vertex();
     
-    if(trk.pt()>1 &&
-       trk.hitPattern().numberOfValidHits()>=8 &&
-       trk.hitPattern().numberOfValidPixelHits()>=2 &&
-       trk.normalizedChi2()<5 &&
-       std::fabs(trk.dxy(vtx_position))<0.2 &&
-       std::fabs(trk.dz(vtx_position))<17
+    if(!trk) continue;
+    if(trk->pt()>1 &&
+       trk->hitPattern().numberOfValidHits()>=8 &&
+       trk->hitPattern().numberOfValidPixelHits()>=2 &&
+       trk->normalizedChi2()<5 &&
+       std::abs(trk->dxy(vtx_position))<0.2 &&
+       std::abs(trk->dz(vtx_position))<17
        ) isgoodtrk = true;
     
     
@@ -226,8 +227,8 @@ void LeptonIsoHelper::PFIso_particles(const edm::View<pat::PackedCandidate>* pfC
     } 
 
     else{
-      if( fabs(p->pdgId()) == 211 ){
-	if (p->fromPV() > 1 && fabs(p->dz()) < 9999. ){
+      if( std::abs(p->pdgId()) == 211 ){
+	if (p->fromPV() > 1 && std::abs(p->dz()) < 9999. ){
 	  pfCands_charged.push_back(p);
 	}
       }
@@ -296,7 +297,7 @@ float LeptonIsoHelper::PfIsoCharged(const reco::Candidate* cand, const std::vect
   if(cand->isElectron()){
 
     float innerR_Ch = .0;
-    if ( fabs(cand->eta()) < 1.479 ) { innerR_Ch = 0.0; }
+    if ( std::abs(cand->eta()) < 1.479 ) { innerR_Ch = 0.0; }
     else { innerR_Ch = 0.015; }
     
     result = isoSumRaw(cand,pfCands_charged,miniIsoR,innerR_Ch,0.0,SelfVetoPolicy::selfVetoNone);
@@ -323,7 +324,7 @@ float LeptonIsoHelper::PfIsoNeutral(const reco::Candidate* cand, const std::vect
   if(cand->isElectron()){
 
     float innerR_N = .0;
-    if ( fabs(cand->eta()) < 1.479 ) { innerR_N = 0.0; }
+    if ( std::abs(cand->eta()) < 1.479 ) { innerR_N = 0.0; }
     else { innerR_N = 0.08; }
     
     float result1 = isoSumRaw(cand,pfCands_neutral,miniIsoR,innerR_N,0.0,SelfVetoPolicy::selfVetoNone,22 );
@@ -352,23 +353,23 @@ std::pair<float,float> LeptonIsoHelper::miniRelIso_ChargedNeutral(const reco::Ca
 
   if(cand->isElectron()){
         
-    if(      fabs(eta) > 0      && fabs(eta) < 1.0 )   EffArea = 0.1752;
-    else if( fabs(eta) >= 1.0   && fabs(eta) < 1.479 ) EffArea = 0.1862;
-    else if( fabs(eta) >= 1.479 && fabs(eta) < 2.0 )   EffArea = 0.1411;
-    else if( fabs(eta) >= 2.0   && fabs(eta) < 2.2 )   EffArea = 0.1534;
-    else if( fabs(eta) >= 2.2   && fabs(eta) < 2.3 )   EffArea = 0.1903;
-    else if( fabs(eta) >= 2.3   && fabs(eta) < 2.4 )   EffArea = 0.2243;
-    else if( fabs(eta) >= 2.4   && fabs(eta) < 2.5 )   EffArea = 0.2687;
+    if(      std::abs(eta) > 0      && std::abs(eta) < 1.0 )   EffArea = 0.1752;
+    else if( std::abs(eta) >= 1.0   && std::abs(eta) < 1.479 ) EffArea = 0.1862;
+    else if( std::abs(eta) >= 1.479 && std::abs(eta) < 2.0 )   EffArea = 0.1411;
+    else if( std::abs(eta) >= 2.0   && std::abs(eta) < 2.2 )   EffArea = 0.1534;
+    else if( std::abs(eta) >= 2.2   && std::abs(eta) < 2.3 )   EffArea = 0.1903;
+    else if( std::abs(eta) >= 2.3   && std::abs(eta) < 2.4 )   EffArea = 0.2243;
+    else if( std::abs(eta) >= 2.4   && std::abs(eta) < 2.5 )   EffArea = 0.2687;
 
   }
 
   else if(cand->isMuon()){
 
-    if(      fabs(eta) > 0    && fabs(eta) < 0.8 ) EffArea = 0.0735;
-    else if( fabs(eta) >= 0.8 && fabs(eta) < 1.3 ) EffArea = 0.0619;
-    else if( fabs(eta) >= 1.3 && fabs(eta) < 2.0 ) EffArea = 0.0465;
-    else if( fabs(eta) >= 2.0 && fabs(eta) < 2.2 ) EffArea = 0.0433;
-    else if( fabs(eta) >= 2.2 && fabs(eta) < 2.5 ) EffArea = 0.0577;
+    if(      std::abs(eta) > 0    && std::abs(eta) < 0.8 ) EffArea = 0.0735;
+    else if( std::abs(eta) >= 0.8 && std::abs(eta) < 1.3 ) EffArea = 0.0619;
+    else if( std::abs(eta) >= 1.3 && std::abs(eta) < 2.0 ) EffArea = 0.0465;
+    else if( std::abs(eta) >= 2.0 && std::abs(eta) < 2.2 ) EffArea = 0.0433;
+    else if( std::abs(eta) >= 2.2 && std::abs(eta) < 2.5 ) EffArea = 0.0577;
     
   }
 
