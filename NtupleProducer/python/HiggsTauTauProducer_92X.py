@@ -446,7 +446,7 @@ process.patJetsReapplyJEC = updatedPatJets.clone(
     jetSource = cms.InputTag("slimmedJets"),
     jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
 )
-process.patJetsReapplyJEC.userData.userFloats.src += ['pileupJetIdUpdated:fullDiscriminant']
+#MB FIXME process.patJetsReapplyJEC.userData.userFloats.src += ['pileupJetIdUpdated:fullDiscriminant']
 
 
 process.jets = cms.EDFilter("PATJetRefSelector",
@@ -590,6 +590,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       rhoCollection = cms.InputTag("fixedGridRhoFastjetAll"),
                       rhoMiniRelIsoCollection = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                       PFCandCollection = cms.InputTag("packedPFCandidates"),
+                      lostTrackCollection = cms.InputTag("lostTracks"),
                       jetCollection = cms.InputTag("jets"),
                       JECset = cms.untracked.string(""), #use default
                       ak8jetCollection = cms.InputTag("slimmedJetsAK8"),
@@ -653,7 +654,7 @@ process.Candidates = cms.Sequence(
     process.taus              +
     process.fsrSequence       +
     process.softLeptons       + process.barellCand +
-    process.pileupJetIdUpdated +
+    #MB FIXME process.pileupJetIdUpdated +
     process.patJetCorrFactorsReapplyJEC + process.patJetsReapplyJEC +
     process.jets +
     process.METSequence       +
