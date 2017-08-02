@@ -49,9 +49,11 @@ from Configuration.AlCa.autoCond import autoCond
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 if IsMC:
-    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
+    print "It is MC"
+    process.GlobalTag.globaltag = '92X_upgrade2017_realistic_v7'
 else :
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
+    print "It is data"
+    process.GlobalTag.globaltag = '92X_dataRun2_Prompt_v7'
 print process.GlobalTag.globaltag
 
 nanosec="25"
@@ -600,7 +602,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       passCollection = cms.InputTag("nEventsPassTrigger"),
                       lhepCollection = cms.InputTag("externalLHEProducer"),
                       triggerResultsLabel = cms.InputTag("TriggerResults", "", HLTProcessName), #Different names for MiniAODv2 at https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD.
-                      triggerSet = cms.InputTag("selectedPatTrigger"),
+                      triggerSet = cms.InputTag("slimmedPatTrigger"),
                       triggerList = HLTLIST,
                       metFilters = cms.InputTag ("TriggerResults","",METfiltersProcess),
                       PUPPImetCollection = cms.InputTag("slimmedMETsPuppi"),
