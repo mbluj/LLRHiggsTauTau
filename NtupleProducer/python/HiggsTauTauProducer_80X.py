@@ -588,6 +588,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       rhoCollection = cms.InputTag("fixedGridRhoFastjetAll"),
                       rhoMiniRelIsoCollection = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
                       PFCandCollection = cms.InputTag("packedPFCandidates"),
+                      lostTrackCollection = cms.InputTag("lostTracks"),
                       jetCollection = cms.InputTag("jets"),
                       JECset = cms.untracked.string(""), #use default
                       ak8jetCollection = cms.InputTag("slimmedJetsAK8"),
