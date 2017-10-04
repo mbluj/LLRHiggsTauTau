@@ -220,6 +220,14 @@ HLTLIST = cms.VPSet(
         leg1 = cms.int32(15),
         leg2 = cms.int32(15)
         ),
+### === VBF tauh tauh triggers (since Run2017D)
+    cms.PSet (
+        HLT = cms.string("HLT_VBF_DoubleLooseChargedIsoPFTau20_Trk1_eta2p1_Reg_v"),
+        path1 = cms.vstring ("hltDoublePFTau20TrackPt1LooseChargedIsolationReg"),
+        path2 = cms.vstring ("hltDoublePFTau20TrackPt1LooseChargedIsolationReg"),
+        leg1 = cms.int32(15),
+        leg2 = cms.int32(15)
+        ),
     )
 
 #now I create the trigger list for HLTconfig
