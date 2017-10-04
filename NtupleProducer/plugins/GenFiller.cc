@@ -69,7 +69,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     tauHadcandsMothers_.clear();
     
     // output collection
-    auto_ptr<pat::GenericParticleCollection> result( new pat::GenericParticleCollection );
+    std::unique_ptr<pat::GenericParticleCollection> result =  std::make_unique<pat::GenericParticleCollection>();
     
     unsigned int Ngen = genHandle->size();
 
@@ -292,7 +292,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         result->push_back (tauH);
 	result->push_back (tauH_neutral);
     }        
-    iEvent.put(result);
+    iEvent.put( std::move(result) );
 }
 
 // set of requirement(s) defining which particle must be saved

@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-execfile(PyFilePath+"python/triggers_80X.py") # contains the list of triggers and filters
+execfile(PyFilePath+"python/triggers_92X.py") # contains the list of triggers and filters
 
 process = cms.Process("TEST")
 
@@ -49,9 +49,11 @@ from Configuration.AlCa.autoCond import autoCond
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 if IsMC:
-    process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
+    print "It is MC"
+    process.GlobalTag.globaltag = '92X_upgrade2017_realistic_v7'
 else :
-    process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v7'
+    print "It is data"
+    process.GlobalTag.globaltag = '92X_dataRun2_Prompt_v7'
 print process.GlobalTag.globaltag
 
 nanosec="25"
@@ -444,7 +446,7 @@ process.patJetsReapplyJEC = updatedPatJets.clone(
     jetSource = cms.InputTag("slimmedJets"),
     jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJEC"))
 )
-process.patJetsReapplyJEC.userData.userFloats.src += ['pileupJetIdUpdated:fullDiscriminant']
+#MB FIXME process.patJetsReapplyJEC.userData.userFloats.src += ['pileupJetIdUpdated:fullDiscriminant']
 
 
 process.jets = cms.EDFilter("PATJetRefSelector",
@@ -601,7 +603,7 @@ process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       passCollection = cms.InputTag("nEventsPassTrigger"),
                       lhepCollection = cms.InputTag("externalLHEProducer"),
                       triggerResultsLabel = cms.InputTag("TriggerResults", "", HLTProcessName), #Different names for MiniAODv2 at https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD.
-                      triggerSet = cms.InputTag("selectedPatTrigger"),
+                      triggerSet = cms.InputTag("slimmedPatTrigger"),
                       triggerList = HLTLIST,
                       metFilters = cms.InputTag ("TriggerResults","",METfiltersProcess),
                       PUPPImetCollection = cms.InputTag("slimmedMETsPuppi"),
@@ -652,7 +654,7 @@ process.Candidates = cms.Sequence(
     process.taus              +
     process.fsrSequence       +
     process.softLeptons       + process.barellCand +
-    process.pileupJetIdUpdated +
+    #MB FIXME process.pileupJetIdUpdated +
     process.patJetCorrFactorsReapplyJEC + process.patJetsReapplyJEC +
     process.jets +
     process.METSequence       +

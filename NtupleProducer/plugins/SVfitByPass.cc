@@ -87,7 +87,7 @@ void SVfitBypass::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   unsigned int elNumber = pairHandle->size();
   
     // Output collection
-  auto_ptr<pat::CompositeCandidateCollection> result( new pat::CompositeCandidateCollection );
+  std::unique_ptr<pat::CompositeCandidateCollection> result = std::make_unique<pat::CompositeCandidateCollection>();
 
   // get event pat MET to be saved in output
   double METx = 0.;
@@ -173,7 +173,7 @@ void SVfitBypass::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     result->push_back(pair);
   }
-  iEvent.put(result);
+  iEvent.put( std::move(result) );
 }
 
 #include <FWCore/Framework/interface/MakerMacros.h>

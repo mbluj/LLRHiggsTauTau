@@ -206,6 +206,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   edm::EDGetTokenT<double> theRhoMiniRelIsoTag;
   edm::EDGetTokenT<vector<PileupSummaryInfo>> thePUTag;
   edm::EDGetTokenT<edm::View<pat::PackedCandidate>> thePFCandTag;
+  edm::EDGetTokenT<edm::View<pat::PackedCandidate>> theLostTrackTag;
   edm::EDGetTokenT<edm::View<pat::CompositeCandidate>> theCandTag;
   edm::EDGetTokenT<edm::View<pat::Jet>> theJetTag;
   edm::EDGetTokenT<edm::View<pat::Jet>> theFatJetTag;
@@ -620,6 +621,7 @@ HTauTauNtuplizer::HTauTauNtuplizer(const edm::ParameterSet& pset) : reweight(),
   theRhoMiniRelIsoTag  (consumes<double>                                 (pset.getParameter<edm::InputTag>("rhoMiniRelIsoCollection"))),
   thePUTag             (consumes<vector<PileupSummaryInfo>>              (pset.getParameter<edm::InputTag>("puCollection"))),
   thePFCandTag         (consumes<edm::View<pat::PackedCandidate>>        (pset.getParameter<edm::InputTag>("PFCandCollection"))),
+  theLostTrackTag      (consumes<edm::View<pat::PackedCandidate>>        (pset.getParameter<edm::InputTag>("lostTrackCollection"))),
   theCandTag           (consumes<edm::View<pat::CompositeCandidate>>     (pset.getParameter<edm::InputTag>("candCollection"))),
   theJetTag            (consumes<edm::View<pat::Jet>>                    (pset.getParameter<edm::InputTag>("jetCollection"))),
   theFatJetTag         (consumes<edm::View<pat::Jet>>                    (pset.getParameter<edm::InputTag>("ak8jetCollection"))),
@@ -1468,7 +1470,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     }
     //else cout << "LHE product not found" << endl;
   }
-  
+
   _triggerbit = myTriggerHelper->FindTriggerBit(event,foundPaths,indexOfPath,triggerBits);
   _metfilterbit = myTriggerHelper->FindMETBit(event, metFilterBits_);
 
@@ -1794,7 +1796,9 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     myTree->Fill(fillArray);*/
     //iMot++;
   }
+
   myTree->Fill();
+
   //return;
 }
 
@@ -1813,13 +1817,13 @@ int HTauTauNtuplizer::FillJet(const edm::View<pat::Jet> *jets, const edm::Event&
     _jets_HadronFlavour.push_back(ijet->hadronFlavour());
     _jets_PUJetID.push_back(ijet->userFloat("pileupJetId:fullDiscriminant"));
     _jets_PUJetIDupdated.push_back(ijet->hasUserFloat("pileupJetIdUpdated:fullDiscriminant") ? ijet->userFloat("pileupJetIdUpdated:fullDiscriminant") : -999);
-    double vtxPx = ijet->userFloat ("vtxPx");
-    double vtxPy = ijet->userFloat ("vtxPy");
-    _jets_vtxPt.  push_back(TMath::Sqrt(vtxPx*vtxPx + vtxPy*vtxPy));
-    _jets_vtxMass.push_back(ijet->userFloat("vtxMass"));
-    _jets_vtx3dL. push_back(ijet->userFloat("vtx3DVal"));
-    _jets_vtxNtrk.push_back(ijet->userFloat("vtxNtracks"));
-    _jets_vtx3deL.push_back(ijet->userFloat("vtx3DSig"));
+    double vtxPx = ijet->hasUserFloat("vtxPx") ? ijet->userFloat ("vtxPx") : -999;
+    double vtxPy = ijet->hasUserFloat("vtxPy") ? ijet->userFloat ("vtxPy") : -999;
+    _jets_vtxPt.push_back(vtxPx>=0&&vtxPy>=0 ? TMath::Sqrt(vtxPx*vtxPx + vtxPy*vtxPy) : -999);
+    _jets_vtxMass.push_back(ijet->hasUserFloat("vtxMass") ? ijet->userFloat("vtxMass") : -999);
+    _jets_vtx3dL. push_back(ijet->hasUserFloat("vtx3DVal") ? ijet->userFloat("vtx3DVal") : -999);
+    _jets_vtxNtrk.push_back(ijet->hasUserFloat("vtxNtracks") ? ijet->userFloat("vtxNtracks") : -999);
+    _jets_vtx3deL.push_back(ijet->hasUserFloat("vtx3DSig") ? ijet->userFloat("vtx3DSig") : -999);
 
     _bdiscr.push_back(ijet->bDiscriminator("pfJetProbabilityBJetTags"));
     _bdiscr2.push_back(ijet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
@@ -2133,7 +2137,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
      if(cand->isMuon()) type = ParticleType::MUON;
      else if(cand->isElectron()) type = ParticleType::ELECTRON;
     _particleType.push_back(type);
-    
+
 
     //Find closest jet for lepton MVA
     double dRmin_cand_jet = 0.4;
@@ -2399,7 +2403,8 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     Long64_t trgMatched = 0;
     Long64_t triggertypeIsGood = 0;
     double hltpt=0;
-    for (pat::TriggerObjectStandAlone obj : *triggerObjects) { 
+    for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
+      obj.unpackFilterLabels(event,*triggerBits);
       //check if the trigger object matches cand
       bool triggerType=false;
 
@@ -2533,6 +2538,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     _daughters_isL1IsoTau28Matched.push_back(isL1IsoTauMatched) ;
 
   }
+
 }
 
 /*
@@ -2975,9 +2981,13 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
   edm::ESHandle<TransientTrackBuilder> transTrackBuilder;
   iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder",transTrackBuilder);
 
-  edm::Handle<edm::View<pat::PackedCandidate> >pfCandHandle;
+  edm::Handle<edm::View<pat::PackedCandidate> > pfCandHandle;
   iEvent.getByToken(thePFCandTag,pfCandHandle);
   const edm::View<pat::PackedCandidate>* cands = pfCandHandle.product();
+  
+  edm::Handle<edm::View<pat::PackedCandidate> > lostCandHandle;
+  iEvent.getByToken(theLostTrackTag,lostCandHandle);
+  const edm::View<pat::PackedCandidate>* lostCands = lostCandHandle.product();
 
   Handle<vector<reco::Vertex> >  vertices;
   iEvent.getByToken(theVtxTag,vertices);
@@ -2989,9 +2999,9 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
 
   //Get tracks associated wiht pfPV
   reco::TrackCollection pvTracks;
-  TLorentzVector aTrack;
   for(size_t i=0; i<cands->size(); ++i){
-    if((*cands)[i].charge()==0 || (*cands)[i].vertexRef().isNull()) continue;
+    //if((*cands)[i].charge()==0 || (*cands)[i].vertexRef().isNull()) continue;
+    if((*cands)[i].vertexRef().isNull()) continue; //FIXME: some gammas have track, charge!=0 excludes them
     if(!(*cands)[i].bestTrack()) continue;
     
     unsigned int key = (*cands)[i].vertexRef().key();
@@ -3002,6 +3012,20 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
 	&& quality!=pat::PackedCandidate::UsedInFitLoose)) continue;
 
     pvTracks.push_back(*((*cands)[i].bestTrack()));
+  }
+  for(size_t i=0; i<lostCands->size(); ++i){
+    //if((*lostCands)[i].charge()==0 || (*lostCands)[i].vertexRef().isNull()) continue;
+    if((*lostCands)[i].vertexRef().isNull()) continue; //FIXME: some gammas have track, charge!=0 excludes them
+    if(!(*lostCands)[i].bestTrack()) continue;
+    
+    unsigned int key = (*lostCands)[i].vertexRef().key();
+    int quality = (*lostCands)[i].pvAssociationQuality();
+
+    if(key!=0 ||
+       (quality!=pat::PackedCandidate::UsedInFitTight
+	&& quality!=pat::PackedCandidate::UsedInFitLoose)) continue;
+
+    pvTracks.push_back(*((*lostCands)[i].bestTrack()));
   }
   ///Built transient tracks from tracks.
   std::vector<reco::TransientTrack> transTracks;  
@@ -3027,7 +3051,7 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
     ///variables. To be understood; probable reason are missing tracks with Pt<0.95GeV
     _pvRefit_x = transVtx.position().x();
     _pvRefit_y = transVtx.position().y();
-    //_pvRefit_z = transVtx.position().z();
+    //_pvRefit_z = transVtx.position().z();//FIXME: check it again with 2017 MiniAOD
     _pvRefit_z = (*vertices)[0].z();
   }
   else {

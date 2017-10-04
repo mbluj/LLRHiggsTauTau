@@ -85,7 +85,7 @@ ZrecoilCorrectionProducer::~ZrecoilCorrectionProducer()
 
 void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& es)
 {  
-  std::auto_ptr<pat::METCollection> result(new pat::METCollection());
+  std::unique_ptr<pat::METCollection> result = std::make_unique<pat::METCollection>();
 
   // retrieve gen info
   edm::Handle<reco::GenParticleCollection> genParticles;
@@ -193,7 +193,7 @@ void ZrecoilCorrectionProducer::produce(edm::Event& evt, const edm::EventSetup& 
     */
   }
 
-  evt.put(result);
+  evt.put( std::move(result) );
 }
 
 #include <FWCore/Framework/interface/MakerMacros.h>

@@ -110,7 +110,7 @@ MuFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   //iEvent.getByLabel("offlineSlimmedPrimaryVertices",vertexs);
 
   // Output collection
-  auto_ptr<pat::MuonCollection> result( new pat::MuonCollection() );
+  std::unique_ptr<pat::MuonCollection> result = std::make_unique<pat::MuonCollection>();
 
   for (unsigned int i = 0; i< muonHandle->size(); ++i){
     //---Clone the pat::Muon
@@ -283,7 +283,7 @@ MuFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     
     result->push_back(l);
   }
-  iEvent.put(result);
+  iEvent.put( std::move(result) );
 }
 
 #include <FWCore/Framework/interface/MakerMacros.h>

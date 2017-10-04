@@ -78,21 +78,20 @@ cms.PSet (
         leg1 = cms.int32(13),
         leg2 = cms.int32(15)
         ),
-
-
+### === single tauh triggers
 cms.PSet (
         HLT = cms.string("HLT_VLooseIsoPFTau120_Trk50_eta2p1_v"),
         path1 = cms.vstring ("hltPFTau120TrackPt50LooseAbsOrRelVLooseIso"),
         path2 = cms.vstring (""),
         leg1 = cms.int32(15),
-        leg2 = cms.int32(15)
+        leg2 = cms.int32(999)
         ),
   cms.PSet (
         HLT = cms.string("HLT_VLooseIsoPFTau140_Trk50_eta2p1_v"),
         path1 = cms.vstring ("hltPFTau140TrackPt50LooseAbsOrRelVLooseIso"),
         path2 = cms.vstring (""),
         leg1 = cms.int32(15),
-        leg2 = cms.int32(15)
+        leg2 = cms.int32(999)
         ),  
 ### === tauh tauh triggers
     cms.PSet (

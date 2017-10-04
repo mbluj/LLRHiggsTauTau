@@ -62,7 +62,7 @@ void MergeTauCollections::produce(edm::Event& iEvent, const edm::EventSetup& iSe
   iEvent.getByToken(theCandidateTag, tauHandle);
 
   // Output collection
-  auto_ptr<pat::TauCollection> result( new pat::TauCollection() );
+  std::unique_ptr<pat::TauCollection> result = std::make_unique<pat::TauCollection>();
 
   edm::Handle<pat::TauCollection> tauHandleTauUp;
   iEvent.getByToken(theCandidateTagTauUp, tauHandleTauUp);
@@ -123,7 +123,7 @@ void MergeTauCollections::produce(edm::Event& iEvent, const edm::EventSetup& iSe
     result->push_back(l_Nominal);
   }
 
-  iEvent.put(result);
+  iEvent.put( std::move(result) );
 
 }
  
