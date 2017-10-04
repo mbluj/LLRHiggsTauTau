@@ -8,33 +8,28 @@ Modules and plugins are called by python/HiggsTauTauProducer.py
 	This module creates AF/OS and AF/SS pairs, runs the SVfit on the pairs and store the useful variables in a TNtuple
 The stored variables are set in plugins/HTauTauNtupleMaker.cc
 
-### Instructions for 8_0_6 (miniAOD 2016)
+### Instructions for 9_2_9 (Summer 2017)
 
 ```
-cmsrel CMSSW_8_0_6
-cd CMSSW_8_0_6/src
+scram project -n CMSSW_9_2_9_patch1_ntuple CMSSW CMSSW_9_2_9_patch1
+cd CMSSW_9_2_9_patch1_ntuple/src
 cmsenv
-# Z-recoil corrections
-git clone https://github.com/CMS-HTT/RecoilCorrections.git  HTT-utilities/RecoilCorrections
-git clone https://github.com/LLRCMS/LLRHiggsTauTau
-cd LLRHiggsTauTau; git checkout master
-cd -
-git clone -n https://github.com/latinos/UserCode-sixie-Muon-MuonAnalysisTools Muon/MuonAnalysisTools
-cd Muon/MuonAnalysisTools ; git checkout master -- interface/MuonEffectiveArea.h
-cd -
-git clone -n https://github.com/cms-analysis/EgammaAnalysis-ElectronTools EGamma/EGammaAnalysisTools
-cd EGamma/EGammaAnalysisTools; git checkout c0db796 -- interface/ElectronEffectiveArea.h
-cd -
-# FSR corrections
-git clone -n https://github.com/VBF-HZZ/UFHZZAnalysisRun2
-cd UFHZZAnalysisRun2 ; git checkout master FSRPhotons
-cd -
-# SVfit
-git clone https://github.com/veelken/SVfit_standalone TauAnalysis/SVfitStandalone
-cd TauAnalysis/SVfitStandalone
-git checkout HIG-16-006
-cd -
+
+ssh lxplus.cern.ch "(cd /afs/cern.ch/user/m/mbluj/public/ProductionSummer2017; tar -cf - . )" | tar -xvf -
+
+tar -xzvf EGamma_EGammaAnalysisTools.tar.gz
+tar -xzvf HTT-utilities_RecoilCorrections.tar.gz
+tar -xzvf Muon_MuonAnalysisTools.tar.gz
+tar -xzvf TauAnalysis_SVfitStandalone.tar.gz
+tar -xzvf UFHZZAnalysisRun2_FSRPhotons.tar.gz
+
+rm *.tar.gz
+ 
+git clone https://github.com/akalinow/LLRHiggsTauTau.git
+cd LLRHiggsTauTau; git checkout Run2017; cd -
+
 scram b -j 4
+
 ```
 
 ### Quick usage:
