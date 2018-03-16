@@ -331,8 +331,9 @@ void genhelper::GetTausDaughters(const reco::GenParticle& tau,
     FindDescendents(tau, products, 1, 0);
   else{
     const reco::GenParticleRefVector& daughterRefs = tau.daughterRefVector();
-    for(IGR idr = daughterRefs.begin(); idr != daughterRefs.end(); ++idr )
+    for(IGR idr = daughterRefs.begin(); idr != daughterRefs.end(); ++idr ){
       products.push_back(*idr);
+    }
   }
   if(ignoreNus){
     std::set<int> allNus;
@@ -361,7 +362,6 @@ void genhelper::FindDescendents(const reco::GenParticle& base,
   const reco::GenParticleRefVector& daughterRefs = base.daughterRefVector();
   
   for(IGR idr = daughterRefs.begin(); idr != daughterRefs.end(); ++idr ) {
-    
     ///Skip leptons from pi0 decays
     if(skipPhotonsPi0AndFSR && (*idr)->mother(0) && (abs((*idr)->mother(0)->pdgId())==22 || abs((*idr)->mother(0)->pdgId())==111)) continue;
     ///Skip electrons from FSR from muons

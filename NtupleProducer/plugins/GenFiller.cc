@@ -116,7 +116,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         {
             genhelper::HZDecay decay = genhelper::GetHZDecay (genP);
             filtGenP.addUserInt ("HZDecayMode", static_cast<int> (decay));
-            if (DEBUG) cout << "   --> H/Z decay: " << decay << endl;
+            if (DEBUG) cout << "   --> H/Z decay: " << decay << endl;	   
         }
 
         // -------------------- W decay mode: set final state and is is prompt
@@ -219,7 +219,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	   (filtGenP.hasUserInt("ZMothIndex") || filtGenP.hasUserInt("HMothIndex") || filtGenP.hasUserInt("MSSMHMothIndex"))){
 
 	  TVector3 aPVGenPoint = TVector3(genPClone->vx(), genPClone->vy(), genPClone->vz());
-	  reco::GenParticleRefVector tauDaughters;
+	  reco::GenParticleRefVector tauDaughters;		  
 	  genhelper::GetTausDaughters(*genPClone,tauDaughters,true,false);
 	  int detailedDecayMode = genhelper::getDetailedTauDecayMode(tauDaughters);
 	  filtGenP.addUserInt("tauGenDetailedDecayMode", detailedDecayMode);
@@ -230,11 +230,24 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 					     leadChParticleRef->py(),
 					     leadChParticleRef->pz(),
 					     leadChParticleRef->energy());
-	  TVector3 tauDecayVertex(leadChParticleRef->vx(), leadChParticleRef->vy(), leadChParticleRef->vz());
+	  TVector3 tauDecayVertex(leadChParticleRef->vx(), leadChParticleRef->vy(), leadChParticleRef->vz());	  
+	  filtGenP.addUserFloat("sv_x",tauDecayVertex.X());
+	  filtGenP.addUserFloat("sv_y",tauDecayVertex.Y());
+	  filtGenP.addUserFloat("sv_z",tauDecayVertex.Z());
+	  
 	  TVector3 pca = genhelper::ImpactParameter(aPVGenPoint, tauDecayVertex, p4LeadingChParticle);
 	  filtGenP.addUserFloat("pca_x",pca.X());
 	  filtGenP.addUserFloat("pca_y",pca.Y());
 	  filtGenP.addUserFloat("pca_z",pca.Z());
+
+	  TLorentzVector p4Tau(genPClone->px(),
+			       genPClone->py(),
+			       genPClone->pz(),
+			       genPClone->energy());
+	  
+	  float sinTheta = p4LeadingChParticle.Vect().Unit()*(tauDecayVertex - aPVGenPoint).Unit();
+	  sinTheta = sqrt(1.0 - pow(sinTheta,2));
+	  float flightPath = pca.Mag()/sinTheta;	 
 	}
 
         result->push_back (filtGenP);

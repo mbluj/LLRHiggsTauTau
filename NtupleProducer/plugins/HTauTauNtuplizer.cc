@@ -170,6 +170,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   bool findPrimaryVertices(const edm::Event & iEvent, const edm::EventSetup & iSetup);
   TVector3 getPCA(const edm::Event & iEvent, const edm::EventSetup & iSetup,
 		  const reco::Track *aTrack, const GlobalPoint & aPoint);
+  TVector3 fitSV(const edm::EventSetup & iSetup, const pat::Tau *taon);
 
   // ----------member data ---------------------------
   //std::map <int, int> genFlagPosMap_; // to convert from input to output enum format for H/Z decays
@@ -328,6 +329,10 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Double_t> _genpart_pca_x;
   std::vector<Double_t> _genpart_pca_y;
   std::vector<Double_t> _genpart_pca_z;
+
+  std::vector<Double_t> _genpart_sv_x;
+  std::vector<Double_t> _genpart_sv_y;
+  std::vector<Double_t> _genpart_sv_z;
   
   std::vector<Int_t> _genpart_pdg;
   std::vector<Int_t> _genpart_status;
@@ -364,46 +369,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Bool_t>  _daughters_isL1IsoTau28Matched;
   //std::vector<Int_t> _genDaughters;
   std::vector<Bool_t> _isOSCand;
-  std::vector<Double_t> _SVmass;
-  std::vector<Double_t> _SVmassTauUp;
-  std::vector<Double_t> _SVmassTauDown;
-
-  std::vector<Double_t> _SVmassTransverse;
-  std::vector<Double_t> _SVmassTransverseTauUp;
-  std::vector<Double_t> _SVmassTransverseTauDown;
-
-  std::vector<Double_t> _SVpt;
-  std::vector<Double_t> _SVptTauUp;
-  std::vector<Double_t> _SVptTauDown;
-
-  std::vector<Double_t> _SVptUnc;
-  std::vector<Double_t> _SVptUncTauUp;
-  std::vector<Double_t> _SVptUncTauDown;
-
-  std::vector<Double_t> _SVeta;
-  std::vector<Double_t> _SVetaTauUp;
-  std::vector<Double_t> _SVetaTauDown;
-
-  std::vector<Double_t> _SVetaUnc;
-  std::vector<Double_t> _SVetaUncTauUp;
-  std::vector<Double_t> _SVetaUncTauDown;
-
-  std::vector<Double_t> _SVphi;
-  std::vector<Double_t> _SVphiTauUp;
-  std::vector<Double_t> _SVphiTauDown;
-
-  std::vector<Double_t> _SVphiUnc;
-  std::vector<Double_t> _SVphiUncTauUp;
-  std::vector<Double_t> _SVphiUncTauDown;
-
-  std::vector<Double_t> _SVMetRho;
-  std::vector<Double_t> _SVMetRhoTauUp;
-  std::vector<Double_t> _SVMetRhoTauDown;
-
-  std::vector<Double_t> _SVMetPhi;
-  std::vector<Double_t> _SVMetPhiTauUp;
-  std::vector<Double_t> _SVMetPhiTauDown;
-
+ 
   std::vector<Double_t> _metx;
   std::vector<Double_t> _mety;
   std::vector<Double_t> _uncorrmetx;
@@ -540,8 +506,11 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<Double_t> _daughters_pcaGenPV_x;
   std::vector<Double_t> _daughters_pcaGenPV_y;
   std::vector<Double_t> _daughters_pcaGenPV_z;
-
-
+  
+  std::vector<Double_t> _daughters_sv_x;
+  std::vector<Double_t> _daughters_sv_y;
+  std::vector<Double_t> _daughters_sv_z;
+  
   //Jets variables
   Int_t _numberOfJets;
   //std::vector<TLorentzVector> _jets;
@@ -826,6 +795,10 @@ void HTauTauNtuplizer::Initialize(){
   _daughters_pcaGenPV_x.clear();
   _daughters_pcaGenPV_y.clear();
   _daughters_pcaGenPV_z.clear();
+
+  _daughters_sv_x.clear();
+  _daughters_sv_y.clear();
+  _daughters_sv_z.clear();
   
   //_bquarks.clear();
   //_bquarks_px.clear();
@@ -843,6 +816,10 @@ void HTauTauNtuplizer::Initialize(){
   _genpart_pca_x.clear();
   _genpart_pca_y.clear();
   _genpart_pca_z.clear();
+
+  _genpart_sv_x.clear();
+  _genpart_sv_y.clear();
+  _genpart_sv_z.clear();
 
   _genpart_pdg.clear();
   _genpart_status.clear();
@@ -871,46 +848,7 @@ void HTauTauNtuplizer::Initialize(){
   _indexDau1.clear();
   _indexDau2.clear();
   _pdgdau.clear();
-  _SVmass.clear();
-  _SVmassTauUp.clear();
-  _SVmassTauDown.clear();
-
-  _SVmassTransverse.clear();
-  _SVmassTransverseTauUp.clear();
-  _SVmassTransverseTauDown.clear();
-
-  _SVpt.clear();
-  _SVptTauUp.clear();
-  _SVptTauDown.clear();
-
-  _SVptUnc.clear();
-  _SVptUncTauUp.clear();
-  _SVptUncTauDown.clear();
-
-  _SVeta.clear();
-  _SVetaTauUp.clear();
-  _SVetaTauDown.clear();
-
-  _SVetaUnc.clear();
-  _SVetaUncTauUp.clear();
-  _SVetaUncTauDown.clear();
-
-  _SVphi.clear();
-  _SVphiTauUp.clear();
-  _SVphiTauDown.clear();
-
-  _SVphiUnc.clear();
-  _SVphiUncTauUp.clear();
-  _SVphiUncTauDown.clear();
-
-  _SVMetRho.clear();
-  _SVMetRhoTauUp.clear();
-  _SVMetRhoTauDown.clear();
-
-  _SVMetPhi.clear();
-  _SVMetPhiTauUp.clear();
-  _SVMetPhiTauDown.clear();
-
+ 
   _isOSCand.clear();
   _daughters_HLTpt.clear();
   _daughters_isL1IsoTau28Matched.clear();
@@ -1130,6 +1068,10 @@ void HTauTauNtuplizer::beginJob(){
       myTree->Branch("genpart_pca_x",&_genpart_pca_x);
       myTree->Branch("genpart_pca_y",&_genpart_pca_y);
       myTree->Branch("genpart_pca_z",&_genpart_pca_z);
+      
+      myTree->Branch("genpart_sv_x",&_genpart_sv_x);
+      myTree->Branch("genpart_sv_y",&_genpart_sv_y);
+      myTree->Branch("genpart_sv_z",&_genpart_sv_z);
     }
     myTree->Branch("genpart_pdg", &_genpart_pdg);
     myTree->Branch("genpart_status", &_genpart_status);
@@ -1158,46 +1100,7 @@ void HTauTauNtuplizer::beginJob(){
     myTree->Branch("NUP", &_nup);
   }
   //myTree->Branch("daughters2",&_daughter2);
-  myTree->Branch("SVfitMass",&_SVmass);
-  myTree->Branch("SVfitMassTauUp",&_SVmassTauUp);
-  myTree->Branch("SVfitMassTauDown",&_SVmassTauDown);
-
-  myTree->Branch("SVfitTransverseMass",&_SVmassTransverse);
-  myTree->Branch("SVfitTransverseMassTauUp",&_SVmassTransverseTauUp);
-  myTree->Branch("SVfitTransverseMassTauDown",&_SVmassTransverseTauDown);
-
-  myTree->Branch("SVfit_pt", &_SVpt);
-  myTree->Branch("SVfit_ptTauUp", &_SVptTauUp);
-  myTree->Branch("SVfit_ptTauDown", &_SVptTauDown);
-
-  myTree->Branch("SVfit_ptUnc", &_SVptUnc);
-  myTree->Branch("SVfit_ptUncTauUp", &_SVptUncTauUp);
-  myTree->Branch("SVfit_ptUncTauDown", &_SVptUncTauDown);
-
-  myTree->Branch("SVfit_eta", &_SVeta);
-  myTree->Branch("SVfit_etaTauUp", &_SVetaTauUp);
-  myTree->Branch("SVfit_etaTauDown", &_SVetaTauDown);
-
-  myTree->Branch("SVfit_etaUnc", &_SVetaUnc);
-  myTree->Branch("SVfit_etaUncTauUp", &_SVetaUncTauUp);
-  myTree->Branch("SVfit_etaUncTauDown", &_SVetaUncTauDown);
-
-  myTree->Branch("SVfit_phi", &_SVphi);
-  myTree->Branch("SVfit_phiTauUp", &_SVphiTauUp);
-  myTree->Branch("SVfit_phiTauDown", &_SVphiTauDown);
-
-  myTree->Branch("SVfit_phiUnc", &_SVphiUnc);
-  myTree->Branch("SVfit_phiUncTauUp", &_SVphiUncTauUp);
-  myTree->Branch("SVfit_phiUncTauDown", &_SVphiUncTauDown);
-
-  myTree->Branch("SVfit_fitMETRho", &_SVMetRho);
-  myTree->Branch("SVfit_fitMETRhoTauUp", &_SVMetRhoTauUp);
-  myTree->Branch("SVfit_fitMETRhoTauDown", &_SVMetRhoTauDown);
-
-  myTree->Branch("SVfit_fitMETPhi", &_SVMetPhi);
-  myTree->Branch("SVfit_fitMETPhiTauUp", &_SVMetPhiTauUp);
-  myTree->Branch("SVfit_fitMETPhiTauDown", &_SVMetPhiTauDown);
-
+ 
   myTree->Branch("isOSCand",&_isOSCand);
   myTree->Branch("METx",&_metx);
   myTree->Branch("METy",&_mety);
@@ -1301,6 +1204,9 @@ void HTauTauNtuplizer::beginJob(){
     myTree->Branch("daughters_pcaGenPV_x",&_daughters_pcaGenPV_x);
     myTree->Branch("daughters_pcaGenPV_y",&_daughters_pcaGenPV_y);
     myTree->Branch("daughters_pcaGenPV_z",&_daughters_pcaGenPV_z);
+    myTree->Branch("daughters_sv_x",&_daughters_sv_x);
+    myTree->Branch("daughters_sv_y",&_daughters_sv_y);
+    myTree->Branch("daughters_sv_z",&_daughters_sv_z);
   }
 
   myTree->Branch("JetsNumber",&_numberOfJets);
@@ -1393,7 +1299,7 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
   Initialize();
 
   findPrimaryVertices(event, eSetup);
-  
+
   Handle<vector<reco::Vertex> >  vertexs;
   //event.getByLabel("offlineSlimmedPrimaryVertices",vertex);
   event.getByToken(theVtxTag,vertexs);
@@ -1622,49 +1528,6 @@ void HTauTauNtuplizer::analyze(const edm::Event& event, const edm::EventSetup& e
     double thisMETpx_uncorr = ( cand.hasUserFloat("uncorrMEt_px") ) ? cand.userFloat("uncorrMEt_px") : -999.;
     double thisMETpy_uncorr = ( cand.hasUserFloat("uncorrMEt_py") ) ? cand.userFloat("uncorrMEt_py") : -999.;
     
-    bool hasUp   = cand.hasUserFloat ("SVfitMassTauUp");
-    bool hasDown = cand.hasUserFloat ("SVfitMassTauDown");
-
-    _SVmass.push_back(cand.userFloat("SVfitMass"));
-    _SVmassTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfitMassTauUp")   : -999. ));
-    _SVmassTauDown.push_back( (hasDown ? cand.userFloat("SVfitMassTauDown") : -999. ));
-
-    _SVmassTransverse.push_back(cand.userFloat("SVfitTransverseMass"));
-    _SVmassTransverseTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfitTransverseMassTauUp")  : -999. ));
-    _SVmassTransverseTauDown.push_back( (hasDown ? cand.userFloat("SVfitTransverseMassTauDown"): -999. ));
-
-    _SVpt.push_back(cand.userFloat("SVfit_pt"));
-    _SVptTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_ptTauUp")  : -999. ));
-    _SVptTauDown.push_back( (hasDown ? cand.userFloat("SVfit_ptTauDown"): -999. ));
-
-    _SVptUnc.push_back(cand.userFloat("SVfit_ptUnc"));
-    _SVptUncTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_ptUncTauUp")  : -999. ));
-    _SVptUncTauDown.push_back( (hasDown ? cand.userFloat("SVfit_ptUncTauDown"): -999. ));
-
-    _SVeta.push_back(cand.userFloat("SVfit_eta"));
-    _SVetaTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_etaTauUp")  : -999. ));
-    _SVetaTauDown.push_back( (hasDown ? cand.userFloat("SVfit_etaTauDown"): -999. ));
-
-    _SVetaUnc.push_back(cand.userFloat("SVfit_etaUnc"));
-    _SVetaUncTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_etaUncTauUp")  : -999. ));
-    _SVetaUncTauDown.push_back( (hasDown ? cand.userFloat("SVfit_etaUncTauDown"): -999. ));
-
-    _SVphi.push_back(cand.userFloat("SVfit_phi"));
-    _SVphiTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_phiTauUp")  : -999. ));
-    _SVphiTauDown.push_back( (hasDown ? cand.userFloat("SVfit_phiTauDown"): -999. ));
-
-    _SVphiUnc.push_back(cand.userFloat("SVfit_phiUnc"));
-    _SVphiUncTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_phiUncTauUp")  : -999. ));
-    _SVphiUncTauDown.push_back( (hasDown ? cand.userFloat("SVfit_phiUncTauDown"): -999. ));
-
-    _SVMetRho.push_back(cand.userFloat("SVfit_METRho"));
-    _SVMetRhoTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_METRhoTauUp")  : -999. ));
-    _SVMetRhoTauDown.push_back( (hasDown ? cand.userFloat("SVfit_METRhoTauDown"): -999. ));
-
-    _SVMetPhi.push_back(cand.userFloat("SVfit_METPhi"));
-    _SVMetPhiTauUp.push_back  ( (hasUp   ? cand.userFloat("SVfit_METPhiTauUp")  : -999. ));
-    _SVMetPhiTauDown.push_back( (hasDown ? cand.userFloat("SVfit_METPhiTauDown"): -999. ));
-
     _metx.push_back(thisMETpx);
     _mety.push_back(thisMETpy);    
     _uncorrmetx.push_back(thisMETpx_uncorr);
@@ -2195,6 +2058,7 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
     TVector3 pcaPV = getPCA(event, setup, cand->bestTrack(), aPVPoint);
     TVector3 pcaRefitPV = getPCA(event, setup, cand->bestTrack(), aPVRefitPoint);
+    TVector3 aSV;
     TVector3 pcaGenPV;
     if(theisMC) pcaGenPV = getPCA(event, setup, cand->bestTrack(), aPVGenPoint);
 
@@ -2299,6 +2163,8 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
       if(taon){
 	pcaPV = getPCA(event, setup, taon->leadChargedHadrCand()->bestTrack(), aPVPoint);
 	pcaRefitPV = getPCA(event, setup, taon->leadChargedHadrCand()->bestTrack(), aPVRefitPoint);
+	aSV = fitSV(setup, taon);
+	
 	if(theisMC) pcaGenPV = getPCA(event, setup, taon->leadChargedHadrCand()->bestTrack(), aPVGenPoint);
 
 	reco::CandidatePtrVector chCands = taon->signalChargedHadrCands();
@@ -2387,6 +2253,10 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     _daughters_pcaGenPV_x.push_back(pcaGenPV.X());
     _daughters_pcaGenPV_y.push_back(pcaGenPV.Y());
     _daughters_pcaGenPV_z.push_back(pcaGenPV.Z());
+
+    _daughters_sv_x.push_back(aSV.X());
+    _daughters_sv_y.push_back(aSV.Y());
+    _daughters_sv_z.push_back(aSV.Z());
 
     _daughters_charged_px.push_back(chargedP4.X());
     _daughters_charged_py.push_back(chargedP4.Y());
@@ -2541,52 +2411,6 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
 
 }
 
-/*
-void HTauTauNtuplizer::FillbQuarks(const edm::Event& event){
-  edm::Handle<edm::View<pat::GenericParticle>>candHandle;
-  event.getByLabel("bQuarks",candHandle);
-  const edm::View<pat::GenericParticle>* bs = candHandle.product();
-  for(edm::View<pat::GenericParticle>::const_iterator ib = bs->begin(); ib!=bs->end();++ib){
-    const pat::GenericParticle* cand = &(*ib);
-    _bquarks_px.push_back( (double) cand->px());
-    _bquarks_py.push_back( (double) cand->py());
-    _bquarks_pz.push_back( (double) cand->px());
-    _bquarks_e.push_back( (double) cand->energy());
-    _bquarks_pdg.push_back( (int) cand->pdgId());
-    _bmotmass.push_back(userdatahelpers::getUserFloat(cand,"motHmass"));
-  }
-
-  //Retrieve Generated H (there can be more than 1!  
-  Handle<edm::View<reco::GenParticle> > prunedHandle;
-  event.getByLabel("prunedGenParticles", prunedHandle);
-  for(unsigned int ipruned = 0; ipruned< prunedHandle->size(); ++ipruned){
-     const GenParticle *packed =&(*prunedHandle)[ipruned];
-     int pdgh = packed->pdgId();
-     if(abs(pdgh)==25){
-        // avoid Higgs clones, save only the one not going into another H (end of showering process)
-        bool isLast = true;
-        for (unsigned int iDau = 0; iDau < packed->numberOfDaughters(); iDau++)
-        {
-            const Candidate* Dau = packed->daughter( iDau );
-            if (Dau->pdgId() == pdgh)
-            {
-                isLast = false;
-                break;
-            }
-        }
-   
-        if (isLast)
-        {     
-            _genH_px.push_back(packed->px());          
-            _genH_py.push_back(packed->py());          
-            _genH_pz.push_back(packed->pz());          
-            _genH_e.push_back(packed->energy());          
-        }
-     }        
-  } 
-}
-*/
-
 void HTauTauNtuplizer::FillGenInfo(const edm::Event& event)
 {
     edm::Handle<edm::View<pat::GenericParticle>>candHandle;
@@ -2617,6 +2441,7 @@ void HTauTauNtuplizer::FillGenInfo(const edm::Event& event)
         int TauGenDecayMode = -1;
 	int TauGenDetailedDecayMode = -1;
 	TVector3 pca(99,99,99);
+	TVector3 sv(0,0,0);
         
         if (igen->hasUserInt("HMothIndex"))   HMIndex = igen->userInt("HMothIndex");
         if (igen->hasUserInt("MSSMHMothIndex"))   MSSMHMIndex = igen->userInt("MSSMHMothIndex");
@@ -2630,9 +2455,9 @@ void HTauTauNtuplizer::FillGenInfo(const edm::Event& event)
         if (igen->hasUserInt("WDecayMode"))   WDecayMode = igen->userInt("WDecayMode");
         if (igen->hasUserInt("tauGenDecayMode"))   TauGenDecayMode = igen->userInt("tauGenDecayMode");
 	if (igen->hasUserInt("tauGenDetailedDecayMode"))   TauGenDetailedDecayMode = igen->userInt("tauGenDetailedDecayMode");
-	if (igen->hasUserFloat("pca_x")) pca = TVector3(igen->userFloat("pca_x"),igen->userFloat("pca_y"),igen->userFloat("pca_z"));
-	  
-        
+	if (igen->hasUserFloat("pca_x")) pca = TVector3(igen->userFloat("pca_x"),igen->userFloat("pca_y"),igen->userFloat("pca_z"));	
+	if (igen->hasUserFloat("sv_x")) sv = TVector3(igen->userFloat("sv_x"),igen->userFloat("sv_y"),igen->userFloat("sv_z"));
+	          
         _genpart_HMothInd.push_back(HMIndex);
         _genpart_MSSMHMothInd.push_back(MSSMHMIndex);
         _genpart_TopMothInd.push_back(TopMIndex);
@@ -2647,8 +2472,11 @@ void HTauTauNtuplizer::FillGenInfo(const edm::Event& event)
 	_genpart_TauGenDetailedDecayMode.push_back(TauGenDetailedDecayMode);
 	_genpart_pca_x.push_back(pca.X());
 	_genpart_pca_y.push_back(pca.Y());
-	_genpart_pca_z.push_back(pca.Z());
-        
+	_genpart_pca_z.push_back(pca.Z());	
+	_genpart_sv_x.push_back(sv.X());
+	_genpart_sv_y.push_back(sv.Y());
+	_genpart_sv_z.push_back(sv.Z());
+	        
         //const pat::GenericParticle* genClone = &(*igen);
         //int flags = CreateFlagsWord (genClone);
         int flags = igen -> userInt ("generalGenFlags");
@@ -3107,16 +2935,44 @@ TVector3 HTauTauNtuplizer::getPCA(const edm::Event & iEvent, const edm::EventSet
 }
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+TVector3 HTauTauNtuplizer::fitSV(const edm::EventSetup & iSetup, const pat::Tau *taon){
+  
+  reco::CandidatePtrVector cands = taon->signalChargedHadrCands();
+  
+  if(cands.size()!=3) return TVector3();
+  
+  edm::ESHandle<TransientTrackBuilder> transTrackBuilder;
+  iSetup.get<TransientTrackRecord>().get("TransientTrackBuilder",transTrackBuilder);
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  // Get tracks form PFTau daugthers
+  std::vector<reco::TransientTrack> transTrk;
+  TransientVertex transVtx;
+ 
+  for (reco::CandidatePtrVector::const_iterator iter = cands.begin(); iter!=cands.end(); ++iter) {
+    if(iter->get()->bestTrack()) transTrk.push_back(transTrackBuilder->build(iter->get()->bestTrack()));
+  }
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  // Fit the secondary vertex
+  bool FitOk(true);
+  AdaptiveVertexFitter avf;
+  avf.setWeightThreshold(0.001);
+  if(transTrk.size() > 1) {
+    try{
+      transVtx = avf.vertex(transTrk); //KalmanVertexFitter      
+    }catch(...){
+      std::cout<<"Problem with 3-prong tau SV fit."<<std::endl;
+      FitOk=false;
+    }
+  } else {
+    FitOk = false;
+  }
+  FitOk = transVtx.isValid();
+  if(!FitOk) return  TVector3();
 
-
-// // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-// void HTauTauNtuplizer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
-//   //The following says we do not know what parameters are allowed so do no validation
-//   // Please change this to state exactly what you do use, even if it is no parameters
-//   edm::ParameterSetDescription desc;
-//   desc.setUnknown();
-//   descriptions.addDefault(desc);
-// }
+  return TVector3(transVtx.position().x(), transVtx.position().y(), transVtx.position().z());
+}
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 
 //define this as a plug-in
 DEFINE_FWK_MODULE(HTauTauNtuplizer);
