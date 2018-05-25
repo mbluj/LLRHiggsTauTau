@@ -17,6 +17,20 @@ bool genhelper::IsLastCopy (const reco::GenParticle& part)
 {
     bool isLast = true;
     int thisPdgId = part.pdgId();
+    /*
+    if(abs(thisPdgId) == 15){
+      std::cout<<"IsLastCopy vx: "
+	       <<part.vx()<<", "
+	       <<part.vy()<<", "
+	       <<part.vz()<<", "
+	       <<" p: "
+	       <<part.px()<<", "
+	       <<part.py()<<", "
+	       <<part.pz()
+	       <<" numberOfDaughters(): "<<part.numberOfDaughters()
+	       <<std::endl;	
+    }
+    */
 
     if (abs(thisPdgId) == 25 || abs(thisPdgId) == 23 || abs(thisPdgId) == 15) // H, Z, tau must decay
         if (part.numberOfDaughters() == 0) return false; // can happen to have a fake "clone" that does not decay --> reject (it is not a real "last")
@@ -336,10 +350,10 @@ void genhelper::GetTausDaughters(const reco::GenParticle& tau,
     }
   }
   if(ignoreNus){
-    std::set<int> allNus;
+    std::set<int> allNus;    
     allNus.insert(12);
     allNus.insert(14);
-    allNus.insert(16);
+    allNus.insert(16);        
     //allNus.insert(18);
     reco::GenParticleRefVector tmp;
     for(IGR idr=products.begin(); idr !=products.end(); ++idr)
@@ -358,10 +372,23 @@ void genhelper::FindDescendents(const reco::GenParticle& base,
   
   //one form status or pdgId has to be specifed!
   if(status<0 && pdgId==0) return;
+  /*
+   std::cout<<"FindDescendents: "
+	    <<"base PDG: "<<base.pdgId()<<" "
+	    <<base.vx()<<", "
+	    <<base.vy()<<", "
+	    <<base.vz()<<std::endl;
+  */ 
   
-  const reco::GenParticleRefVector& daughterRefs = base.daughterRefVector();
-  
+  const reco::GenParticleRefVector& daughterRefs = base.daughterRefVector();   
   for(IGR idr = daughterRefs.begin(); idr != daughterRefs.end(); ++idr ) {
+    /*
+     std::cout<<"FindDescendents: "
+	      <<"PDG: "<<(*idr)->pdgId()<<" "
+	   <<(*idr)->vx()<<", "
+    	   <<(*idr)->vy()<<", "
+    	   <<(*idr)->vz()<<std::endl;
+    */
     ///Skip leptons from pi0 decays
     if(skipPhotonsPi0AndFSR && (*idr)->mother(0) && (abs((*idr)->mother(0)->pdgId())==22 || abs((*idr)->mother(0)->pdgId())==111)) continue;
     ///Skip electrons from FSR from muons
@@ -393,7 +420,7 @@ const reco::GenParticleRef genhelper::GetLeadChParticle(const reco::GenParticleR
     for(IGR idr = products.begin(); idr != products.end(); ++idr ){
       if( (*idr)->pt() > maxPt &&
 	  //charged.find( std::abs( (*idr)->pdgId() ) )!=charged.end() //MB: Logix used in pure Pythia code when charge not defined
-	  std::abs( (*idr)->charge() )>0.001 //MB: GenParts have defined charge
+	  std::abs( (*idr)->charge() )>0.001 //MB: GenParts have defined charge	  
 	  ){
 	maxPt = (*idr)->pt();
 	part = (*idr);

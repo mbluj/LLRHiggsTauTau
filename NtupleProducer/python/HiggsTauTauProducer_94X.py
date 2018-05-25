@@ -50,7 +50,7 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 #process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 if IsMC:
     print "It is MC"
-    process.GlobalTag.globaltag = '94X_mc2017_realistic_v10'
+    process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
 else :
     print "It is data"
     process.GlobalTag.globaltag = '94X_dataRun2_ReReco_EOY17_v2'

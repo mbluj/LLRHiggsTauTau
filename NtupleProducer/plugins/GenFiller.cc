@@ -106,6 +106,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         if (APdgId == 15)
         {
             int decay = genhelper::GetTauDecay(genP);
+
             filtGenP.addUserInt ("tauGenDecayMode", decay);
             if (decay == 2) tauHadcandsMothers_.push_back (iGen); // for later usage for tauh
             if (DEBUG) cout << "   --> tau decay: " << decay << endl;
@@ -154,7 +155,7 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         // H        
         MothPtr = genhelper::IsFromID (genP, 25);
         if (MothPtr != NULL) // save space, only add userfloats when valid
-        {
+        {	 	  
             //filtGenP.addUserInt ("fromH", 1);
             filtGenP.addUserInt ("HMothIndex", genhelper::GetIndexInOutput(MothPtr, cands_));       
             if (DEBUG) cout << "   --> fromH: 1, indexH: " << genhelper::GetIndexInOutput(MothPtr, cands_) << endl;
@@ -234,22 +235,12 @@ void GenFiller::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	  filtGenP.addUserFloat("sv_x",tauDecayVertex.X());
 	  filtGenP.addUserFloat("sv_y",tauDecayVertex.Y());
 	  filtGenP.addUserFloat("sv_z",tauDecayVertex.Z());
-	  
+	  	 	  
 	  TVector3 pca = genhelper::ImpactParameter(aPVGenPoint, tauDecayVertex, p4LeadingChParticle);
 	  filtGenP.addUserFloat("pca_x",pca.X());
 	  filtGenP.addUserFloat("pca_y",pca.Y());
-	  filtGenP.addUserFloat("pca_z",pca.Z());
-
-	  TLorentzVector p4Tau(genPClone->px(),
-			       genPClone->py(),
-			       genPClone->pz(),
-			       genPClone->energy());
-	  
-	  float sinTheta = p4LeadingChParticle.Vect().Unit()*(tauDecayVertex - aPVGenPoint).Unit();
-	  sinTheta = sqrt(1.0 - pow(sinTheta,2));
-	  float flightPath = pca.Mag()/sinTheta;	 
+	  filtGenP.addUserFloat("pca_z",pca.Z());	  	 
 	}
-
         result->push_back (filtGenP);
     }
 
@@ -321,7 +312,7 @@ bool GenFiller::IsInteresting (const GenParticle& p)
     if(isVBFParton(p)) return true ;
             
     if (IsLast && GoodPdgId) return true;
-    
+
     // case of b quarks, just save first one (too many showering products)
     bool IsFirst = genhelper::IsFirstCopy(p, true);
     if ((APdgId == 1 || APdgId == 2 || APdgId == 3 || APdgId == 4 || APdgId == 5 || APdgId == 21 || APdgId==25) && IsFirst) return true; // for b, save also the first copy in the list
