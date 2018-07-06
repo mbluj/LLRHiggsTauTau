@@ -135,10 +135,7 @@ HLTLIST = cms.VPSet(
         leg1 = cms.int32(15),
         leg2 = cms.int32(999)
         ),
-### === tauh tauh triggers
-HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v
-HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v
-    
+### === tauh tauh triggers    
     cms.PSet (
         HLT = cms.string("HLT_DoubleLooseChargedIsoPFTau35_Trk1_eta2p1_Reg_v"),
         path1 = cms.vstring ("hltDoublePFTau35TrackPt1LooseChargedIsolationDz02Reg"),
