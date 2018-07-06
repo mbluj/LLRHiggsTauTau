@@ -1,3 +1,4 @@
+```
 scram project -n CMSSW_9_4_8_ntuple CMSSW CMSSW_9_4_8
 cd CMSSW_9_4_8_ntuple/src
 cmsenv
@@ -14,8 +15,9 @@ scram b -j 4
 cd LLRHiggsTauTau/NtupleProducer/test/
 git clone https://github.com/akalinow/Production.git
 cd Production; git checkout Run2017;
+```
 
-#Edit production scripts and you are done
+Edit production scripts and you are done
 
 
 
