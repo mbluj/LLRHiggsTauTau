@@ -17,9 +17,6 @@ except NameError:
 try: LEPTON_SETUP
 except NameError:
     LEPTON_SETUP=2012
-try: APPLYFSR
-except NameError:
-    APPLYFSR=False
 try: BUILDONLYOS
 except NameError:
     BUILDONLYOS=False
@@ -389,26 +386,9 @@ process.genInfo = cms.EDProducer("GenFiller",
 if IsMC : process.geninfo = cms.Sequence(process.genInfo)
 else : process.geninfo = cms.Sequence()
 
-
-### ----------------------------------------------------------------------
-### Search for FSR candidates
-### ----------------------------------------------------------------------
-process.load("UFHZZAnalysisRun2.FSRPhotons.fsrPhotons_cff")
-process.appendPhotons = cms.EDProducer("LeptonPhotonMatcher",
-    muonSrc = cms.InputTag("softMuons"),
-    electronSrc = cms.InputTag("cleanSoftElectrons"),
-    photonSrc = cms.InputTag("boostedFsrPhotons"),#cms.InputTag("cmgPhotonSel"),
-    matchFSR = cms.bool(True)
-    )
-
-process.fsrSequence = cms.Sequence(process.fsrPhotonSequence + process.appendPhotons)
-muString = "appendPhotons:muons"
-eleString = "appendPhotons:electrons"
-if not APPLYFSR :
-    process.fsrSequence = cms.Sequence()
-    muString = "softMuons"
-    eleString = "softElectrons"
-    tauString = "softTaus"
+muString = "softMuons"
+eleString = "softElectrons"
+tauString = "softTaus"
 #Leptons
 process.softLeptons = cms.EDProducer("CandViewMerger",
     #src = cms.VInputTag(cms.InputTag("slimmedMuons"), cms.InputTag("slimmedElectrons"),cms.InputTag("slimmedTaus"))
@@ -556,15 +536,6 @@ else:
 ## SV fit
 ## ----------------------------------------------------------------------
 USEPAIRMET = APPLYMETCORR or USEMVAMET
-process.SVllCand = cms.EDProducer("SVfitInterface",
-                                  srcPairs   = cms.InputTag("barellCand"),
-                                  srcSig     = cms.InputTag("METSignificance", "METSignificance"),
-                                  srcCov     = cms.InputTag("METSignificance", "METCovariance"),
-                                  usePairMET = cms.bool(USEPAIRMET),
-                                  srcMET     = srcMETTag,
-                                  computeForUpDownTES = cms.bool(COMPUTEUPDOWNSVFIT if IsMC else False)
-)
-
 ## ----------------------------------------------------------------------
 ## SV fit BYPASS (skip SVfit, don't compute SVfit pair mass)
 ## ----------------------------------------------------------------------
@@ -582,7 +553,6 @@ process.SVbypass = cms.EDProducer ("SVfitBypass",
 ## ----------------------------------------------------------------------
 process.HTauTauTree = cms.EDAnalyzer("HTauTauNtuplizer",
                       fileName = cms.untracked.string ("CosaACaso"),
-                      applyFSR = cms.bool(APPLYFSR),
                       IsMC = cms.bool(IsMC),
                       doCPVariables = cms.bool(doCPVariables),
                       vtxCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
@@ -620,14 +590,8 @@ if USE_NOHFMET:
 else:
     process.HTauTauTree.metCollection = cms.InputTag("slimmedMETs")
 
-if SVFITBYPASS:
-    process.HTauTauTree.candCollection = cms.InputTag("SVbypass")
-    process.SVFit = cms.Sequence (process.SVbypass)
-
-
-else:
-    process.HTauTauTree.candCollection = cms.InputTag("SVllCand")
-    process.SVFit = cms.Sequence (process.SVllCand)
+process.HTauTauTree.candCollection = cms.InputTag("SVbypass")
+process.SVFit = cms.Sequence (process.SVbypass)
 
 #print particles gen level - DEBUG purposes
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
@@ -652,7 +616,6 @@ process.Candidates = cms.Sequence(
     process.muons             +
     process.electrons         + process.cleanSoftElectrons +
     process.taus              +
-    process.fsrSequence       +
     process.softLeptons       + process.barellCand +
     #MB FIXME process.pileupJetIdUpdated +
     process.patJetCorrFactorsReapplyJEC + process.patJetsReapplyJEC +

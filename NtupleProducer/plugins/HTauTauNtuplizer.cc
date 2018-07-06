@@ -65,23 +65,14 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenFilterInfo.h"
 #include <CommonTools/UtilAlgos/interface/TFileService.h>
 
-#include <Muon/MuonAnalysisTools/interface/MuonEffectiveArea.h>
-
 #include <LLRHiggsTauTau/NtupleProducer/interface/CutSet.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/LeptonIsoHelper.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/DaughterDataHelpers.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/FinalStates.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/MCHistoryTools.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/PUReweight.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/VBFCandidateJetSelector.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/bitops.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/Fisher.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/HTauTauConfigHelper.h>
-//#include "HZZ4lNtupleFactory.h"
 #include <LLRHiggsTauTau/NtupleProducer/interface/PhotonFwd.h>
 #include "LLRHiggsTauTau/NtupleProducer/interface/triggerhelper.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/PUReweight.h"
-//#include "LLRHiggsTauTau/NtupleProducer/Utils/OfflineProducerHelper.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/ParticleType.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/GenFlags.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/GenHelper.h"
@@ -611,7 +602,7 @@ HTauTauNtuplizer::HTauTauNtuplizer(const edm::ParameterSet& pset) : reweight(),
   badPFMuonFilterTag   (consumes<bool>                                   (pset.getParameter<edm::InputTag>("BadPFMuonFilter")))								 
  {
   theFileName = pset.getUntrackedParameter<string>("fileName");
-  theFSR = pset.getParameter<bool>("applyFSR");
+  theFSR = false;
   theisMC = pset.getParameter<bool>("IsMC");
   doCPVariables = pset.getParameter<bool>("doCPVariables");
   theJECName = pset.getUntrackedParameter<string>("JECset");

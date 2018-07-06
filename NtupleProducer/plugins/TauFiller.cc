@@ -100,7 +100,7 @@ TauFiller::TauFiller(const edm::ParameterSet& iConfig) :
     "byMediumIsolationMVArun2v1DBdR03oldDMwLT",
     "byTightIsolationMVArun2v1DBdR03oldDMwLT",
     "byVTightIsolationMVArun2v1DBdR03oldDMwLT",
-    
+        
     "byLooseCombinedIsolationDeltaBetaCorr3HitsdR03",
     "byMediumCombinedIsolationDeltaBetaCorr3HitsdR03",
     "byTightCombinedIsolationDeltaBetaCorr3HitsdR03",

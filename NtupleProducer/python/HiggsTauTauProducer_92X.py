@@ -556,14 +556,6 @@ else:
 ## SV fit
 ## ----------------------------------------------------------------------
 USEPAIRMET = APPLYMETCORR or USEMVAMET
-process.SVllCand = cms.EDProducer("SVfitInterface",
-                                  srcPairs   = cms.InputTag("barellCand"),
-                                  srcSig     = cms.InputTag("METSignificance", "METSignificance"),
-                                  srcCov     = cms.InputTag("METSignificance", "METCovariance"),
-                                  usePairMET = cms.bool(USEPAIRMET),
-                                  srcMET     = srcMETTag,
-                                  computeForUpDownTES = cms.bool(COMPUTEUPDOWNSVFIT if IsMC else False)
-)
 
 ## ----------------------------------------------------------------------
 ## SV fit BYPASS (skip SVfit, don't compute SVfit pair mass)
@@ -620,14 +612,9 @@ if USE_NOHFMET:
 else:
     process.HTauTauTree.metCollection = cms.InputTag("slimmedMETs")
 
-if SVFITBYPASS:
-    process.HTauTauTree.candCollection = cms.InputTag("SVbypass")
-    process.SVFit = cms.Sequence (process.SVbypass)
 
-
-else:
-    process.HTauTauTree.candCollection = cms.InputTag("SVllCand")
-    process.SVFit = cms.Sequence (process.SVllCand)
+process.HTauTauTree.candCollection = cms.InputTag("SVbypass")
+process.SVFit = cms.Sequence (process.SVbypass)
 
 #print particles gen level - DEBUG purposes
 process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
