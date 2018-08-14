@@ -398,7 +398,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<int> _daughters_iseleCUT; //CUT ID for ele (0=veto,1=loose,2=medium,3=tight)
   std::vector<Int_t> _decayType;//for taus only
   std::vector<Long64_t> _daughters_tauID; //bitwise. check h_tauID for histogram list 
-  static const int ntauIds = 30;
+  static const int ntauIds = 24;
   TString tauIDStrings[ntauIds] = {
    "byLooseCombinedIsolationDeltaBetaCorr3Hits",
    "byMediumCombinedIsolationDeltaBetaCorr3Hits",
@@ -2132,8 +2132,8 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
           hTauIDs->Fill(id);
         }
       }
-      //againstElectronMVA5category = userdatahelpers::getUserFloat (cand, "againstElectronMVA5category");
-      againstElectronMVA5raw = userdatahelpers::getUserFloat (cand, "againstElectronMVA5raw");
+      againstElectronMVA5category = userdatahelpers::getUserFloat (cand, "againstElectronMVA6category");//use old name for MVA6
+      againstElectronMVA5raw = userdatahelpers::getUserFloat (cand, "againstElectronMVA6Raw");//use old name for MVA6
       //byPileupWeightedIsolationRaw3Hits = userdatahelpers::getUserFloat (cand, "byPileupWeightedIsolationRaw3Hits");
       //footprintCorrection = userdatahelpers::getUserFloat (cand, "footprintCorrection");
       //neutralIsoPtSumWeight = userdatahelpers::getUserFloat (cand, "neutralIsoPtSumWeight");
