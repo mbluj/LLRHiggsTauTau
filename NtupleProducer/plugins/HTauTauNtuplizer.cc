@@ -2870,7 +2870,6 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
   bool fitOk = false;  
   if(transTracks.size() >= 2 ) {
     KalmanVertexFitter kvf;
-    kvf.setWeightThreshold(0.001); 
     try {
       transVtx = kvf.vertex(transTracks, *beamSpot);
       fitOk = true; 
@@ -2963,7 +2962,6 @@ TVector3 HTauTauNtuplizer::fitSV(const edm::EventSetup & iSetup, const pat::Tau 
   // Fit the secondary vertex
   bool FitOk(true);
   KalmanVertexFitter kvf;
-  kvf.setWeightThreshold(0.001);
   if(transTrk.size() > 1) {
     try{
       transVtx = kvf.vertex(transTrk); //KalmanVertexFitter      
