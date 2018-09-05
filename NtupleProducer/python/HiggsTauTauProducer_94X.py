@@ -376,6 +376,37 @@ process.softTaus = cms.EDProducer("TauFiller",
    )
 
 process.taus=cms.Sequence(process.bareTaus + process.softTaus)
+## Rerun MVAIso 2017v2
+if True:
+    print "Setup new TauIDs to be evaluated at MiniAOD"
+    process.load("PhysicsTools.NanoAOD.taus_updatedMVAIds_cff")
+    process.slimmedTausNewMVAIDs = cms.EDProducer("PATTauIDEmbedder",
+        src = cms.InputTag('slimmedTaus'),
+        tauIDSources = cms.PSet(
+            #oldDM
+            byIsolationMVArun2v1DBoldDMwLTraw2017v2 = cms.InputTag('patTauDiscriminationByIsolationMVArun2v1DBoldDMwLTraw'),
+            byVVLooseIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVVLooseIsolationMVArun2v1DBoldDMwLT'),
+            byVLooseIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVLooseIsolationMVArun2v1DBoldDMwLT'),
+            byLooseIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByLooseIsolationMVArun2v1DBoldDMwLT'),
+            byMediumIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByMediumIsolationMVArun2v1DBoldDMwLT'),
+            byTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByTightIsolationMVArun2v1DBoldDMwLT'),
+            byVTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVTightIsolationMVArun2v1DBoldDMwLT'),
+            byVVTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVVTightIsolationMVArun2v1DBoldDMwLT'),
+        )
+    )
+    process.newTauMVAIDsSeq = cms.Sequence(
+        process.patTauDiscriminationByIsolationMVArun2v1DBoldDMwLTSeq+
+        process.slimmedTausNewMVAIDs
+    )
+    process.bareTaus.src = "slimmedTausNewMVAIDs"
+    #update cut and dicriminator
+    TAUCUTNEW=TAUCUT.replace("byIsolationMVArun2v1DBoldDMwLTraw", "byIsolationMVArun2v1DBoldDMwLTraw2017v2")
+    TAUDISCRIMINATOR="byIsolationMVArun2v1DBoldDMwLTraw2017v2"
+    process.bareTaus.cut=TAUCUTNEW
+    process.softTaus.cut=TAUCUTNEW
+    process.softTaus.discriminator=TAUDISCRIMINATOR
+    process.taus.replace(process.bareTaus,
+                         process.newTauMVAIDsSeq+process.bareTaus)
 
 ### ----------------------------------------------------------------------
 ### gen info, only from MC
