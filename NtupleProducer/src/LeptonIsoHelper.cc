@@ -6,7 +6,7 @@
  */
 
 #include <LLRHiggsTauTau/NtupleProducer/interface/LeptonIsoHelper.h>
-#include <Muon/MuonAnalysisTools/interface/MuonEffectiveArea.h>
+//#include <Muon/MuonAnalysisTools/interface/MuonEffectiveArea.h>
 //#include <EGamma/EGammaAnalysisTools/interface/ElectronEffectiveArea.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/CustomElectronEffectiveArea.h>
 
@@ -78,23 +78,10 @@ InputTag LeptonIsoHelper::getEleRhoTag(int sampleType, int setup) {
 
 
 float LeptonIsoHelper::combRelIsoPF(int sampleType, int setup, double rho, const pat::Muon& l, bool dr03, float fsr) {
-  float PFChargedHadIso   = l.chargedHadronIso();
-  float PFNeutralHadIso   = l.neutralHadronIso();
-  float PFPhotonIso       = l.photonIso();
-  //float PFPUChargedHadIso = l.puChargedHadronIso();
     
-  MuonEffectiveArea::MuonEffectiveAreaTarget EAsetup;
-  if (sampleType==2011) {
-    EAsetup = MuonEffectiveArea::kMuEAData2011;
-  } else if (sampleType ==2012) { 
-    EAsetup = MuonEffectiveArea::kMuEAData2012;
-  } else abort();
-
   if (correctionType==1) {
-    float EA = MuonEffectiveArea::GetMuonEffectiveArea(MuonEffectiveArea::kMuGammaAndNeutralHadronIso04, 
-						       l.eta(), EAsetup);
-    return  (PFChargedHadIso + max(0., PFNeutralHadIso + PFPhotonIso - fsr - rho * EA))/l.pt();
-
+    std::cout<<"Rho correction not implemented!"<<std::endl;
+    abort();
   } else if (correctionType==2) {
     //return  (PFChargedHadIso + max(0., PFNeutralHadIso + PFPhotonIso - fsr - 0.5*PFPUChargedHadIso))/l.pt();
     if (dr03)

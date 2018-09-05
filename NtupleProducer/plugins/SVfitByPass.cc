@@ -14,7 +14,8 @@
 #include <DataFormats/METReco/interface/PFMET.h>
 #include <DataFormats/METReco/interface/PFMETCollection.h>
 #include <DataFormats/METReco/interface/CommonMETData.h>
-#include <TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h>
+
+#include <TMatrixD.h>
 
 #include <vector>
 #include <string>

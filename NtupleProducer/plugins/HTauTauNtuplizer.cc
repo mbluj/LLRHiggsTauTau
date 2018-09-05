@@ -65,23 +65,14 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenFilterInfo.h"
 #include <CommonTools/UtilAlgos/interface/TFileService.h>
 
-#include <Muon/MuonAnalysisTools/interface/MuonEffectiveArea.h>
-
 #include <LLRHiggsTauTau/NtupleProducer/interface/CutSet.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/LeptonIsoHelper.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/DaughterDataHelpers.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/FinalStates.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/MCHistoryTools.h>
 #include <LLRHiggsTauTau/NtupleProducer/interface/PUReweight.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/VBFCandidateJetSelector.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/bitops.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/Fisher.h>
-//#include <LLRHiggsTauTau/NtupleProducer/interface/HTauTauConfigHelper.h>
-//#include "HZZ4lNtupleFactory.h"
 #include <LLRHiggsTauTau/NtupleProducer/interface/PhotonFwd.h>
 #include "LLRHiggsTauTau/NtupleProducer/interface/triggerhelper.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/PUReweight.h"
-//#include "LLRHiggsTauTau/NtupleProducer/Utils/OfflineProducerHelper.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/ParticleType.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/GenFlags.h"
 #include "LLRHiggsTauTau/NtupleProducer/interface/GenHelper.h"
@@ -106,7 +97,7 @@
 #include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
 #include "TrackingTools/Records/interface/TransientTrackRecord.h"
 #include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
-#include "RecoVertex/AdaptiveVertexFit/interface/AdaptiveVertexFitter.h"
+#include "RecoVertex/KalmanVertexFit/interface/KalmanVertexFitter.h"
 #include "TrackingTools/IPTools/interface/IPTools.h"
 #include "RecoVertex/VertexPrimitives/interface/ConvertToFromReco.h"
 #include "TrackingTools/GeomPropagators/interface/AnalyticalTrajectoryExtrapolatorToLine.h"
@@ -611,7 +602,7 @@ HTauTauNtuplizer::HTauTauNtuplizer(const edm::ParameterSet& pset) : reweight(),
   badPFMuonFilterTag   (consumes<bool>                                   (pset.getParameter<edm::InputTag>("BadPFMuonFilter")))								 
  {
   theFileName = pset.getUntrackedParameter<string>("fileName");
-  theFSR = pset.getParameter<bool>("applyFSR");
+  theFSR = false;
   theisMC = pset.getParameter<bool>("IsMC");
   doCPVariables = pset.getParameter<bool>("doCPVariables");
   theJECName = pset.getUntrackedParameter<string>("JECset");
@@ -2861,10 +2852,10 @@ bool HTauTauNtuplizer::refitPV(const edm::Event & iEvent, const edm::EventSetup 
 
   bool fitOk = false;  
   if(transTracks.size() >= 2 ) {
-    AdaptiveVertexFitter avf;
-    avf.setWeightThreshold(0.001); 
+    KalmanVertexFitter kvf;
+    kvf.setWeightThreshold(0.001); 
     try {
-      transVtx = avf.vertex(transTracks, *beamSpot);
+      transVtx = kvf.vertex(transTracks, *beamSpot);
       fitOk = true; 
     } catch (...) {
       fitOk = false; 
@@ -2954,11 +2945,11 @@ TVector3 HTauTauNtuplizer::fitSV(const edm::EventSetup & iSetup, const pat::Tau 
   ///////////////////////////////////////////////////////////////////////////////////////////////
   // Fit the secondary vertex
   bool FitOk(true);
-  AdaptiveVertexFitter avf;
-  avf.setWeightThreshold(0.001);
+  KalmanVertexFitter kvf;
+  kvf.setWeightThreshold(0.001);
   if(transTrk.size() > 1) {
     try{
-      transVtx = avf.vertex(transTrk); //KalmanVertexFitter      
+      transVtx = kvf.vertex(transTrk); //KalmanVertexFitter      
     }catch(...){
       std::cout<<"Problem with 3-prong tau SV fit."<<std::endl;
       FitOk=false;
