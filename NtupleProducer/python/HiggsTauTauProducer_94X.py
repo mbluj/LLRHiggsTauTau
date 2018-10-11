@@ -376,7 +376,7 @@ process.softTaus = cms.EDProducer("TauFiller",
    )
 
 process.taus=cms.Sequence(process.bareTaus + process.softTaus)
-## Rerun MVAIso 2017v2
+## Rerun MVAIso 2017v2 & DNN-based tau_IDs
 if True:
     print "Setup new TauIDs to be evaluated at MiniAOD"
     process.load("PhysicsTools.NanoAOD.taus_updatedMVAIds_cff")
@@ -392,12 +392,77 @@ if True:
             byTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByTightIsolationMVArun2v1DBoldDMwLT'),
             byVTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVTightIsolationMVArun2v1DBoldDMwLT'),
             byVVTightIsolationMVArun2v1DBoldDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVVTightIsolationMVArun2v1DBoldDMwLT'),
+            #newDM
+            byIsolationMVArun2v1DBnewDMwLTraw2017v2 = cms.InputTag('patTauDiscriminationByIsolationMVArun2v1DBnewDMwLTraw'),
+            byVVLooseIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVVLooseIsolationMVArun2v1DBnewDMwLT'),
+            byVLooseIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVLooseIsolationMVArun2v1DBnewDMwLT'),
+            byLooseIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByLooseIsolationMVArun2v1DBnewDMwLT'),
+            byMediumIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByMediumIsolationMVArun2v1DBnewDMwLT'),
+            byTightIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByTightIsolationMVArun2v1DBnewDMwLT'),
+            byVTightIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVTightIsolationMVArun2v1DBnewDMwLT'),
+            byVVTightIsolationMVArun2v1DBnewDMwLT2017v2 = cms.InputTag('patTauDiscriminationByVVTightIsolationMVArun2v1DBnewDMwLT'),
         )
     )
     process.newTauMVAIDsSeq = cms.Sequence(
         process.patTauDiscriminationByIsolationMVArun2v1DBoldDMwLTSeq+
+        process.patTauDiscriminationByIsolationMVArun2v1DBnewDMwLTSeq+
         process.slimmedTausNewMVAIDs
     )
+    #DNN-based tau-IDs
+    # deepTau
+    from RecoTauTag.RecoTau.DeepTauId_cfi import deepTauIdraw
+    process.deepTauIdraw = deepTauIdraw.clone(
+        electrons = cms.InputTag('slimmedElectrons'),
+        muons = cms.InputTag('slimmedMuons'),
+        taus = cms.InputTag('slimmedTaus'),
+        graph_file = cms.string('RecoTauTag/RecoTau/data/deepTau_2017v1_20L1024N.pb')
+    )
+    process.newTauMVAIDsSeq.replace(process.slimmedTausNewMVAIDs,
+                                    process.deepTauIdraw+process.slimmedTausNewMVAIDs)
+    deepTau2017v1Sources_ = cms.PSet(        
+        deepTau2017v1tauVSe = cms.InputTag('deepTauIdraw', 'tauVSe'),
+        deepTau2017v1tauVSmu = cms.InputTag('deepTauIdraw', 'tauVSmu'),
+        deepTau2017v1tauVSjet = cms.InputTag('deepTauIdraw', 'tauVSjet'),
+        deepTau2017v1tauVSall = cms.InputTag('deepTauIdraw', 'tauVSall'),
+    )
+    process.slimmedTausNewMVAIDs.tauIDSources = cms.PSet(
+        process.slimmedTausNewMVAIDs.tauIDSources,
+        deepTau2017v1Sources_
+    )
+    ## DPFTau2016v0/v1
+    from RecoTauTag.RecoTau.DPFIsolation_cfi import DPFIsolation
+    process.DPFIsolationv0 = DPFIsolation.clone(
+        electrons = cms.InputTag('slimmedElectrons'),
+        muons = cms.InputTag('slimmedMuons'),
+        taus = cms.InputTag('slimmedTaus'),
+        graph_file = cms.string('RecoTauTag/RecoTau/data/DPFIsolation_2017v0.pb')
+    )
+    process.DPFIsolationv1 = DPFIsolation.clone(
+        electrons = cms.InputTag('slimmedElectrons'),
+        muons = cms.InputTag('slimmedMuons'),
+        taus = cms.InputTag('slimmedTaus'),
+        graph_file = cms.string('RecoTauTag/RecoTau/data/DPFIsolation_2017v1.pb')
+    )
+    process.dpfIsoSeq = cms.Sequence(process.DPFIsolationv0+process.DPFIsolationv1)
+    process.newTauMVAIDsSeq.replace(process.slimmedTausNewMVAIDs,
+                                    process.dpfIsoSeq+process.slimmedTausNewMVAIDs)
+    dpfTau2016Sources_ = cms.PSet(        
+        DPFTau_2016_v0tauVSe = cms.InputTag('DPFIsolationv0', 'tauVSe'),
+        DPFTau_2016_v0tauVSmu = cms.InputTag('DPFIsolationv0', 'tauVSmu'),
+        DPFTau_2016_v0tauVSjet = cms.InputTag('DPFIsolationv0', 'tauVSjet'),
+        DPFTau_2016_v0tauVSall = cms.InputTag('DPFIsolationv0', 'tauVSall'),
+
+        DPFTau_2016_v1tauVSe = cms.InputTag('DPFIsolationv1', 'tauVSe'),
+        DPFTau_2016_v1tauVSmu = cms.InputTag('DPFIsolationv1', 'tauVSmu'),
+        DPFTau_2016_v1tauVSjet = cms.InputTag('DPFIsolationv1', 'tauVSjet'),
+        DPFTau_2016_v1tauVSall = cms.InputTag('DPFIsolationv1', 'tauVSall'),
+    )
+    process.slimmedTausNewMVAIDs.tauIDSources = cms.PSet(
+        process.slimmedTausNewMVAIDs.tauIDSources,
+        dpfTau2016Sources_
+    )
+
+    #update source tau collection
     process.bareTaus.src = "slimmedTausNewMVAIDs"
     #update cut and dicriminator
     TAUCUTNEW=TAUCUT.replace("byIsolationMVArun2v1DBoldDMwLTraw", "byIsolationMVArun2v1DBoldDMwLTraw2017v2")
@@ -407,6 +472,7 @@ if True:
     process.softTaus.discriminator=TAUDISCRIMINATOR
     process.taus.replace(process.bareTaus,
                          process.newTauMVAIDsSeq+process.bareTaus)
+
 
 ### ----------------------------------------------------------------------
 ### gen info, only from MC

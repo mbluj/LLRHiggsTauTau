@@ -101,7 +101,15 @@ TauFiller::TauFiller(const edm::ParameterSet& iConfig) :
     "byTightIsolationMVArun2v1DBoldDMwLT2017v2",
     "byVTightIsolationMVArun2v1DBoldDMwLT2017v2",
     "byVVTightIsolationMVArun2v1DBoldDMwLT2017v2",
-    
+
+    "byVVLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byVLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byMediumIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byTightIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byVTightIsolationMVArun2v1DBnewDMwLT2017v2",
+    "byVVTightIsolationMVArun2v1DBnewDMwLT2017v2",
+
     "againstMuonLoose3",
     "againstMuonTight3",
 
@@ -118,6 +126,7 @@ TauFiller::TauFiller(const edm::ParameterSet& iConfig) :
     "byCombinedIsolationDeltaBetaCorrRaw3Hits",
     "byIsolationMVArun2v1DBoldDMwLTraw",
     "byIsolationMVArun2v1DBoldDMwLTraw2017v2",
+    "byIsolationMVArun2v1DBnewDMwLTraw2017v2",
     "againstElectronMVA6Raw",
     "againstElectronMVA6category",
     "photonPtSumOutsideSignalCone",
@@ -126,6 +135,21 @@ TauFiller::TauFiller(const edm::ParameterSet& iConfig) :
     "chargedIsoPtSumdR03",
     "neutralIsoPtSumdR03",
     "puCorrPtSum",
+
+    "deepTau2017v1tauVSe",
+    "deepTau2017v1tauVSmu",
+    "deepTau2017v1tauVSjet",
+    "deepTau2017v1tauVSall",
+
+    "DPFTau_2016_v0tauVSe",
+    "DPFTau_2016_v0tauVSmu",
+    "DPFTau_2016_v0tauVSjet",
+    "DPFTau_2016_v0tauVSall",
+
+    "DPFTau_2016_v1tauVSe",
+    "DPFTau_2016_v1tauVSmu",
+    "DPFTau_2016_v1tauVSjet",
+    "DPFTau_2016_v1tauVSall",
   };
 
 
