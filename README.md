@@ -3,6 +3,9 @@ scram project -n CMSSW_9_4_8_ntuple CMSSW CMSSW_9_4_8
 cd CMSSW_9_4_8_ntuple/src
 cmsenv
 
+git cms-init
+git cms-merge-topic mbluj:CMSSW_9_4_X_DPFIso
+
 git clone https://github.com/SVfit/ClassicSVfit TauAnalysis/ClassicSVfit -b release_2018Mar20
 git clone https://github.com/SVfit/SVfitTF TauAnalysis/SVfitTF
 git clone https://github.com/akalinow/LLRHiggsTauTau.git
