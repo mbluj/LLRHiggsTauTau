@@ -141,14 +141,8 @@ TauFiller::TauFiller(const edm::ParameterSet& iConfig) :
     "deepTau2017v1tauVSjet",
     "deepTau2017v1tauVSall",
 
-    "DPFTau_2016_v0tauVSe",
-    "DPFTau_2016_v0tauVSmu",
-    "DPFTau_2016_v0tauVSjet",
     "DPFTau_2016_v0tauVSall",
 
-    "DPFTau_2016_v1tauVSe",
-    "DPFTau_2016_v1tauVSmu",
-    "DPFTau_2016_v1tauVSjet",
     "DPFTau_2016_v1tauVSall",
   };
 

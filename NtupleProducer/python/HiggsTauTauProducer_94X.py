@@ -447,14 +447,8 @@ if True:
     process.newTauMVAIDsSeq.replace(process.slimmedTausNewMVAIDs,
                                     process.dpfIsoSeq+process.slimmedTausNewMVAIDs)
     dpfTau2016Sources_ = cms.PSet(        
-        DPFTau_2016_v0tauVSe = cms.InputTag('DPFIsolationv0', 'tauVSe'),
-        DPFTau_2016_v0tauVSmu = cms.InputTag('DPFIsolationv0', 'tauVSmu'),
-        DPFTau_2016_v0tauVSjet = cms.InputTag('DPFIsolationv0', 'tauVSjet'),
         DPFTau_2016_v0tauVSall = cms.InputTag('DPFIsolationv0', 'tauVSall'),
 
-        DPFTau_2016_v1tauVSe = cms.InputTag('DPFIsolationv1', 'tauVSe'),
-        DPFTau_2016_v1tauVSmu = cms.InputTag('DPFIsolationv1', 'tauVSmu'),
-        DPFTau_2016_v1tauVSjet = cms.InputTag('DPFIsolationv1', 'tauVSjet'),
         DPFTau_2016_v1tauVSall = cms.InputTag('DPFIsolationv1', 'tauVSall'),
     )
     process.slimmedTausNewMVAIDs.tauIDSources = cms.PSet(
