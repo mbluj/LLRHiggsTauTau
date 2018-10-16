@@ -398,7 +398,7 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   std::vector<int> _daughters_iseleCUT; //CUT ID for ele (0=veto,1=loose,2=medium,3=tight)
   std::vector<Int_t> _decayType;//for taus only
   std::vector<Long64_t> _daughters_tauID; //bitwise. check h_tauID for histogram list 
-  static const int ntauIds = 24;
+  static const int ntauIds = 31;
   TString tauIDStrings[ntauIds] = {
    "byLooseCombinedIsolationDeltaBetaCorr3Hits",
    "byMediumCombinedIsolationDeltaBetaCorr3Hits",
@@ -428,6 +428,14 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
    "byTightIsolationMVArun2v1DBoldDMwLT2017v2",
    "byVTightIsolationMVArun2v1DBoldDMwLT2017v2",
    "byVVTightIsolationMVArun2v1DBoldDMwLT2017v2",
+
+   "byVVLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byVLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byLooseIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byMediumIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byTightIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byVTightIsolationMVArun2v1DBnewDMwLT2017v2",
+   "byVVTightIsolationMVArun2v1DBnewDMwLT2017v2",
   };
   std::vector<Double_t> _daughters_IetaIeta;
   std::vector<Double_t> _daughters_hOverE;
@@ -456,6 +464,12 @@ class HTauTauNtuplizer : public edm::EDAnalyzer {
   //std::vector<Double_t> _daughters_byIsolationMVA3newDMwLTraw;
   std::vector<Double_t> _daughters_byIsolationMVArun2v1DBoldDMwLTraw;
   std::vector<Double_t> _daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2;
+  std::vector<Double_t> _daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2;
+  //DNN_raw_discrimiants
+  std::vector<Double_t>
+    _daughters_deepTau2017v1tauVSe, _daughters_deepTau2017v1tauVSmu, _daughters_deepTau2017v1tauVSjet,_daughters_deepTau2017v1tauVSall,
+    _daughters_DPFTau_2016_v0tauVSe, _daughters_DPFTau_2016_v0tauVSmu, _daughters_DPFTau_2016_v0tauVSjet, _daughters_DPFTau_2016_v0tauVSall,
+    _daughters_DPFTau_2016_v1tauVSe, _daughters_DPFTau_2016_v1tauVSmu, _daughters_DPFTau_2016_v1tauVSjet, _daughters_DPFTau_2016_v1tauVSall;
   std::vector<Double_t> _daughters_chargedIsoPtSum;
   std::vector<Double_t> _daughters_neutralIsoPtSum;
   std::vector<Double_t> _daughters_chargedIsoPtSumdR03;
@@ -727,6 +741,20 @@ void HTauTauNtuplizer::Initialize(){
   //_daughters_byIsolationMVA3newDMwoLTraw.clear();
   _daughters_byIsolationMVArun2v1DBoldDMwLTraw.clear();
   _daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2.clear();
+  _daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2.clear();
+
+  _daughters_deepTau2017v1tauVSe.clear();
+  _daughters_deepTau2017v1tauVSmu.clear();
+  _daughters_deepTau2017v1tauVSjet.clear();
+  _daughters_deepTau2017v1tauVSall.clear();
+  _daughters_DPFTau_2016_v0tauVSe.clear();
+  _daughters_DPFTau_2016_v0tauVSmu.clear();
+  _daughters_DPFTau_2016_v0tauVSjet.clear();
+  _daughters_DPFTau_2016_v0tauVSall.clear();
+  _daughters_DPFTau_2016_v1tauVSe.clear();
+  _daughters_DPFTau_2016_v1tauVSmu.clear();
+  _daughters_DPFTau_2016_v1tauVSjet.clear();
+  _daughters_DPFTau_2016_v1tauVSall.clear();
 
   _daughters_againstElectronMVA5category.clear();
   _daughters_againstElectronMVA5raw.clear();
@@ -1160,6 +1188,21 @@ void HTauTauNtuplizer::beginJob(){
   //myTree->Branch("daughters_byIsolationMVA3newDMwLTraw",&_daughters_byIsolationMVA3newDMwLTraw);
   myTree->Branch("daughters_byIsolationMVArun2v1DBoldDMwLTraw",&_daughters_byIsolationMVArun2v1DBoldDMwLTraw);
   myTree->Branch("daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2",&_daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2);
+  myTree->Branch("daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2",&_daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2);
+
+  myTree->Branch("daughters_deepTau2017v1tauVSe",&_daughters_deepTau2017v1tauVSe);
+  myTree->Branch("daughters_deepTau2017v1tauVSmu",&_daughters_deepTau2017v1tauVSe);
+  myTree->Branch("daughters_deepTau2017v1tauVSjet",&_daughters_deepTau2017v1tauVSe);
+  myTree->Branch("daughters_deepTau2017v1tauVSall",&_daughters_deepTau2017v1tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v0tauVSe",&_daughters_DPFTau_2016_v0tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v0tauVSmu",&_daughters_DPFTau_2016_v0tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v0tauVSjet",&_daughters_DPFTau_2016_v0tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v0tauVSall",&_daughters_DPFTau_2016_v0tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v1tauVSe",&_daughters_DPFTau_2016_v1tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v1tauVSmu",&_daughters_DPFTau_2016_v1tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v1tauVSjet",&_daughters_DPFTau_2016_v1tauVSe);
+  myTree->Branch("daughters_DPFTau_2016_v1tauVSall",&_daughters_DPFTau_2016_v1tauVSe);
+
   myTree->Branch("daughters_chargedIsoPtSum", &_daughters_chargedIsoPtSum);
   myTree->Branch("daughters_neutralIsoPtSum", &_daughters_neutralIsoPtSum);
   myTree->Branch("daughters_chargedIsoPtSumdR03", &_daughters_chargedIsoPtSumdR03);
@@ -2035,7 +2078,11 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     int typeOfMuon=0;
     double 
     //byIsolationMVA3oldDMwoLTraw=-1, byIsolationMVA3oldDMwLTraw=-1,  byIsolationMVA3newDMwoLTraw=-1,byIsolationMVA3newDMwLTraw=-1, 
-    byIsolationMVArun2v1DBoldDMwLTraw=-1, byIsolationMVArun2v1DBoldDMwLTraw2017v2=-1;
+      byIsolationMVArun2v1DBoldDMwLTraw=-1, byIsolationMVArun2v1DBoldDMwLTraw2017v2=-1, byIsolationMVArun2v1DBnewDMwLTraw2017v2=-1;
+    double
+      deepTau2017v1tauVSe=-1, deepTau2017v1tauVSmu=-1, deepTau2017v1tauVSjet=-1,deepTau2017v1tauVSall=-1,
+      DPFTau_2016_v0tauVSe=-1, DPFTau_2016_v0tauVSmu=-1, DPFTau_2016_v0tauVSjet=-1, DPFTau_2016_v0tauVSall=-1,
+      DPFTau_2016_v1tauVSe=-1, DPFTau_2016_v1tauVSmu=-1, DPFTau_2016_v1tauVSjet=-1, DPFTau_2016_v1tauVSall=-1;
     Long64_t tauIDflag = 0;
     double   
     againstElectronMVA5category,
@@ -2144,8 +2191,21 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
       //byIsolationMVA3oldDMwLTraw=userdatahelpers::getUserFloat (cand, "byIsolationMVA3oldDMwLTraw");
       //byIsolationMVA3newDMwoLTraw=userdatahelpers::getUserFloat (cand, "byIsolationMVA3newDMwoLTraw");
       //byIsolationMVA3newDMwLTraw=userdatahelpers::getUserFloat (cand, "byIsolationMVA3newDMwLTraw");
-      byIsolationMVArun2v1DBoldDMwLTraw=userdatahelpers::getUserFloat (cand, "byIsolationMVArun2v1DBoldDMwLTraw");      
-      byIsolationMVArun2v1DBoldDMwLTraw2017v2=userdatahelpers::getUserFloat (cand, "byIsolationMVArun2v1DBoldDMwLTraw2017v2");      
+      byIsolationMVArun2v1DBoldDMwLTraw=userdatahelpers::getUserFloat (cand, "byIsolationMVArun2v1DBoldDMwLTraw");
+      byIsolationMVArun2v1DBoldDMwLTraw2017v2=userdatahelpers::getUserFloat (cand, "byIsolationMVArun2v1DBoldDMwLTraw2017v2");
+      byIsolationMVArun2v1DBnewDMwLTraw2017v2=userdatahelpers::getUserFloat (cand, "byIsolationMVArun2v1DBnewDMwLTraw2017v2");
+      deepTau2017v1tauVSe=userdatahelpers::getUserFloat (cand, "deepTau2017v1tauVSe");
+      deepTau2017v1tauVSmu=userdatahelpers::getUserFloat (cand, "deepTau2017v1tauVSmu");
+      deepTau2017v1tauVSjet=userdatahelpers::getUserFloat (cand, "deepTau2017v1tauVSjet");
+      deepTau2017v1tauVSall=userdatahelpers::getUserFloat (cand, "deepTau2017v1tauVSall");
+      DPFTau_2016_v0tauVSe=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v0tauVSe");
+      DPFTau_2016_v0tauVSmu=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v0tauVSmu");
+      DPFTau_2016_v0tauVSjet=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v0tauVSjet");
+      DPFTau_2016_v0tauVSall=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v0tauVSall");
+      DPFTau_2016_v1tauVSe=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v1tauVSe");
+      DPFTau_2016_v1tauVSmu=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v1tauVSmu");
+      DPFTau_2016_v1tauVSjet=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v1tauVSjet");
+      DPFTau_2016_v1tauVSall=userdatahelpers::getUserFloat (cand, "DPFTau_2016_v1tauVSall");
       chargedIsoPtSum = userdatahelpers::getUserFloat (cand, "chargedIsoPtSum");
       neutralIsoPtSum = userdatahelpers::getUserFloat (cand, "neutralIsoPtSum");
       chargedIsoPtSumdR03 = userdatahelpers::getUserFloat (cand, "chargedIsoPtSumdR03");
@@ -2222,8 +2282,21 @@ void HTauTauNtuplizer::FillSoftLeptons(const edm::View<reco::Candidate> *daus,
     //_daughters_byIsolationMVA3oldDMwLTraw.push_back(byIsolationMVA3oldDMwLTraw);
     //_daughters_byIsolationMVA3newDMwoLTraw.push_back(byIsolationMVA3newDMwoLTraw);
     //_daughters_byIsolationMVA3newDMwLTraw.push_back(byIsolationMVA3newDMwLTraw);
-    _daughters_byIsolationMVArun2v1DBoldDMwLTraw.push_back(byIsolationMVArun2v1DBoldDMwLTraw);    
-    _daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2.push_back(byIsolationMVArun2v1DBoldDMwLTraw2017v2);    
+    _daughters_byIsolationMVArun2v1DBoldDMwLTraw.push_back(byIsolationMVArun2v1DBoldDMwLTraw);
+    _daughters_byIsolationMVArun2v1DBoldDMwLTraw2017v2.push_back(byIsolationMVArun2v1DBoldDMwLTraw2017v2);
+    _daughters_byIsolationMVArun2v1DBnewDMwLTraw2017v2.push_back(byIsolationMVArun2v1DBnewDMwLTraw2017v2);
+    _daughters_deepTau2017v1tauVSe.push_back(deepTau2017v1tauVSe);
+    _daughters_deepTau2017v1tauVSmu.push_back(deepTau2017v1tauVSmu);
+    _daughters_deepTau2017v1tauVSjet.push_back(deepTau2017v1tauVSjet);
+    _daughters_deepTau2017v1tauVSall.push_back(deepTau2017v1tauVSall);
+    _daughters_DPFTau_2016_v0tauVSe.push_back(DPFTau_2016_v0tauVSe);
+    _daughters_DPFTau_2016_v0tauVSmu.push_back(DPFTau_2016_v0tauVSmu);
+    _daughters_DPFTau_2016_v0tauVSjet.push_back(DPFTau_2016_v0tauVSjet);
+    _daughters_DPFTau_2016_v0tauVSall.push_back(DPFTau_2016_v0tauVSall);
+    _daughters_DPFTau_2016_v1tauVSe.push_back(DPFTau_2016_v1tauVSe);
+    _daughters_DPFTau_2016_v1tauVSmu.push_back(DPFTau_2016_v1tauVSmu);
+    _daughters_DPFTau_2016_v1tauVSjet.push_back(DPFTau_2016_v1tauVSjet);
+    _daughters_DPFTau_2016_v1tauVSall.push_back(DPFTau_2016_v1tauVSall);
     _daughters_numChargedParticlesSignalCone.push_back(numChargedParticlesSignalCone);
     _daughters_numNeutralHadronsSignalCone.push_back(numNeutralHadronsSignalCone);
     _daughters_numPhotonsSignalCone.push_back(numPhotonsSignalCone);
