@@ -415,7 +415,7 @@ if True:
         electrons = cms.InputTag('slimmedElectrons'),
         muons = cms.InputTag('slimmedMuons'),
         taus = cms.InputTag('slimmedTaus'),
-        graph_file = cms.string('RecoTauTag/RecoTau/data/deepTau_2017v1_20L1024N.pb')
+        graph_file = cms.string('RecoTauTag/TrainingFiles/data/DeepTauId/deepTau_2017v1_20L1024N.pb')
     )
     process.newTauMVAIDsSeq.replace(process.slimmedTausNewMVAIDs,
                                     process.deepTauIdraw+process.slimmedTausNewMVAIDs)
@@ -435,13 +435,13 @@ if True:
         electrons = cms.InputTag('slimmedElectrons'),
         muons = cms.InputTag('slimmedMuons'),
         taus = cms.InputTag('slimmedTaus'),
-        graph_file = cms.string('RecoTauTag/RecoTau/data/DPFIsolation_2017v0.pb')
+        graph_file = cms.string('RecoTauTag/TrainingFiles/data/DPFTauId/DPFIsolation_2017v0.pb')
     )
     process.DPFIsolationv1 = DPFIsolation.clone(
         electrons = cms.InputTag('slimmedElectrons'),
         muons = cms.InputTag('slimmedMuons'),
         taus = cms.InputTag('slimmedTaus'),
-        graph_file = cms.string('RecoTauTag/RecoTau/data/DPFIsolation_2017v1.pb')
+        graph_file = cms.string('RecoTauTag/TrainingFiles/data/DPFTauId/DPFIsolation_2017v1.pb')
     )
     process.dpfIsoSeq = cms.Sequence(process.DPFIsolationv0+process.DPFIsolationv1)
     process.newTauMVAIDsSeq.replace(process.slimmedTausNewMVAIDs,
